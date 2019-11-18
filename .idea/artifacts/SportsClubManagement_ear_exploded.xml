@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="SportsClubManagement:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/SportsClubManagement_ear_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="SportsClubManagement/javaeeApplication/javaEEApplication" />
+      <element id="directory" name="ejb.jar">
+        <element id="artifact" artifact-name="SportsClubManagement:ejb exploded" />
+      </element>
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="com.nimbusds:nimbus-jose-jwt:7.0.1" />
+        <element id="library" level="project" name="org.jboss.resteasy:resteasy-multipart-provider:2.2.3.GA" />
+        <element id="library" level="project" name="commons-io:commons-io:2.6" />
+        <element id="library" level="project" name="javax.mail" />
+      </element>
+    </root>
+  </artifact>
+</component>
