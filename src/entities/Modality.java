@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "MODALITIES")
 public class Modality implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     @OneToOne
@@ -36,9 +35,18 @@ public class Modality implements Serializable {
         athletes = new LinkedHashSet<>();
     }
 
+    public Modality(int id,String name) {
+        this.id = id;
+        this.name = name;
+        coaches = new LinkedHashSet<>();
+        athletes = new LinkedHashSet<>();
+    }
+
     public Modality(String name, Schedule schedule, Set<Coach> coaches, Set<PartnerOrAthlete> athletes) {
         this.name = name;
         this.schedule = schedule;
+        this.coaches = new LinkedHashSet<>();
+        this.athletes = new LinkedHashSet<>();
         this.coaches = coaches;
         this.athletes = athletes;
     }

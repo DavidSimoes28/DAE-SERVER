@@ -7,68 +7,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4342330a-3cad-42c0-ab2f-83ed2a8872c5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2c23f0f9-b2f5-46c5-a680-575d562e7799.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2c23f0f9-b2f5-46c5-a680-575d562e7799.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ejbs/ModalityBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ws/ModalityController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/AdministratorDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/AdministratorDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/CoachDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/CoachDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/EchelonDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/EchelonDTO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ModalityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ModalityDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/PartnerOrAthleteDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/PartnerOrAthleteDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ProductDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ProductDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ProductPaymentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ProductPaymentDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ScheduleDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ScheduleDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/StateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/StateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/UserDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/AdministratorBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/AdministratorBean.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/ConfigBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/ConfigBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/JwtBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/JwtBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Administrator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Administrator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Coach.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Coach.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Echelon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Echelon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/HourTime.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/HourTime.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Modality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Modality.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/PartnerOrAthlete.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/PartnerOrAthlete.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/ProductPayment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/ProductPayment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Schedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Schedule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/State.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/jwt/Jwt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/jwt/Jwt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/providers/CorsFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/providers/CorsFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ws/AdministratorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ws/AdministratorController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ws/SportsClub.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ws/SportsClub.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/META-INF/SportsClubManagement.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/AdministratorDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/AdministratorDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/CoachDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/CoachDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/EchelonDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/EchelonDTO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ModalityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ModalityDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/PartnerOrAthleteDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/PartnerOrAthleteDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ProductDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ProductDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ProductPaymentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ProductPaymentDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ScheduleDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ScheduleDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/StateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/StateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/UserDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/AdministratorBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/AdministratorBean.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/ConfigBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/ConfigBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/JwtBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/JwtBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Administrator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Administrator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Coach.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Coach.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Echelon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Echelon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/HourTime.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/HourTime.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Modality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Modality.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/PartnerOrAthlete.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/PartnerOrAthlete.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/ProductPayment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/ProductPayment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Schedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Schedule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/State.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/jwt/Jwt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/jwt/Jwt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/providers/CorsFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/providers/CorsFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ws/AdministratorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ws/AdministratorController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ws/SportsClub.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ws/SportsClub.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Modality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Modality.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -104,10 +57,8 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="1" />
-  </component>
   <component name="ProjectId" id="1TfquVf5VKRrXUEuIc0S3b65Jks" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="h2" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
@@ -125,6 +76,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ws" />
       <recent name="dtos" />
       <recent name="ejbs" />
       <recent name="jwt" />
@@ -228,10 +180,10 @@
       <workItem from="1574028374416" duration="6986000" />
       <workItem from="1574076368228" duration="229000" />
       <workItem from="1574090829512" duration="85000" />
-      <workItem from="1574101982603" duration="215000" />
-      <workItem from="1574102226716" duration="32000" />
-      <workItem from="1574102280864" duration="1807000" />
-      <workItem from="1574349525167" duration="611000" />
+      <workItem from="1574100793932" duration="4273000" />
+      <workItem from="1574107690309" duration="3285000" />
+      <workItem from="1574349740980" duration="28000" />
+      <workItem from="1574349789569" duration="336000" />
     </task>
     <servers />
   </component>
