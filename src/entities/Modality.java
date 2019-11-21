@@ -18,7 +18,7 @@ public class Modality implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @OneToOne
+    @ManyToOne
     private Schedule schedule;
     @ManyToMany
     @JoinTable(name = "MODALITIES_COACHES",
@@ -29,7 +29,7 @@ public class Modality implements Serializable {
     @JoinTable(name = "MODALITIES_ATHELETES",
             joinColumns = @JoinColumn(name = "MODALITIES_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "ATHELETES_USERNAME", referencedColumnName = "USERNAME"))
-    private Set<PartnerOrAthlete> athletes;
+    private Set<Athlete> athletes;
 
     public Modality() {
         coaches = new LinkedHashSet<>();
@@ -42,7 +42,7 @@ public class Modality implements Serializable {
         athletes = new LinkedHashSet<>();
     }
 
-    public Modality(String name, Schedule schedule, Set<Coach> coaches, Set<PartnerOrAthlete> athletes) {
+    public Modality(String name, Schedule schedule, Set<Coach> coaches, Set<Athlete> athletes) {
         this.name = name;
         this.schedule = schedule;
         this.coaches = new LinkedHashSet<>();
@@ -83,11 +83,11 @@ public class Modality implements Serializable {
         this.coaches = coaches;
     }
 
-    public Set<PartnerOrAthlete> getAthletes() {
+    public Set<Athlete> getAthletes() {
         return athletes;
     }
 
-    public void setAthletes(Set<PartnerOrAthlete> athletes) {
+    public void setAthletes(Set<Athlete> athletes) {
         this.athletes = athletes;
     }
 

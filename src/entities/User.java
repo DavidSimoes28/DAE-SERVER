@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -16,6 +17,8 @@ public class User implements Serializable {
     private String name;
     @Email
     private String email;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<ProductPayment> productPayments;
 
     public User() {
     }
