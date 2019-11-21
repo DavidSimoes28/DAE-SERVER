@@ -7,21 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4342330a-3cad-42c0-ab2f-83ed2a8872c5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ejbs/ModalityBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ws/ModalityController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/Athlete.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/Partner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/ProductType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ModalityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ModalityDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/ConfigBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/ConfigBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Echelon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Echelon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Modality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Modality.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ModalityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ModalityDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/ConfigBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/ConfigBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Echelon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Echelon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Modality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Modality.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/HourTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/HourTime.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Modality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Modality.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/PartnerOrAthlete.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/ProductPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/ProductPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/User.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -180,7 +176,7 @@
       <workItem from="1574100793932" duration="4273000" />
       <workItem from="1574107690309" duration="3285000" />
       <workItem from="1574349740980" duration="28000" />
-      <workItem from="1574349789569" duration="336000" />
+      <workItem from="1574349789569" duration="5812000" />
     </task>
     <servers />
   </component>
