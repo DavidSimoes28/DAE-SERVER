@@ -6,7 +6,23 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4342330a-3cad-42c0-ab2f-83ed2a8872c5" name="Default Changelist" comment="" />
+    <list default="true" id="4342330a-3cad-42c0-ab2f-83ed2a8872c5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ejbs/ModalityBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ws/ModalityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ModalityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/dtos/ModalityDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/ConfigBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/ejbs/ConfigBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Echelon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Echelon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Modality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SportsClubManagement_war_exploded.war/WEB-INF/classes/entities/Modality.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ModalityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/dtos/ModalityDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/ConfigBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/ejbs/ConfigBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Echelon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Echelon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Modality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SportsClubManagement/entities/Modality.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Modality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Modality.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +51,18 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1TfquVf5VKRrXUEuIc0S3b65Jks" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="h2" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/ws" />
@@ -52,6 +73,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ws" />
       <recent name="dtos" />
       <recent name="ejbs" />
       <recent name="jwt" />
@@ -155,10 +177,27 @@
       <workItem from="1574028374416" duration="6986000" />
       <workItem from="1574076368228" duration="229000" />
       <workItem from="1574090829512" duration="85000" />
+      <workItem from="1574100793932" duration="4273000" />
+      <workItem from="1574107690309" duration="3285000" />
+      <workItem from="1574349740980" duration="28000" />
+      <workItem from="1574349789569" duration="336000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

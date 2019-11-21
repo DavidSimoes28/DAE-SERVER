@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Administrator;
+import entities.Modality;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,6 +16,8 @@ public class ConfigBean {
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
     @EJB
     AdministratorBean administratorBean;
+    @EJB
+    ModalityBean modalityBean;
     public ConfigBean() {
     }
 
@@ -24,6 +27,8 @@ public class ConfigBean {
         try {
             Administrator administrator = administratorBean.create("admin", "admin", "admin", "admin@mail.com");
             Administrator aaa = administratorBean.create("aaa", "aaa", "aaa", "aaa@aaa.aa");
+            Modality judo = modalityBean.create(1,"judo");
+            Modality football = modalityBean.create(1,"football");
         }catch (Exception e){
             logger.log(Level.SEVERE,e.getMessage());
         }
