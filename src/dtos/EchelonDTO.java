@@ -1,8 +1,9 @@
 package dtos;
 
 public enum EchelonDTO {
-    A,
-    B,
-    C,
-    D
+    INFANTIL,
+    INICIADO,
+    JUVENIL,
+    JUNIOR,
+    SENIOR
 }
