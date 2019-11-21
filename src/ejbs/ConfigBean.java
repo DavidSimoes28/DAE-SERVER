@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Administrator;
+import entities.Graduations;
 import entities.Modality;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,8 @@ public class ConfigBean {
     AdministratorBean administratorBean;
     @EJB
     ModalityBean modalityBean;
+    @EJB
+    GraduationsBean graduationsBean;
     public ConfigBean() {
     }
 
@@ -27,8 +30,10 @@ public class ConfigBean {
         try {
             Administrator administrator = administratorBean.create("admin", "admin", "admin", "admin@mail.com");
             Administrator aaa = administratorBean.create("aaa", "aaa", "aaa", "aaa@aaa.aa");
-            Modality judo = modalityBean.create(1,"judo");
-            Modality football = modalityBean.create(1,"football");
+            Modality judo = modalityBean.create("judo");
+            Modality football = modalityBean.create("football");
+            Graduations graduations1 = graduationsBean.create( "graduations1");
+            Graduations graduations2 = graduationsBean.create( "graduations2");
         }catch (Exception e){
             logger.log(Level.SEVERE,e.getMessage());
         }

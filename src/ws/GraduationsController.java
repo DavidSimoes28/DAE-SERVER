@@ -1,8 +1,8 @@
 package ws;
 
-import dtos.ModalityDTO;
-import ejbs.ModalityBean;
-import entities.Modality;
+import dtos.GraduationsDTO;
+import ejbs.GraduationsBean;
+import entities.Graduations;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -12,29 +12,28 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@Path("/modalities")
+@Path("/graduations")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-public class ModalityController {
+public class GraduationsController {
     @EJB
-    private ModalityBean modalityBean;
-    ModalityDTO toDTO(Modality modality) {
-        return new ModalityDTO(
-                modality.getId(),
-                modality.getName()
+    private GraduationsBean graduationsBean;
+    GraduationsDTO toDTO(Graduations graduations) {
+        return new GraduationsDTO(
+                graduations.getId(),
+                graduations.getName()
         );
     }
 
-    List<ModalityDTO> toDTOs(List<Modality> modalities) {
-        return modalities.stream().map(this::toDTO).collect(Collectors.toList());
+    List<GraduationsDTO> toDTOs(List<Graduations> graduations) {
+        return graduations.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @GET
     @Path("/")
-    public List<ModalityDTO> all() {
+    public List<GraduationsDTO> all() {
         try {
-            return toDTOs(modalityBean.all());
+            return toDTOs(graduationsBean.all());
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_MODALITIES", e);
         }
@@ -43,9 +42,9 @@ public class ModalityController {
     @GET
     @Path("{id}")
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
-        Modality modality = modalityBean.find(id);
+        Graduations graduations = graduationsBean.find(id);
         try{
-            return Response.status(Response.Status.OK).entity(toDTO(modality)).build();
+            return Response.status(Response.Status.OK).entity(toDTO(graduations)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_MODALITIES", e);
         }
@@ -53,8 +52,8 @@ public class ModalityController {
 
     @POST
     @Path("/")
-    public Response createNewAdministrator (ModalityDTO modalityDTO) throws Exception {
-        modalityBean.create( modalityDTO.getName());
+    public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
+        graduationsBean.create(graduationsDTO.getName());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
@@ -64,8 +63,8 @@ public class ModalityController {
 
     @PUT
     @Path("/{username}")
-    public Response updateAdministrator (ModalityDTO modalityDTO) throws Exception {
-        Modality modality = modalityBean.update(modalityDTO.getId(), modalityDTO.getName());
+    public Response updateAdministrator (GraduationsDTO graduationsDTO) throws Exception {
+        Graduations modality = graduationsBean.update(graduationsDTO.getId(), graduationsDTO.getName());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(modality)).build();
         } catch (Exception e) {
@@ -76,7 +75,7 @@ public class ModalityController {
     @DELETE
     @Path("/{id}")
     public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
-        modalityBean.delete(id);
+        graduationsBean.delete(id);
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
