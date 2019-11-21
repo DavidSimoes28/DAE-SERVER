@@ -15,6 +15,7 @@ import java.util.Set;
 @Table(name = "MODALITIES")
 public class Modality implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     @ManyToOne
@@ -35,8 +36,7 @@ public class Modality implements Serializable {
         athletes = new LinkedHashSet<>();
     }
 
-    public Modality(int id,String name) {
-        this.id = id;
+    public Modality(String name) {
         this.name = name;
         coaches = new LinkedHashSet<>();
         athletes = new LinkedHashSet<>();
@@ -90,4 +90,5 @@ public class Modality implements Serializable {
     public void setAthletes(Set<Athlete> athletes) {
         this.athletes = athletes;
     }
+
 }

@@ -1,6 +1,6 @@
 package ejbs;
 
-import entities.Modality;
+import entities.Graduations;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -8,48 +8,49 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Stateless(name = "ModalityEJB")
-public class ModalityBean {
+@Stateless(name = "GraduationsEJB")
+public class GraduationsBean {
+
     @PersistenceContext
     private EntityManager em;
 
-    public ModalityBean() {
+    public GraduationsBean() {
     }
 
-    public Modality create(String name) throws Exception {
-        Modality modality = new Modality(name);
-        em.persist(modality);
-        return modality;
+    public Graduations create(String name) throws Exception {
+        Graduations graduations = new Graduations(name);
+        em.persist(graduations);
+        return graduations;
     }
 
-    public List<Modality> all() {
+    public List<Graduations> all() {
         try {
-            return (List<Modality>) em.createNamedQuery("getAllModalities").getResultList();
+            return (List<Graduations>) em.createNamedQuery("getAllGraduations").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_STUDENTS", e);
         }
     }
 
-    public Modality find(int id) throws Exception {
+    public Graduations find(int id) throws Exception{
         try{
-            return em.find(Modality.class, id);
+            return em.find(Graduations.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_ADMINISTRATOR", e);
         }
     }
 
-    public Modality update(int id, String name) throws Exception {
+    public Graduations update(int id, String name) throws Exception {
         try{
-            Modality modality = em.find(Modality.class, id);
+            Graduations graduations = em.find(Graduations.class, id);
 
-            if(modality == null){
+            if(graduations == null){
                 throw new Exception("ERROR_FINDING_STUDENT");
             }
 
             //em.lock(administrator, LockModeType.OPTIMISTIC);
-            modality.setName(name);
-            em.merge(modality);
-            return modality;
+            graduations.setName(name);
+            em.merge(graduations);
+            return graduations;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_STUDENT");
         }
@@ -57,14 +58,14 @@ public class ModalityBean {
 
     public boolean delete(int id) throws Exception{
         try{
-            Modality modality = em.find(Modality.class, id);
+            Graduations graduations = em.find(Graduations.class, id);
 
-            if(modality == null){
+            if(graduations == null){
                 throw new Exception("ERROR_FINDING_STUDENT");
             }
 
             //em.lock(administrator, LockModeType.OPTIMISTIC);
-            em.remove(modality);
+            em.remove(graduations);
             return true;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_STUDENT");
