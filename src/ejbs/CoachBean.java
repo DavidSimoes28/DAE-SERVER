@@ -79,7 +79,7 @@ public class CoachBean {
         }
     }
 
-    public void enroll(int modalityId, String coachUsername) throws Exception {
+    public Coach enroll(int modalityId, String coachUsername) throws Exception {
 
         Modality modality = modalityBean.find(modalityId);
         Coach coach = find(coachUsername);
@@ -90,12 +90,13 @@ public class CoachBean {
             coach.addModality(modality);
             modality.addCoach(coach);
             em.merge(coach);
+            return coach;
         }catch (Exception e){
             throw new EJBException("ERROR_FINDING_STUDENT", e);
         }
     }
 
-    public void unroll(int modalityId, String coachUsername) throws Exception {
+    public Coach unroll(int modalityId, String coachUsername) throws Exception {
 
         Modality modality = modalityBean.find(modalityId);
         Coach coach = find(coachUsername);
@@ -106,6 +107,7 @@ public class CoachBean {
             coach.removeModality(modality);
             modality.removeCoach(coach);
             em.merge(coach);
+            return coach;
         }catch (Exception e){
             throw new EJBException("ERROR_FINDING_STUDENT", e);
         }

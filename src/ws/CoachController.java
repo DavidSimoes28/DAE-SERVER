@@ -55,7 +55,7 @@ public class CoachController {
 
     @POST
     @Path("/")
-    public Response createNewAdministrator (CoachDTO coachDTO) throws Exception {
+    public Response createNewCoach (CoachDTO coachDTO) throws Exception {
         coachBean.create(coachDTO.getUsername(), coachDTO.getPassword(), coachDTO.getName(), coachDTO.getEmail());
         try{
             return Response.status(Response.Status.CREATED).build();
@@ -66,7 +66,7 @@ public class CoachController {
 
     @PUT
     @Path("/{username}")
-    public Response updateAdministrator (CoachDTO coachDTO) throws Exception {
+    public Response updateCoach (CoachDTO coachDTO) throws Exception {
         Coach coach = coachBean.update(coachDTO.getUsername(),coachDTO.getPassword(),coachDTO.getName(),coachDTO.getEmail());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(coach)).build();
@@ -75,12 +75,34 @@ public class CoachController {
         }
     }
 
+    @PUT
+    @Path("/{username}/enroll/{id}")
+    public Response enrollCoachModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
+        Coach coach = coachBean.enroll(modalityId,username);
+        try{
+            return Response.status(Response.Status.OK).entity(toDTO(coach)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_UPDATING_COACH", e);
+        }
+    }
+
+    @PUT
+    @Path("/{username}/unroll/{id}")
+    public Response unrollCoachModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
+        Coach coach = coachBean.unroll(modalityId,username);
+        try{
+            return Response.status(Response.Status.OK).entity(toDTO(coach)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_UPDATING_COACH", e);
+        }
+    }
+
     @DELETE
     @Path("/{username}")
-    public Response deleteAdministrator(@PathParam("username") String username) throws Exception {
+    public Response deleteCoach(@PathParam("username") String username) throws Exception {
         coachBean.delete(username);
         try{
-            return Response.status(Response.Status.CREATED).build();
+            return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_DELETING_COACH", e);
         }
