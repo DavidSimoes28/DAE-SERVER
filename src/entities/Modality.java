@@ -91,19 +91,4 @@ public class Modality implements Serializable {
         this.athletes = athletes;
     }
 
-    public void addCoach(Coach coach) {
-        this.coaches.add(coach);
-    }
-
-    public void removeCoach(Coach coach) {
-        this.coaches.remove(coach);
-    }
-
-    public void addAthlete(Athlete athlete) {
-        this.athletes.add(athlete);
-    }
-
-    public void removeAthlete(Athlete athlete) {
-        this.athletes.remove(athlete);
-    }
 }

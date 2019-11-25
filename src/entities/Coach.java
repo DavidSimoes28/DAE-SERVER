@@ -25,8 +25,6 @@ public class Coach extends User {
 
     public Coach(String username, String password, String name, String email) {
         super(username, password, name, email);
-        echelons = new LinkedHashSet<>();
-        modalities = new LinkedHashSet<>();
     }
 
     public Set<Modality> getModalities() {
@@ -43,13 +41,5 @@ public class Coach extends User {
 
     public void setEchelons(Set<Echelon> echelons) {
         this.echelons = echelons;
-    }
-
-    public void addModality(Modality modality) {
-        modalities.add(modality);
-    }
-
-    public void removeModality(Modality modality) {
-        modalities.remove(modality);
     }
 }
