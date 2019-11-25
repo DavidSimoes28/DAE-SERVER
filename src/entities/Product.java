@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -15,7 +16,10 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int tipo;
-    private String descricao;
-    private Double valor;
+    @ManyToOne
+    private ProductType type;
+    private String description;
+    private Double value;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private Set<ProductPayment> productPayments;
 }

@@ -1,6 +1,9 @@
 package ejbs;
 
 import entities.Administrator;
+import entities.Coach;
+import entities.Graduations;
+import entities.Modality;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,6 +18,12 @@ public class ConfigBean {
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
     @EJB
     AdministratorBean administratorBean;
+    @EJB
+    ModalityBean modalityBean;
+    @EJB
+    GraduationsBean graduationsBean;
+    @EJB
+    CoachBean coachBean;
     public ConfigBean() {
     }
 
@@ -24,6 +33,16 @@ public class ConfigBean {
         try {
             Administrator administrator = administratorBean.create("admin", "admin", "admin", "admin@mail.com");
             Administrator aaa = administratorBean.create("aaa", "aaa", "aaa", "aaa@aaa.aa");
+            Coach john = coachBean.create("john","john","john","john@mail.com");
+            Coach mary = coachBean.create("mary","mary","mary","mary@mail.com");
+            Modality judo = modalityBean.create("judo");
+            Modality football = modalityBean.create("football");
+            Graduations graduations1 = graduationsBean.create( "graduations1");
+            Graduations graduations2 = graduationsBean.create( "graduations2");
+
+            coachBean.enroll(judo.getId(),john.getUsername());
+            coachBean.enroll(judo.getId(),mary.getUsername());
+            coachBean.unroll(judo.getId(),mary.getUsername());
         }catch (Exception e){
             logger.log(Level.SEVERE,e.getMessage());
         }

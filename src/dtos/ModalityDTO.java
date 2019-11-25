@@ -1,6 +1,7 @@
 package dtos;
 
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ModalityDTO implements Serializable {
@@ -11,12 +12,15 @@ public class ModalityDTO implements Serializable {
     private Set<PartnerOrAthleteDTO> athletes;
 
     public ModalityDTO() {
+        coaches = new LinkedHashSet<>();
+        athletes = new LinkedHashSet<>();
     }
 
-    public ModalityDTO(int id, String name, int scheduleId) {
+    public ModalityDTO(int id, String name) {
         this.id = id;
         this.name = name;
-        this.scheduleId = scheduleId;
+        coaches = new LinkedHashSet<>();
+        athletes = new LinkedHashSet<>();
     }
 
     public int getId() {
