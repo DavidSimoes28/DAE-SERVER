@@ -16,7 +16,7 @@ public class ProductType implements Serializable {
     @Id
     private int id;
     private int type;
-    @OneToMany
+    @OneToMany(mappedBy = "type")
     private Set<Product> products;
 
     public ProductType() {

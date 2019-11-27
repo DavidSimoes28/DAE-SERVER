@@ -31,4 +31,12 @@ public class Partner extends User {
     public void setModalities(Set<Modality> modalities) {
         this.modalities = modalities;
     }
+
+    public void addModality(Modality modality) {
+        this.modalities.add(modality);
+    }
+
+    public void removeModality(Modality modality) {
+        this.modalities.remove(modality);
+    }
 }
