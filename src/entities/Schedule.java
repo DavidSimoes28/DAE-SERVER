@@ -8,7 +8,7 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(
-                name = "getAllAthletes",
+                name = "getAllSchedule",
                 query = "SELECT s FROM Schedule s ORDER BY s.id"
         )
 })
