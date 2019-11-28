@@ -32,4 +32,6 @@ public class Athlete extends Partner{
     public void setEchelons(Set<Echelon> echelons) {
         this.echelons = echelons;
     }
+
+
 }
