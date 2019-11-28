@@ -14,8 +14,7 @@ import java.util.Set;
 @Entity
 public class ProductType implements Serializable {
     @Id
-    private int id;
-    private int type;
+    private String type;
     @OneToMany(mappedBy = "type")
     private Set<Product> products;
 
@@ -23,25 +22,16 @@ public class ProductType implements Serializable {
         this.products = new LinkedHashSet<>();
     }
 
-    public ProductType(int id, int type) {
-        this.id = id;
+    public ProductType(String type) {
         this.type = type;
         this.products = new LinkedHashSet<>();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

@@ -6,6 +6,12 @@ import java.time.DayOfWeek;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllAthletes",
+                query = "SELECT s FROM Schedule s ORDER BY s.id"
+        )
+})
 @Entity
 @Table(name = "SCHEDULE")
 public class Schedule implements Serializable {

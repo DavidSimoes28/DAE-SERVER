@@ -12,17 +12,20 @@ import java.util.Set;
         )
 })
 public class Athlete extends Partner{
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<Echelon> echelons;
+    @ManyToMany
+    private Set<Graduations> graduations;
 
     public Athlete() {
         echelons = new LinkedHashSet<>();
+        graduations = new LinkedHashSet<>();
     }
 
     public Athlete(String username, String password, String name, String email) {
         super(username, password, name, email);
         echelons = new LinkedHashSet<>();
+        graduations = new LinkedHashSet<>();
     }
 
     public Set<Echelon> getEchelons() {
@@ -33,5 +36,11 @@ public class Athlete extends Partner{
         this.echelons = echelons;
     }
 
+    public Set<Graduations> getGraduations() {
+        return graduations;
+    }
 
+    public void setGraduations(Set<Graduations> graduations) {
+        this.graduations = graduations;
+    }
 }

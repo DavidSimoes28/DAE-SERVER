@@ -14,8 +14,7 @@ import java.util.Set;
 public class Coach extends User {
     @ManyToMany(mappedBy = "coaches", fetch = FetchType.EAGER)
     private Set<Modality> modalities;
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<Echelon> echelons;
 
     public Coach() {
