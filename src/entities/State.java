@@ -8,14 +8,14 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllStates",
-                query = "SELECT s FROM State s ORDER BY s.state"
+                query = "SELECT s FROM State s ORDER BY s.name"
         )
 })
 @Entity
 @Table(name = "STATES")
 public class State implements Serializable {
     @Id
-    private String state;
+    private String name;
     @OneToMany(mappedBy = "state", cascade = CascadeType.REMOVE)
     private Set<Payment> payments;
 
@@ -24,16 +24,16 @@ public class State implements Serializable {
     }
 
     public State(String state) {
-        this.state = state;
+        this.name = state;
         payments = new LinkedHashSet<>();
     }
 
-    public String getState() {
-        return state;
+    public String getName() {
+        return name;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<Payment> getPayments() {

@@ -2,37 +2,62 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(
                 name = "getAllEchelons",
-                query = "SELECT e FROM Echelon e ORDER BY e.echelon"
+                query = "SELECT e FROM Echelon e ORDER BY e.name"
         )
 })
 @Entity
 @Table(name = "ECHELONS")
 public class Echelon implements Serializable {
     @Id
-    private String echelon;
+    private String name;
+    private int initialAge;
+    private int finalAge;
     @ManyToMany
     private Set<Coach> coaches;
     @ManyToMany
     private Set<Partner> partners;
 
     public Echelon() {
+        coaches = new LinkedHashSet<>();
+        partners = new LinkedHashSet<>();
     }
 
-    public Echelon(String echelon) {
-        this.echelon = echelon;
+    public Echelon(String name, int initialAge, int finalAge) {
+        this.name = name;
+        this.initialAge = initialAge;
+        this.finalAge = finalAge;
+        coaches = new LinkedHashSet<>();
+        partners = new LinkedHashSet<>();
     }
 
-    public String getEchelon() {
-        return echelon;
+    public String getName() {
+        return name;
     }
 
-    public void setEchelon(String echelon) {
-        this.echelon = echelon;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getInitialAge() {
+        return initialAge;
+    }
+
+    public void setInitialAge(int initialAge) {
+        this.initialAge = initialAge;
+    }
+
+    public int getFinalAge() {
+        return finalAge;
+    }
+
+    public void setFinalAge(int finalAge) {
+        this.finalAge = finalAge;
     }
 
     public Set<Coach> getCoaches() {

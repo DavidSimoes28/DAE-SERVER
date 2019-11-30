@@ -23,6 +23,10 @@ public class ConfigBean {
     CoachBean coachBean;
     @EJB
     AthleteBean athleteBean;
+    @EJB
+    StateBean stateBean;
+    @EJB
+    EchelonBean echelonBean;
     public ConfigBean() {
     }
 
@@ -36,9 +40,15 @@ public class ConfigBean {
             Coach mary = coachBean.create("mary","mary","mary","mary@mail.com");
             Modality judo = modalityBean.create("judo");
             Modality football = modalityBean.create("football");
-            Graduations graduations1 = graduationsBean.create( "graduations1");
-            Graduations graduations2 = graduationsBean.create( "graduations2");
+            Graduations graduations1 = graduationsBean.create( "grade 1","grade 1",10);
+            Graduations graduations2 = graduationsBean.create( "grade 2","grade 2",13);
             Athlete mark = athleteBean.create("mark", "mark", "mark", "mark@mail.com");
+            State paid = stateBean.create("Paid");
+            State not_paid = stateBean.create("Not Paid");
+            State partial = stateBean.create("Partial");
+            Echelon echelon1 = echelonBean.create("Senior",18,99);
+            Echelon echelon2 = echelonBean.create("Junior",15,17);
+            Echelon echelon3 = echelonBean.create("Juvenil",13,14);
 
             coachBean.enroll(judo.getId(),john.getUsername());
             coachBean.enroll(judo.getId(),mary.getUsername());

@@ -8,34 +8,35 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllGraduations",
-                query = "SELECT a FROM Graduations a ORDER BY a.id"
+                query = "SELECT a FROM Graduations a ORDER BY a.code"
         )
 })
 @Entity
 @Table(name = "GRADUATIONS")
 public class Graduations implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String code;
     private String name;
+    private int minimumAge;
     @ManyToMany(mappedBy = "graduations")
     private Set<Athlete> athletes;
-
-    public Graduations(String name) {
-        this.name = name;
-        athletes = new LinkedHashSet<>();
-    }
 
     public Graduations(){
         athletes = new LinkedHashSet<>();
     }
 
-    public int getId() {
-        return id;
+    public Graduations(String code, String name, int minimumAge) {
+        this.code = code;
+        this.name = name;
+        this.minimumAge = minimumAge;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -44,6 +45,14 @@ public class Graduations implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getMinimumAge() {
+        return minimumAge;
+    }
+
+    public void setMinimumAge(int minimumAge) {
+        this.minimumAge = minimumAge;
     }
 
     public Set<Athlete> getAthletes() {

@@ -1,23 +1,25 @@
 package dtos;
 
 public class GraduationsDTO {
-    private int id;
+    private String code;
     private String name;
-
-    public GraduationsDTO(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private int minimumAge;
 
     public GraduationsDTO() {
     }
 
-    public int getId() {
-        return id;
+    public GraduationsDTO(String code, String name, int minimumAge) {
+        this.code = code;
+        this.name = name;
+        this.minimumAge = minimumAge;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -26,5 +28,13 @@ public class GraduationsDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getMinimumAge() {
+        return minimumAge;
+    }
+
+    public void setMinimumAge(int minimumAge) {
+        this.minimumAge = minimumAge;
     }
 }
