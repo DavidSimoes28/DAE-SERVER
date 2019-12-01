@@ -23,6 +23,8 @@ public class ConfigBean {
     CoachBean coachBean;
     @EJB
     AthleteBean athleteBean;
+    @EJB
+    PartnerBean partnerBean;
     public ConfigBean() {
     }
 
@@ -39,6 +41,7 @@ public class ConfigBean {
             Graduations graduations1 = graduationsBean.create( "graduations1");
             Graduations graduations2 = graduationsBean.create( "graduations2");
             Athlete mark = athleteBean.create("mark", "mark", "mark", "mark@mail.com");
+            Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com");
 
             coachBean.enroll(judo.getId(),john.getUsername());
             coachBean.enroll(judo.getId(),mary.getUsername());

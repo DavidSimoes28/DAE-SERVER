@@ -106,4 +106,5 @@ public class Modality implements Serializable {
     public void removeAthlete(Athlete athlete) {
         this.athletes.remove(athlete);
     }
+
 }

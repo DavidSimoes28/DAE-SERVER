@@ -54,7 +54,7 @@ public class AthleteBean {
             Athlete athlete = em.find(Athlete.class, username);
 
             if(athlete == null){
-                throw new Exception("ERROR_FINDING_ÃTHLETE");
+                throw new Exception("ERROR_FINDING_ATHLETE");
             }
 
             //em.lock(administrator, LockModeType.OPTIMISTIC);

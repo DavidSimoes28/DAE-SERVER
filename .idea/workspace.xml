@@ -7,20 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4342330a-3cad-42c0-ab2f-83ed2a8872c5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/dtos/AthleteDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ejbs/AthleteBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ws/AthleteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ejbs/PartnerBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ws/PartnerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dtos/EchelonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/EchelonDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/ModalityDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dtos/PartnerOrAthleteDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/PartnerDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ejbs/AthleteBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejbs/AthleteBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejbs/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ejbs/ModalityBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejbs/ModalityBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Athlete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Athlete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Coach.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Coach.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Modality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Modality.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Partner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Partner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/ProductType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/ProductType.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -184,6 +176,12 @@
       <workItem from="1574785911063" duration="1650000" />
       <workItem from="1574790164292" duration="693000" />
       <workItem from="1574807963634" duration="3962000" />
+      <workItem from="1574857763546" duration="557000" />
+      <workItem from="1574882495656" duration="157000" />
+      <workItem from="1574954845796" duration="3390000" />
+      <workItem from="1574969853400" duration="1628000" />
+      <workItem from="1575033864601" duration="640000" />
+      <workItem from="1575115158498" duration="601000" />
     </task>
     <servers />
   </component>
