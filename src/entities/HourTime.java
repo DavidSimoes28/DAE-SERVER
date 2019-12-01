@@ -5,6 +5,12 @@ import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllHours",
+                query = "SELECT H FROM HourTime H ORDER BY H.id"
+        )
+})
 @Entity
 @Table(name = "HOURTIME")
 public class HourTime implements Serializable {

@@ -8,17 +8,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Stateless(name = "GraduationsEJB")
+@Stateless(name = "GraduationEJB")
 public class GraduationsBean {
-
     @PersistenceContext
     private EntityManager em;
 
     public GraduationsBean() {
     }
 
-    public Graduations create(String name) throws Exception {
-        Graduations graduations = new Graduations(name);
+    public Graduations create(String code, String name, int minimumAge) throws Exception {
+        if (find(code)!=null){
+            throw new Exception("Graduation '" + code + "' already exists");
+        }
+        Graduations graduations = new Graduations(code,name,minimumAge);
         em.persist(graduations);
         return graduations;
     }
@@ -27,48 +29,47 @@ public class GraduationsBean {
         try {
             return (List<Graduations>) em.createNamedQuery("getAllGraduations").getResultList();
         } catch (Exception e) {
-            throw new EJBException("ERROR_RETRIEVING_STUDENTS", e);
+            throw new EJBException("ERROR_RETRIEVING_GRADUATIONS", e);
         }
     }
 
-    public Graduations find(int id) throws Exception{
+    public Graduations find(String echelon) throws Exception {
         try{
-            return em.find(Graduations.class, id);
+            return em.find(Graduations.class, echelon);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ADMINISTRATOR", e);
+            throw new Exception("ERROR_FINDING_GRADUATION", e);
         }
     }
 
-    public Graduations update(int id, String name) throws Exception {
+    public Graduations update(String code, String name, int minimumAge) throws Exception {
         try{
-            Graduations graduations = em.find(Graduations.class, id);
+            Graduations graduations = em.find(Graduations.class, code);
 
             if(graduations == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
+                throw new Exception("ERROR_FINDING_GRADUATION");
             }
 
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
             graduations.setName(name);
+            graduations.setMinimumAge(minimumAge);
             em.merge(graduations);
             return graduations;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_STUDENT");
+            throw new Exception("ERROR_FINDING_GRADUATION");
         }
     }
 
-    public boolean delete(int id) throws Exception{
+    public boolean delete(String code) throws Exception{
         try{
-            Graduations graduations = em.find(Graduations.class, id);
+            Graduations graduations = em.find(Graduations.class, code);
 
             if(graduations == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
+                throw new Exception("ERROR_FINDING_GRADUATION");
             }
 
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
             em.remove(graduations);
             return true;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_STUDENT");
+            throw new Exception("ERROR_FINDING_GRADUATION");
         }
     }
 }

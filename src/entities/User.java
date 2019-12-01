@@ -17,8 +17,6 @@ public class User implements Serializable {
     private String name;
     @Email
     private String email;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Set<ProductPayment> productPayments;
 
     public User() {
     }

@@ -18,10 +18,12 @@ import java.util.stream.Collectors;
 public class GraduationsController {
     @EJB
     private GraduationsBean graduationsBean;
+
     GraduationsDTO toDTO(Graduations graduations) {
         return new GraduationsDTO(
-                graduations.getId(),
-                graduations.getName()
+                graduations.getCode(),
+                graduations.getName(),
+                graduations.getMinimumAge()
         );
     }
 
@@ -35,51 +37,51 @@ public class GraduationsController {
         try {
             return toDTOs(graduationsBean.all());
         } catch (Exception e) {
-            throw new EJBException("ERROR_GET_MODALITIES", e);
+            throw new EJBException("ERROR_GET_GRADUATIONS", e);
         }
     }
 
     @GET
-    @Path("{id}")
-    public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
-        Graduations graduations = graduationsBean.find(id);
+    @Path("{code}")
+    public Response getAdministratorDetails(@PathParam("code") String code) throws Exception {
+        Graduations graduations = graduationsBean.find(code);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(graduations)).build();
         } catch (Exception e) {
-            throw new EJBException("ERROR_GET_MODALITIES", e);
+            throw new EJBException("ERROR_GET_GRADUATIONS", e);
         }
     }
 
     @POST
     @Path("/")
     public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        graduationsBean.create(graduationsDTO.getName());
+        graduationsBean.create(graduationsDTO.getCode(),graduationsDTO.getName(),graduationsDTO.getMinimumAge());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_MODALITY", e);
+            throw new EJBException("ERROR_CREATING_GRADUATION", e);
         }
     }
 
     @PUT
-    @Path("/{username}")
+    @Path("/{code}")
     public Response updateAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        Graduations modality = graduationsBean.update(graduationsDTO.getId(), graduationsDTO.getName());
+        Graduations modality = graduationsBean.update(graduationsDTO.getCode(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(modality)).build();
         } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_MODALITY", e);
+            throw new EJBException("ERROR_UPDATING_GRADUATION", e);
         }
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
-        graduationsBean.delete(id);
+    @Path("/{code}")
+    public Response deleteAdministrator(@PathParam("code") String code) throws Exception {
+        graduationsBean.delete(code);
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
-            throw new EJBException("ERROR_DELETING_MODALITY", e);
+            throw new EJBException("ERROR_DELETING_GRADUATION", e);
         }
     }
 }
