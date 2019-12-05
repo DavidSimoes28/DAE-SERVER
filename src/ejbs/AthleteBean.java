@@ -34,9 +34,9 @@ public class AthleteBean {
         return athlete;
     }
 
-    public Set<Athlete> all() {
+    public List<Athlete> all() {
         try {
-            return (Set<Athlete>) em.createNamedQuery("getAllAthletes").getResultList();
+            return (List<Athlete>) em.createNamedQuery("getAllAthletes").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_ATHLETE", e);
         }

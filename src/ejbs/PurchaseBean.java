@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Stateless(name = "PurchaseEJB")
@@ -27,9 +28,9 @@ public class PurchaseBean {
         return purchase;
     }
 
-    public Set<Purchase> all() {
+    public List<Purchase> all() {
         try {
-            return (Set<Purchase>) em.createNamedQuery("getAllProducts").getResultList();
+            return (List<Purchase>) em.createNamedQuery("getAllProducts").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_PRODUCTS", e);
         }

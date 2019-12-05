@@ -6,6 +6,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Set;
 
 @Stateless(name = "ProductTypeEJB")
@@ -26,9 +27,9 @@ public class ProductTypeBean {
         return productType;
     }
 
-    public Set<ProductType> all() {
+    public List<ProductType> all() {
         try {
-            return (Set<ProductType>) em.createNamedQuery("getAllProductTypes").getResultList();
+            return (List<ProductType>) em.createNamedQuery("getAllProductTypes").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_PRODUCT_TYPE", e);
         }

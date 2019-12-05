@@ -1,73 +1,68 @@
 package ejbs;
 
+import entities.Payment;
+import entities.Purchase;
+import entities.State;
+
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Set;
 
 @Stateless(name = "PaymentEJB")
 public class PaymentBean {
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    private StateBean stateBean;
+    @EJB
+    private PurchaseBean purchaseBean;
 
     public PaymentBean() {
     }
 
-    /*public Product create(String type, String description, Double value) throws Exception {
-        ProductType productType = productTypeBean.find(type);
-        Product product = new Product(productType,description,value);
-        em.persist(product);
-        return product;
+    public Payment create(int quantity, String stateName, int purchaseId) throws Exception {
+        State state = stateBean.find(stateName);
+        Purchase purchase = purchaseBean.find(purchaseId);
+        Payment payment = new Payment(quantity,state,purchase);
+        em.persist(payment);
+        return payment;
     }
 
-    public Set<Product> all() {
+    public List<Payment> all() {
         try {
-            return (Set<Product>) em.createNamedQuery("getAllProducts").getResultList();
+            return (List<Payment>) em.createNamedQuery("getAllPayments").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_PRODUCTS", e);
         }
     }
 
-    public Product find(int id) throws Exception {
+    public Payment find(int id) throws Exception {
         try{
-            return em.find(Product.class, id);
+            return em.find(Payment.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_PRODUCT", e);
         }
     }
 
-    public Product update(int id, String type, String description, Double value) throws Exception {
+    public Payment update(int id, int quantity, String stateName) throws Exception {
         try{
-            Product product = em.find(Product.class, id);
-            if(product == null){
+            Payment payment = em.find(Payment.class, id);
+            State state = stateBean.find(stateName);
+            if(payment == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
             }
 
-            Product p1 = create(type,description,value);
-            p1.setParentProduct(product);
-            product.addChildrenProducts(p1);
+            payment.setQuantity(quantity);
+            payment.setState(state);
 
-            em.merge(p1);
-            return p1;
+            em.merge(payment);
+            return payment;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_PRODUCT");
         }
     }
-
-    public boolean delete(int id) throws Exception{
-        try{
-            Product product = em.find(Product.class, id);
-
-            if(product == null){
-                throw new Exception("ERROR_FINDING_PRODUCT");
-            }else if(product.getPurchases() != null){
-                throw new Exception("PRODUCT_ALREADY_SOLD");
-            }
-            em.remove(product);
-            return true;
-        }catch (Exception e){
-            throw new Exception("ERROR_FINDING_PRODUCT");
-        }
-    }*/
 }

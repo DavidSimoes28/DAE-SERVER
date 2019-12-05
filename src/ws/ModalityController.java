@@ -31,13 +31,13 @@ public class ModalityController {
         return modalityDTO;
     }
 
-    public static Set<ModalityDTO> toDTOs(Collection<Modality> modalities) {
-        return modalities.stream().map(ModalityController::toDTO).collect(Collectors.toSet());
+    public static List<ModalityDTO> toDTOs(Collection<Modality> modalities) {
+        return modalities.stream().map(ModalityController::toDTO).collect(Collectors.toList());
     }
 
     @GET
     @Path("/")
-    public Set<ModalityDTO> all() {
+    public List<ModalityDTO> all() {
         try {
             return toDTOs(modalityBean.all());
         } catch (Exception e) {

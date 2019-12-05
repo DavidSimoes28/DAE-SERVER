@@ -30,13 +30,13 @@ public class GraduationsController {
         return graduationsDTO;
     }
 
-    public static Set<GraduationsDTO> toDTOs(Collection<Graduations> graduations) {
-        return graduations.stream().map(GraduationsController::toDTO).collect(Collectors.toSet());
+    public static List<GraduationsDTO> toDTOs(Collection<Graduations> graduations) {
+        return graduations.stream().map(GraduationsController::toDTO).collect(Collectors.toList());
     }
 
     @GET
     @Path("/")
-    public Set<GraduationsDTO> all() {
+    public List<GraduationsDTO> all() {
         try {
             return toDTOs(graduationsBean.all());
         } catch (Exception e) {

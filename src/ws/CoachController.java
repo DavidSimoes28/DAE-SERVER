@@ -33,13 +33,13 @@ public class CoachController {
         return coachDTO;
     }
 
-    public static Set<CoachDTO> toDTOs(Collection<Coach> administrators) {
-        return administrators.stream().map(CoachController::toDTO).collect(Collectors.toSet());
+    public static List<CoachDTO> toDTOs(Collection<Coach> administrators) {
+        return administrators.stream().map(CoachController::toDTO).collect(Collectors.toList());
     }
 
     @GET
     @Path("/")
-    public Set<CoachDTO> all() {
+    public List<CoachDTO> all() {
         try {
             return toDTOs(coachBean.all());
         } catch (Exception e) {

@@ -36,13 +36,13 @@ public class AthleteController {
          return athleteDTO;
     }
 
-    public static Set<AthleteDTO> toDTOs(Collection<Athlete> administrators) {
-        return administrators.stream().map(AthleteController::toDTO).collect(Collectors.toSet());
+    public static List<AthleteDTO> toDTOs(Collection<Athlete> administrators) {
+        return administrators.stream().map(AthleteController::toDTO).collect(Collectors.toList());
     }
 
     @GET
     @Path("/")
-    public Set<AthleteDTO> all() {
+    public List<AthleteDTO> all() {
         try {
             return toDTOs(athleteBean.all());
         } catch (Exception e) {

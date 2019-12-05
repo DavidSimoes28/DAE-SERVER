@@ -1,26 +1,28 @@
 package dtos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ModalityDTO implements Serializable {
     private int id;
     private String name;
     private int scheduleId;
-    private Set<CoachDTO> coaches;
-    private Set<AthleteDTO> athletes;
+    private List<CoachDTO> coaches;
+    private List<AthleteDTO> athletes;
 
     public ModalityDTO() {
-        coaches = new LinkedHashSet<>();
-        athletes = new LinkedHashSet<>();
+        coaches = new ArrayList<>();
+        athletes = new ArrayList<>();
     }
 
     public ModalityDTO(int id, String name) {
         this.id = id;
         this.name = name;
-        coaches = new LinkedHashSet<>();
-        athletes = new LinkedHashSet<>();
+        coaches = new ArrayList<>();
+        athletes = new ArrayList<>();
     }
 
     public int getId() {
@@ -47,19 +49,19 @@ public class ModalityDTO implements Serializable {
         this.scheduleId = scheduleId;
     }
 
-    public Set<CoachDTO> getCoaches() {
+    public List<CoachDTO> getCoaches() {
         return coaches;
     }
 
-    public void setCoaches(Set<CoachDTO> coaches) {
+    public void setCoaches(List<CoachDTO> coaches) {
         this.coaches = coaches;
     }
 
-    public Set<AthleteDTO> getAthletes() {
+    public List<AthleteDTO> getAthletes() {
         return athletes;
     }
 
-    public void setAthletes(Set<AthleteDTO> athletes) {
+    public void setAthletes(List<AthleteDTO> athletes) {
         this.athletes = athletes;
     }
 }

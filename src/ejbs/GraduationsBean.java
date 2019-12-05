@@ -26,9 +26,9 @@ public class GraduationsBean {
         return graduations;
     }
 
-    public Set<Graduations> all() {
+    public List<Graduations> all() {
         try {
-            return (Set<Graduations>) em.createNamedQuery("getAllGraduations").getResultList();
+            return (List<Graduations>) em.createNamedQuery("getAllGraduations").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_GRADUATIONS", e);
         }

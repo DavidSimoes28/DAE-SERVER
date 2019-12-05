@@ -25,6 +25,7 @@ public class ConfigBean {
     AthleteBean athleteBean;
     @EJB
     PartnerBean partnerBean;
+    @EJB
     StateBean stateBean;
     @EJB
     EchelonBean echelonBean;

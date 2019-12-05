@@ -2,50 +2,52 @@ package dtos;
 
 import entities.Graduations;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AthleteDTO extends PartnerDTO {
-    private Set<EchelonDTO> echelons;
-    private Set<GraduationsDTO> graduations;
-    private Set<ModalityDTO> modalities;
+    private List<EchelonDTO> echelons;
+    private List<GraduationsDTO> graduations;
+    private List<ModalityDTO> modalities;
 
 
     public AthleteDTO() {
-        echelons = new LinkedHashSet<>();
-        graduations = new LinkedHashSet<>();
-        modalities = new LinkedHashSet<>();
+        echelons = new ArrayList<>();
+        graduations = new ArrayList<>();
+        modalities = new ArrayList<>();
     }
 
     public AthleteDTO(String username, String password, String name, String email) {
         super(username, password, name, email);
         //this.modalityID = modalityID;
-        echelons = new LinkedHashSet<>();
-        graduations = new LinkedHashSet<>();
-        modalities = new LinkedHashSet<>();
+        echelons = new ArrayList<>();
+        graduations = new ArrayList<>();
+        modalities = new ArrayList<>();
     }
 
-    public Set<EchelonDTO> getEchelons() {
+    public List<EchelonDTO> getEchelons() {
         return echelons;
     }
 
-    public void setEchelons(Set<EchelonDTO> echelons) {
+    public void setEchelons(List<EchelonDTO> echelons) {
         this.echelons = echelons;
     }
 
-    public Set<GraduationsDTO> getGraduations() {
+    public List<GraduationsDTO> getGraduations() {
         return graduations;
     }
 
-    public void setGraduations(Set<GraduationsDTO> graduations) {
+    public void setGraduations(List<GraduationsDTO> graduations) {
         this.graduations = graduations;
     }
 
-    public Set<ModalityDTO> getModalities() {
+    public List<ModalityDTO> getModalities() {
         return modalities;
     }
 
-    public void setModalities(Set<ModalityDTO> modalities) {
+    public void setModalities(List<ModalityDTO> modalities) {
         this.modalities = modalities;
     }
 

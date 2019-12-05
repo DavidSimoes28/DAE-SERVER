@@ -29,13 +29,13 @@ public class EchelonController {
         return echelonDTO;
     }
 
-    public static Set<EchelonDTO> toDTOs(Collection<Echelon> echelons) {
-        return echelons.stream().map(EchelonController::toDTO).collect(Collectors.toSet());
+    public static List<EchelonDTO> toDTOs(Collection<Echelon> echelons) {
+        return echelons.stream().map(EchelonController::toDTO).collect(Collectors.toList());
     }
 
     @GET
     @Path("/")
-    public Set<EchelonDTO> all() {
+    public List<EchelonDTO> all() {
         try {
             return toDTOs(echelonBean.all());
         } catch (Exception e) {

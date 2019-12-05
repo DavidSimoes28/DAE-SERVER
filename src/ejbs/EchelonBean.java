@@ -26,9 +26,9 @@ public class EchelonBean {
         return echelon;
     }
 
-    public Set<Echelon> all() {
+    public List<Echelon> all() {
         try {
-            return (Set<Echelon>) em.createNamedQuery("getAllEchelons").getResultList();
+            return (List<Echelon>) em.createNamedQuery("getAllEchelons").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_ECHELONS", e);
         }

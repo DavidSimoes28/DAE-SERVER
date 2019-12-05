@@ -1,115 +1,87 @@
 package ejbs;
 
+import entities.HourTime;
 import entities.Schedule;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.DayOfWeek;
+import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "ScheduleEJB")
 public class ScheduleBean {
     @PersistenceContext
     private EntityManager em;
     @EJB
-    private ModalityBean modalityBean;
+    private HourTimeBean hourTimeBean;
 
     public ScheduleBean() {
     }
 
-    /*public Schedule create(String username, String password, String name, String email) throws Exception {
-        if (find(username)!=null){
-            throw new Exception("Username '" + username + "' already exists");
-        }
-        Partner partner = new Partner(username,password,name,email);
-        //Modality modality = modalityBean.find(modalityID);
-        //athlete.addModality(modality);
-        em.persist(partner);
-        return partner;
+    public Schedule create(int dayNumber, int startDateId, int endDateId) throws Exception {
+        DayOfWeek dayOfWeek = DayOfWeek.of(dayNumber);
+        HourTime ht1 = hourTimeBean.find(startDateId);
+        HourTime ht2 = hourTimeBean.find(endDateId);
+        Schedule schedule = new Schedule(dayOfWeek,ht1,ht2);
+        em.persist(schedule);
+        return schedule;
     }
 
-    public List<Partner> all() {
+    public List<Schedule> all() {
         try {
-            return (List<Partner>) em.createNamedQuery("getAllPartners").getResultList();
+            return (List<Schedule>) em.createNamedQuery("getAllSchedules").getResultList();
         } catch (Exception e) {
-            throw new EJBException("ERROR_RETRIEVING_ATHLETE", e);
+            throw new EJBException("ERROR_RETRIEVING_SCHEDULE", e);
         }
     }
 
-    public Partner find(String username) throws Exception {
+    public Schedule find(int id) throws Exception {
         try{
-            return em.find(Partner.class, username);
+            return em.find(Schedule.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_PARTNER", e);
+            throw new Exception("ERROR_FINDING_SCHEDULE", e);
         }
     }
 
-    public Partner update(String username, String password, String name, String email) throws Exception {
+    public Schedule update(int id,int dayNumber, int startDateId, int endDateId) throws Exception {
         try{
-            Partner partner = em.find(Partner.class, username);
-
-            if(partner == null){
-                throw new Exception("ERROR_FINDING_PARTNER");
+            Schedule schedule = em.find(Schedule.class, id);
+            DayOfWeek dayOfWeek = DayOfWeek.of(dayNumber);
+            HourTime ht1 = hourTimeBean.find(startDateId);
+            HourTime ht2 = hourTimeBean.find(endDateId);
+            if(schedule == null){
+                throw new Exception("ERROR_FINDING_SCHEDULE");
             }
 
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
-            partner.setName(name);
-            partner.setEmail(email);
-            partner.setPassword(password);
-            em.merge(partner);
-            return partner;
+            schedule.setDayOfWeek(dayOfWeek);
+            schedule.setStartDate(ht1);
+            schedule.setEndDate(ht2);
+            em.merge(schedule);
+            return schedule;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_PARTNER");
+            throw new Exception("ERROR_FINDING_SCHEDULE");
         }
     }
 
-    public boolean delete(String username) throws Exception{
+    public boolean delete(int id) throws Exception{
         try{
-            Partner partner = em.find(Partner.class, username);
+            Schedule schedule = em.find(Schedule.class, id);
 
-            if(partner == null){
-                throw new Exception("ERROR_FINDING_PARTNER");
+            if(schedule == null){
+                throw new Exception("ERROR_FINDING_SCHEDULE");
+            }
+            if(schedule.getModalities() == null){
+                throw new Exception("ERROR_DELETING_SCHEDULE");
             }
 
-            //em.lock(coach, LockModeType.OPTIMISTIC);
-            em.remove(partner);
+            em.remove(schedule);
             return true;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_PARTNER");
+            throw new Exception("ERROR_FINDING_SCHEDULE");
         }
     }
-
-    public Partner enroll(int modalityId, String athleteUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Partner partner = find(athleteUsername);
-        try{
-            if (partner.getModalities().contains(modality) != modality.getAthletes().contains(partner)){
-                throw new EJBException("ERROR_FINDING_PARTNER");
-            }
-            partner.addModality(modality);
-            //modality.addPartner(partner);
-            em.merge(partner);
-            return partner;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_PARTNER", e);
-        }
-    }
-
-    public Partner unroll(int modalityId, String athleteUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Partner partner = find(athleteUsername);
-        try{
-            if (partner.getModalities().contains(modality) != modality.getAthletes().contains(partner)){
-                throw new EJBException("ERROR_FINDING_PARTNER");
-            }
-            partner.removeModality(modality);
-            //modality.removePartner(partner);
-            em.merge(partner);
-            return partner;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_PARTNER", e);
-        }
-    }*/
 }
