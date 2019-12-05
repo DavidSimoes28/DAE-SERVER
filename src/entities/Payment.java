@@ -17,11 +17,8 @@ public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @ManyToMany(mappedBy = "payments", fetch = FetchType.EAGER)
-    @JoinTable(name = "PAYMENTS_PURCHASE",
-            joinColumns = @JoinColumn(name = "PAYMENT_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "PURCHASE_ID", referencedColumnName = "ID"))
-    private Set<Purchase> purchases;
+    @ManyToOne
+    private Purchase purchase;
     private int quantity;
     @ManyToOne
     private State state;
@@ -29,9 +26,10 @@ public class Payment implements Serializable {
     public Payment() {
     }
 
-    public Payment(int quantity, State state) {
+    public Payment(int quantity, State state, Purchase purchase) {
         this.quantity = quantity;
         this.state = state;
+        this.purchase = purchase;
     }
 
     public int getId() {
@@ -42,20 +40,12 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Set<Purchase> getPurchases() {
-        return purchases;
+    public Purchase getPurchase() {
+        return purchase;
     }
 
-    public void setPurchases(Set<Purchase> purchases) {
-        this.purchases = purchases;
-    }
-
-    public void addPurchase(Purchase purchase) {
-        this.purchases.add(purchase);
-    }
-
-    public void removePurchase(Purchase purchase) {
-        this.purchases.remove(purchase);
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
     }
 
     public int getQuantity() {

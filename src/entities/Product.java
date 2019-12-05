@@ -2,6 +2,9 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,14 +25,23 @@ public class Product implements Serializable {
     private Double value;
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Purchase> purchases;
+    @ManyToOne
+    private Product parentProduct;
+    @OneToMany(mappedBy = "parentProduct")
+    private List<Product> childrenProducts;
 
     public Product() {
+        this.purchases = new LinkedHashSet<>();
+        this.childrenProducts = new ArrayList<>();
     }
 
     public Product(ProductType type, String description, Double value) {
         this.type = type;
         this.description = description;
         this.value = value;
+        this.parentProduct = null;
+        this.purchases = new LinkedHashSet<>();
+        this.childrenProducts = new ArrayList<>();
     }
 
     public int getId() {
@@ -78,5 +90,29 @@ public class Product implements Serializable {
 
     public void removePurchase(Purchase purchase) {
         this.purchases.remove(purchase);
+    }
+
+    public Product getParentProduct() {
+        return parentProduct;
+    }
+
+    public void setParentProduct(Product parentProduct) {
+        this.parentProduct = parentProduct;
+    }
+
+    public List<Product> getChildrenProducts() {
+        return childrenProducts;
+    }
+
+    public void setChildrenProducts(List<Product> childrenProducts) {
+        this.childrenProducts = childrenProducts;
+    }
+
+    public void addChildrenProducts(Product childrenProduct) {
+        this.childrenProducts.add(childrenProduct);
+    }
+
+    public void removeChildrenProducts(Product childrenProduct) {
+        this.childrenProducts.remove(childrenProduct);
     }
 }
