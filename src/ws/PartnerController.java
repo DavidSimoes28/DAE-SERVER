@@ -3,6 +3,7 @@ package ws;
 import dtos.PartnerDTO;
 import ejbs.PartnerBean;
 import entities.Athlete;
+import entities.Modality;
 import entities.Partner;
 
 import javax.ejb.EJB;
@@ -11,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/partners")
@@ -20,22 +22,23 @@ import java.util.stream.Collectors;
 public class PartnerController {
     @EJB
     private PartnerBean partnerBean;
-    PartnerDTO toDTO(Partner partner) {
-        return new PartnerDTO(
+    public static PartnerDTO toDTO(Partner partner) {
+        PartnerDTO partnerDTO = new PartnerDTO(
                 partner.getUsername(),
                 partner.getPassword(),
                 partner.getName(),
                 partner.getEmail()
         );
+        return partnerDTO;
     }
 
-    List<PartnerDTO> toDTOs(List<Partner> administrators) {
-        return administrators.stream().map(this::toDTO).collect(Collectors.toList());
+    public static Set<PartnerDTO> toDTOs(List<Partner> administrators) {
+        return administrators.stream().map(PartnerController::toDTO).collect(Collectors.toSet());
     }
 
     @GET
     @Path("/")
-    public List<PartnerDTO> all() {
+    public Set<PartnerDTO> all() {
         try {
             return toDTOs(partnerBean.all());
         } catch (Exception e) {
@@ -71,28 +74,6 @@ public class PartnerController {
         Partner partner = partnerBean.update(partnerDTO.getUsername(),partnerDTO.getPassword(),partnerDTO.getName(),partnerDTO.getEmail());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(partner)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_PARTNER", e);
-        }
-    }
-
-    @PUT
-    @Path("/{username}/enroll/{id}")
-    public Response enrollAthleteModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
-        Partner partner = partnerBean.enroll(modalityId,username);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTO(partner)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_PARTNER", e);
-        }
-    }
-
-    @PUT
-    @Path("/{username}/unroll/{id}")
-    public Response unrollAthleteModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
-        Partner partner = partnerBean.unroll(modalityId,username);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTO(partner)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_PARTNER", e);
         }

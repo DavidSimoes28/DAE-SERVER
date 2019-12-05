@@ -9,7 +9,9 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -19,20 +21,23 @@ import java.util.stream.Collectors;
 public class ModalityController {
     @EJB
     private ModalityBean modalityBean;
-    ModalityDTO toDTO(Modality modality) {
-        return new ModalityDTO(
+    public static ModalityDTO toDTO(Modality modality) {
+        ModalityDTO modalityDTO = new ModalityDTO(
                 modality.getId(),
                 modality.getName()
         );
+        modalityDTO.setAthletes(AthleteController.toDTOs(modality.getAthletes()));
+        modalityDTO.setCoaches(CoachController.toDTOs(modality.getCoaches()));
+        return modalityDTO;
     }
 
-    List<ModalityDTO> toDTOs(List<Modality> modalities) {
-        return modalities.stream().map(this::toDTO).collect(Collectors.toList());
+    public static Set<ModalityDTO> toDTOs(Collection<Modality> modalities) {
+        return modalities.stream().map(ModalityController::toDTO).collect(Collectors.toSet());
     }
 
     @GET
     @Path("/")
-    public List<ModalityDTO> all() {
+    public Set<ModalityDTO> all() {
         try {
             return toDTOs(modalityBean.all());
         } catch (Exception e) {

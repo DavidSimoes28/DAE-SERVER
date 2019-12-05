@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "CoachEJB")
 public class CoachBean {
@@ -30,7 +31,7 @@ public class CoachBean {
 
     public List<Coach> all() {
         try {
-            return (List<Coach>) em.createNamedQuery("getAllCoaches").getResultList();
+            return em.createNamedQuery("getAllCoaches").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_COACHES", e);
         }

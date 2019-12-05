@@ -9,7 +9,9 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/graduations")
@@ -19,21 +21,22 @@ public class GraduationsController {
     @EJB
     private GraduationsBean graduationsBean;
 
-    GraduationsDTO toDTO(Graduations graduations) {
-        return new GraduationsDTO(
+    public static GraduationsDTO toDTO(Graduations graduations) {
+        GraduationsDTO graduationsDTO = new GraduationsDTO(
                 graduations.getCode(),
                 graduations.getName(),
                 graduations.getMinimumAge()
         );
+        return graduationsDTO;
     }
 
-    List<GraduationsDTO> toDTOs(List<Graduations> graduations) {
-        return graduations.stream().map(this::toDTO).collect(Collectors.toList());
+    public static Set<GraduationsDTO> toDTOs(Collection<Graduations> graduations) {
+        return graduations.stream().map(GraduationsController::toDTO).collect(Collectors.toSet());
     }
 
     @GET
     @Path("/")
-    public List<GraduationsDTO> all() {
+    public Set<GraduationsDTO> all() {
         try {
             return toDTOs(graduationsBean.all());
         } catch (Exception e) {

@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "GraduationEJB")
 public class GraduationsBean {
@@ -25,9 +26,9 @@ public class GraduationsBean {
         return graduations;
     }
 
-    public List<Graduations> all() {
+    public Set<Graduations> all() {
         try {
-            return (List<Graduations>) em.createNamedQuery("getAllGraduations").getResultList();
+            return (Set<Graduations>) em.createNamedQuery("getAllGraduations").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_GRADUATIONS", e);
         }

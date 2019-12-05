@@ -10,7 +10,9 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/coaches")
@@ -19,22 +21,25 @@ import java.util.stream.Collectors;
 public class CoachController {
     @EJB
     private CoachBean coachBean;
-    CoachDTO toDTO(Coach coach) {
-        return new CoachDTO(
+    public static CoachDTO toDTO(Coach coach) {
+        CoachDTO coachDTO = new CoachDTO(
                 coach.getUsername(),
                 coach.getPassword(),
                 coach.getName(),
                 coach.getEmail()
         );
+        coachDTO.setEchelons(EchelonController.toDTOs(coach.getEchelons()));
+        coachDTO.setModalities(ModalityController.toDTOs(coach.getModalities()));
+        return coachDTO;
     }
 
-    List<CoachDTO> toDTOs(List<Coach> administrators) {
-        return administrators.stream().map(this::toDTO).collect(Collectors.toList());
+    public static Set<CoachDTO> toDTOs(Collection<Coach> administrators) {
+        return administrators.stream().map(CoachController::toDTO).collect(Collectors.toSet());
     }
 
     @GET
     @Path("/")
-    public List<CoachDTO> all() {
+    public Set<CoachDTO> all() {
         try {
             return toDTOs(coachBean.all());
         } catch (Exception e) {

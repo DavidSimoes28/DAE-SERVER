@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "EchelonEJB")
 public class EchelonBean {
@@ -25,9 +26,9 @@ public class EchelonBean {
         return echelon;
     }
 
-    public List<Echelon> all() {
+    public Set<Echelon> all() {
         try {
-            return (List<Echelon>) em.createNamedQuery("getAllEchelons").getResultList();
+            return (Set<Echelon>) em.createNamedQuery("getAllEchelons").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_ECHELONS", e);
         }
