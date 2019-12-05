@@ -9,7 +9,7 @@ public class ModalityDTO implements Serializable {
     private String name;
     private int scheduleId;
     private Set<CoachDTO> coaches;
-    private Set<PartnerDTO> athletes;
+    private Set<AthleteDTO> athletes;
 
     public ModalityDTO() {
         coaches = new LinkedHashSet<>();
@@ -55,11 +55,11 @@ public class ModalityDTO implements Serializable {
         this.coaches = coaches;
     }
 
-    public Set<PartnerDTO> getAthletes() {
+    public Set<AthleteDTO> getAthletes() {
         return athletes;
     }
 
-    public void setAthletes(Set<PartnerDTO> athletes) {
+    public void setAthletes(Set<AthleteDTO> athletes) {
         this.athletes = athletes;
     }
 }

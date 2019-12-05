@@ -3,13 +3,16 @@ package ws;
 import dtos.AthleteDTO;
 import ejbs.AthleteBean;
 import entities.Athlete;
+import entities.Graduations;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/athletes")
@@ -20,22 +23,26 @@ import java.util.stream.Collectors;
 public class AthleteController {
     @EJB
     private AthleteBean athleteBean;
-    AthleteDTO toDTO(Athlete athlete) {
-        return new AthleteDTO(
+    public static AthleteDTO toDTO(Athlete athlete) {
+         AthleteDTO athleteDTO = new AthleteDTO(
                 athlete.getUsername(),
                 athlete.getPassword(),
                 athlete.getName(),
                 athlete.getEmail()
         );
+         athleteDTO.setModalities(ModalityController.toDTOs(athlete.getModalities()));
+         athleteDTO.setEchelons(EchelonController.toDTOs(athlete.getEchelons()));
+         athleteDTO.setGraduations(GraduationsController.toDTOs(athlete.getGraduations()));
+         return athleteDTO;
     }
 
-    List<AthleteDTO> toDTOs(List<Athlete> administrators) {
-        return administrators.stream().map(this::toDTO).collect(Collectors.toList());
+    public static Set<AthleteDTO> toDTOs(Collection<Athlete> administrators) {
+        return administrators.stream().map(AthleteController::toDTO).collect(Collectors.toSet());
     }
 
     @GET
     @Path("/")
-    public List<AthleteDTO> all() {
+    public Set<AthleteDTO> all() {
         try {
             return toDTOs(athleteBean.all());
         } catch (Exception e) {

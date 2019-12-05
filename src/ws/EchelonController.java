@@ -9,7 +9,9 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/echelons")
@@ -18,21 +20,22 @@ import java.util.stream.Collectors;
 public class EchelonController {
     @EJB
     EchelonBean echelonBean;
-    EchelonDTO toDTO(Echelon echelon) {
-        return new EchelonDTO(
+    public static EchelonDTO toDTO(Echelon echelon) {
+        EchelonDTO echelonDTO = new EchelonDTO(
                 echelon.getName(),
                 echelon.getInitialAge(),
                 echelon.getFinalAge()
         );
+        return echelonDTO;
     }
 
-    List<EchelonDTO> toDTOs(List<Echelon> echelons) {
-        return echelons.stream().map(this::toDTO).collect(Collectors.toList());
+    public static Set<EchelonDTO> toDTOs(Collection<Echelon> echelons) {
+        return echelons.stream().map(EchelonController::toDTO).collect(Collectors.toSet());
     }
 
     @GET
     @Path("/")
-    public List<EchelonDTO> all() {
+    public Set<EchelonDTO> all() {
         try {
             return toDTOs(echelonBean.all());
         } catch (Exception e) {

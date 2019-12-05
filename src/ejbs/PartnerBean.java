@@ -14,8 +14,7 @@ import java.util.List;
 public class PartnerBean {
     @PersistenceContext
     private EntityManager em;
-    @EJB
-    private ModalityBean modalityBean;
+
     public PartnerBean(){
 
     }
@@ -79,40 +78,6 @@ public class PartnerBean {
             return true;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_PARTNER");
-        }
-    }
-
-    public Partner enroll(int modalityId, String athleteUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Partner partner = find(athleteUsername);
-        try{
-            if (partner.getModalities().contains(modality) != modality.getAthletes().contains(partner)){
-                throw new EJBException("ERROR_FINDING_PARTNER");
-            }
-            partner.addModality(modality);
-            //modality.addPartner(partner);
-            em.merge(partner);
-            return partner;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_PARTNER", e);
-        }
-    }
-
-    public Partner unroll(int modalityId, String athleteUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Partner partner = find(athleteUsername);
-        try{
-            if (partner.getModalities().contains(modality) != modality.getAthletes().contains(partner)){
-                throw new EJBException("ERROR_FINDING_PARTNER");
-            }
-            partner.removeModality(modality);
-            //modality.removePartner(partner);
-            em.merge(partner);
-            return partner;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_PARTNER", e);
         }
     }
 }
