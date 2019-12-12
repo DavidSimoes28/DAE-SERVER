@@ -14,6 +14,11 @@ import java.util.Set;
 public class Athlete extends Partner{
     @OneToMany(mappedBy = "athlete", fetch = FetchType.EAGER)
     private Set<PracticedModality> modalities;
+    @ManyToMany
+    @JoinTable(name = "ATHLETES_CLASSES",
+            joinColumns = @JoinColumn(name = "COACHES_USERNAME", referencedColumnName = "USERNAME"),
+            inverseJoinColumns = @JoinColumn(name = "CLASSES_ID", referencedColumnName = "ID"))
+    private Set<Class> classes;
 
     public Athlete() {
         modalities = new LinkedHashSet<>();
@@ -38,5 +43,21 @@ public class Athlete extends Partner{
 
     public void removeModality(PracticedModality modality) {
         this.modalities.remove(modality);
+    }
+
+    public Set<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Set<Class> classes) {
+        this.classes = classes;
+    }
+
+    public void addClass(Class classes) {
+        this.classes.add(classes);
+    }
+
+    public void removeClass(Class classes) {
+        this.classes.remove(classes);
     }
 }
