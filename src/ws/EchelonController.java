@@ -54,7 +54,7 @@ public class EchelonController {
         }
     }
 
-    @POST
+    /*@POST
     @Path("/")
     public Response createNewAdministrator (EchelonDTO echelonDTO) throws Exception {
         echelonBean.create(echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
@@ -63,7 +63,7 @@ public class EchelonController {
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_ECHELON", e);
         }
-    }
+    }*/
 
     @PUT
     @Path("/{echelon}")

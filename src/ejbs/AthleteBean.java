@@ -1,8 +1,6 @@
 package ejbs;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import entities.Athlete;
-import entities.Modality;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -10,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Set;
 
 @Stateless(name = "AthleteEJB")
 public class AthleteBean {
@@ -84,39 +81,4 @@ public class AthleteBean {
             throw new Exception("ERROR_FINDING_ATHLETE");
         }
     }
-
-    public Athlete enroll(int modalityId, String athleteUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Athlete athlete = find(athleteUsername);
-        try{
-            if (athlete.getModalities().contains(modality) != modality.getAthletes().contains(athlete)){
-                throw new EJBException("ERROR_FINDING_ATHLETE");
-            }
-            athlete.addModality(modality);
-            modality.addAthlete(athlete);
-            em.merge(athlete);
-            return athlete;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_ATHLETE", e);
-        }
-    }
-
-    public Athlete unroll(int modalityId, String athleteUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Athlete athlete = find(athleteUsername);
-        try{
-            if (athlete.getModalities().contains(modality) != modality.getAthletes().contains(athlete)){
-                throw new EJBException("ERROR_FINDING_ATHLETE");
-            }
-            athlete.removeModality(modality);
-            modality.removeAthlete(athlete);
-            em.merge(athlete);
-            return athlete;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_ATHLETE", e);
-        }
-    }
-
 }

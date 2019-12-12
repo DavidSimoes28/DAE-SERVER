@@ -18,37 +18,52 @@ public class Modality implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @ManyToOne
-    private Schedule schedule;
     @ManyToMany
     @JoinTable(name = "MODALITIES_COACHES",
             joinColumns = @JoinColumn(name = "MODALITIES_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "COACHES_USERNAME", referencedColumnName = "USERNAME"))
     private Set<Coach> coaches;
+    @OneToMany(mappedBy = "modality")
+    private Set<PracticedModality> practicedModalities;
     @ManyToMany
-    @JoinTable(name = "MODALITIES_ATHELETES",
+    @JoinTable(name = "MODALITIES_SCHEDULES",
             joinColumns = @JoinColumn(name = "MODALITIES_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ATHELETES_USERNAME", referencedColumnName = "USERNAME"))
-    private Set<Athlete> athletes;
+            inverseJoinColumns = @JoinColumn(name = "SCHEDULE_ID", referencedColumnName = "ID"))
+    private Set<Schedule> schedules;
+    @OneToMany
+    private Set<Echelon> echelons;
+    @OneToMany
+    private Set<Graduations> graduations;
+    @OneToMany
+    private Set<TeachedModality> teachedModalities;
 
     public Modality() {
         coaches = new LinkedHashSet<>();
-        athletes = new LinkedHashSet<>();
+        practicedModalities = new LinkedHashSet<>();
+        schedules = new LinkedHashSet<>();
+        echelons = new LinkedHashSet<>();
+        graduations = new LinkedHashSet<>();
+        teachedModalities = new LinkedHashSet<>();
     }
 
     public Modality(String name) {
         this.name = name;
         coaches = new LinkedHashSet<>();
-        athletes = new LinkedHashSet<>();
+        practicedModalities = new LinkedHashSet<>();
+        schedules = new LinkedHashSet<>();
+        echelons = new LinkedHashSet<>();
+        graduations = new LinkedHashSet<>();
+        teachedModalities = new LinkedHashSet<>();
     }
 
-    public Modality(String name, Schedule schedule, Set<Coach> coaches, Set<Athlete> athletes) {
+    public Modality(String name, Set<Coach> coaches, Set<PracticedModality> practicedModalities, Set<Schedule> schedules, Set<Echelon> echelons, Set<Graduations> graduations, Set<TeachedModality> teachedModalities) {
         this.name = name;
-        this.schedule = schedule;
-        this.coaches = new LinkedHashSet<>();
-        this.athletes = new LinkedHashSet<>();
         this.coaches = coaches;
-        this.athletes = athletes;
+        this.practicedModalities = practicedModalities;
+        this.schedules = schedules;
+        this.echelons = echelons;
+        this.graduations = graduations;
+        this.teachedModalities = teachedModalities;
     }
 
     public int getId() {
@@ -67,14 +82,6 @@ public class Modality implements Serializable {
         this.name = name;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
-
     public Set<Coach> getCoaches() {
         return coaches;
     }
@@ -83,14 +90,21 @@ public class Modality implements Serializable {
         this.coaches = coaches;
     }
 
-    public Set<Athlete> getAthletes() {
-        return athletes;
+    public Set<PracticedModality> getPracticedModalities() {
+        return practicedModalities;
     }
 
-    public void setAthletes(Set<Athlete> athletes) {
-        this.athletes = athletes;
+    public void setPracticedModalities(Set<PracticedModality> practicedModalities) {
+        this.practicedModalities = practicedModalities;
     }
 
+    public void addPracticedModality(PracticedModality practicedModality) {
+        this.practicedModalities.add(practicedModality);
+    }
+
+    public void removePracticedModality(PracticedModality practicedModality) {
+        this.practicedModalities.remove(practicedModality);
+    }
     public void addCoach(Coach coach) {
         this.coaches.add(coach);
     }
@@ -99,12 +113,74 @@ public class Modality implements Serializable {
         this.coaches.remove(coach);
     }
 
-    public void addAthlete(Athlete athlete) {
-        this.athletes.add(athlete);
+    public void addAthlete(PracticedModality practicedModalities) {
+        this.practicedModalities.add(practicedModalities);
     }
 
-    public void removeAthlete(Athlete athlete) {
-        this.athletes.remove(athlete);
+    public void removeAthlete(PracticedModality practicedModalities) {
+        this.practicedModalities.remove(practicedModalities);
     }
 
+    public Set<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    public void addSchedule(Schedule schedule) {
+        this.schedules.add(schedule);
+    }
+    public void removeSchedule(Schedule schedule) {
+        this.schedules.remove(schedule);
+    }
+
+    public Set<Echelon> getEchelons() {
+        return echelons;
+    }
+
+    public void setEchelons(Set<Echelon> echelons) {
+        this.echelons = echelons;
+    }
+
+    public void addEchelon(Echelon echelon) {
+        this.echelons.add(echelon);
+    }
+
+    public void removeEchelon(Echelon echelon) {
+        this.echelons.remove(echelon);
+    }
+
+    public Set<Graduations> getGraduations() {
+        return graduations;
+    }
+
+    public void setGraduations(Set<Graduations> graduations) {
+        this.graduations = graduations;
+    }
+
+    public void addGraduation(Graduations graduation) {
+        this.graduations.add(graduation);
+    }
+
+    public void removeGraduation(Graduations graduation) {
+        this.graduations.remove(graduation);
+    }
+
+    public Set<TeachedModality> getTeachedModalities() {
+        return teachedModalities;
+    }
+
+    public void setTeachedModalities(Set<TeachedModality> teachedModalities) {
+        this.teachedModalities = teachedModalities;
+    }
+
+    public void addTeachedModalities(TeachedModality teachedModality) {
+        this.teachedModalities.add(teachedModality);
+    }
+
+    public void removeTeachedModalities(TeachedModality teachedModality) {
+        this.teachedModalities.remove(teachedModality);
+    }
 }

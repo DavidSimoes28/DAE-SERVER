@@ -18,17 +18,17 @@ public class Graduations implements Serializable {
     private String code;
     private String name;
     private int minimumAge;
-    @ManyToMany(mappedBy = "graduations")
-    private Set<Athlete> athletes;
+    @ManyToOne
+    private Modality modality;
 
     public Graduations(){
-        athletes = new LinkedHashSet<>();
     }
 
-    public Graduations(String code, String name, int minimumAge) {
+    public Graduations(String code, String name, int minimumAge, Modality modality) {
         this.code = code;
         this.name = name;
         this.minimumAge = minimumAge;
+        this.modality = modality;
     }
 
     public String getCode() {
@@ -55,11 +55,11 @@ public class Graduations implements Serializable {
         this.minimumAge = minimumAge;
     }
 
-    public Set<Athlete> getAthletes() {
-        return athletes;
+    public Modality getModality() {
+        return modality;
     }
 
-    public void setAthletes(Set<Athlete> athletes) {
-        this.athletes = athletes;
+    public void setModality(Modality modality) {
+        this.modality = modality;
     }
 }

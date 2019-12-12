@@ -79,38 +79,4 @@ public class CoachBean {
             throw new Exception("ERROR_FINDING_COACH");
         }
     }
-
-    public Coach enroll(int modalityId, String coachUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Coach coach = find(coachUsername);
-        try{
-            if (coach.getModalities().contains(modality) != modality.getCoaches().contains(coach)){
-                throw new EJBException("ERROR_FINDING_STUDENT");
-            }
-            coach.addModality(modality);
-            modality.addCoach(coach);
-            em.merge(coach);
-            return coach;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_STUDENT", e);
-        }
-    }
-
-    public Coach unroll(int modalityId, String coachUsername) throws Exception {
-
-        Modality modality = modalityBean.find(modalityId);
-        Coach coach = find(coachUsername);
-        try{
-            if (coach.getModalities().contains(modality) != modality.getCoaches().contains(coach)){
-                throw new EJBException("ERROR_FINDING_STUDENT");
-            }
-            coach.removeModality(modality);
-            modality.removeCoach(coach);
-            em.merge(coach);
-            return coach;
-        }catch (Exception e){
-            throw new EJBException("ERROR_FINDING_STUDENT", e);
-        }
-    }
 }

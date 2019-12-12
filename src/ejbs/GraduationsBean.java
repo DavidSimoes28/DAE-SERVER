@@ -1,7 +1,10 @@
 package ejbs;
 
 import entities.Graduations;
+import entities.Modality;
+import org.xml.sax.ext.DeclHandler;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,16 +16,21 @@ import java.util.Set;
 public class GraduationsBean {
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    private ModalityBean modalityBean;
 
     public GraduationsBean() {
     }
 
-    public Graduations create(String code, String name, int minimumAge) throws Exception {
+    public Graduations create(String code, String name, int minimumAge, int modality_id) throws Exception {
         if (find(code)!=null){
             throw new Exception("Graduation '" + code + "' already exists");
         }
-        Graduations graduations = new Graduations(code,name,minimumAge);
+
+        Modality modality = modalityBean.find(modality_id);
+        Graduations graduations = new Graduations(code,name,minimumAge,modality);
         em.persist(graduations);
+        modality.addGraduation(graduations);
         return graduations;
     }
 

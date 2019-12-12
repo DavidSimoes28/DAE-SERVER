@@ -1,7 +1,9 @@
 package ejbs;
 
 import entities.Echelon;
+import entities.Modality;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,16 +15,20 @@ import java.util.Set;
 public class EchelonBean {
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    private ModalityBean modalityBean;
 
     public EchelonBean() {
     }
 
-    public Echelon create(String name, int initialAge, int finalAge) throws Exception {
+    public Echelon create(String name, int initialAge, int finalAge, int modality_id) throws Exception {
         if (find(name)!=null){
             throw new Exception("Echelon '" + name + "' already exists");
         }
-        Echelon echelon = new Echelon(name,initialAge,finalAge);
+        Modality modality = modalityBean.find(modality_id);
+        Echelon echelon = new Echelon(name,initialAge,finalAge,modality);
         em.persist(echelon);
+        modality.addEchelon(echelon);
         return echelon;
     }
 

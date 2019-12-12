@@ -30,9 +30,9 @@ public class AthleteController {
                 athlete.getName(),
                 athlete.getEmail()
         );
-         athleteDTO.setModalities(ModalityController.toDTOs(athlete.getModalities()));
+         /*athleteDTO.setModalities(ModalityController.toDTOs(athlete.getModalities()));
          athleteDTO.setEchelons(EchelonController.toDTOs(athlete.getEchelons()));
-         athleteDTO.setGraduations(GraduationsController.toDTOs(athlete.getGraduations()));
+         athleteDTO.setGraduations(GraduationsController.toDTOs(athlete.getGraduations()));*/
          return athleteDTO;
     }
 
@@ -83,7 +83,7 @@ public class AthleteController {
         }
     }
 
-    @PUT
+    /*@PUT
     @Path("/{username}/enroll/{id}")
     public Response enrollAthleteModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
         Athlete athlete = athleteBean.enroll(modalityId,username);
@@ -92,9 +92,9 @@ public class AthleteController {
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_ATHLETE", e);
         }
-    }
+    }*/
 
-    @PUT
+    /*@PUT
     @Path("/{username}/unroll/{id}")
     public Response unrollAthleteModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
         Athlete athlete = athleteBean.unroll(modalityId,username);
@@ -103,7 +103,7 @@ public class AthleteController {
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_ATHLETE", e);
         }
-    }
+    }*/
 
     @DELETE
     @Path("/{username}")

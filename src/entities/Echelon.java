@@ -18,22 +18,19 @@ public class Echelon implements Serializable {
     private String name;
     private int initialAge;
     private int finalAge;
-    @ManyToMany
-    private Set<Coach> coaches;
-    @ManyToMany
-    private Set<Partner> partners;
+//    @ManyToMany
+//    private Set<Coach> coaches;
+    @ManyToOne
+    private Modality modality;
 
     public Echelon() {
-        coaches = new LinkedHashSet<>();
-        partners = new LinkedHashSet<>();
     }
 
-    public Echelon(String name, int initialAge, int finalAge) {
+    public Echelon(String name, int initialAge, int finalAge, Modality modality) {
         this.name = name;
         this.initialAge = initialAge;
         this.finalAge = finalAge;
-        coaches = new LinkedHashSet<>();
-        partners = new LinkedHashSet<>();
+        this.modality = modality;
     }
 
     public String getName() {
@@ -60,19 +57,11 @@ public class Echelon implements Serializable {
         this.finalAge = finalAge;
     }
 
-    public Set<Coach> getCoaches() {
-        return coaches;
+    public Modality getModality() {
+        return modality;
     }
 
-    public void setCoaches(Set<Coach> coaches) {
-        this.coaches = coaches;
-    }
-
-    public Set<Partner> getPartners() {
-        return partners;
-    }
-
-    public void setPartners(Set<Partner> partners) {
-        this.partners = partners;
+    public void setModality(Modality modality) {
+        this.modality = modality;
     }
 }

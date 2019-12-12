@@ -74,7 +74,7 @@ public class ScheduleBean {
             if(schedule == null){
                 throw new Exception("ERROR_FINDING_SCHEDULE");
             }
-            if(schedule.getModalities() == null){
+            if(schedule.getPracticedModalities() == null){
                 throw new Exception("ERROR_DELETING_SCHEDULE");
             }
 

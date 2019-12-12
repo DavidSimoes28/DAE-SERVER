@@ -12,28 +12,36 @@ import java.util.Set;
         )
 })
 public class Coach extends User {
-    @ManyToMany(mappedBy = "coaches", fetch = FetchType.EAGER)
-    private Set<Modality> modalities;
+    @OneToMany
+    private Set<TeachedModality> teachedModalities;
     @ManyToMany
     private Set<Echelon> echelons;
 
     public Coach() {
         echelons = new LinkedHashSet<>();
-        modalities = new LinkedHashSet<>();
+        teachedModalities = new LinkedHashSet<>();
     }
 
     public Coach(String username, String password, String name, String email) {
         super(username, password, name, email);
         echelons = new LinkedHashSet<>();
-        modalities = new LinkedHashSet<>();
+        teachedModalities = new LinkedHashSet<>();
     }
 
-    public Set<Modality> getModalities() {
-        return modalities;
+    public Set<TeachedModality> getTeachedModalities() {
+        return teachedModalities;
     }
 
-    public void setModalities(Set<Modality> modalities) {
-        this.modalities = modalities;
+    public void setTeachedModalities(Set<TeachedModality> teachedModalities) {
+        this.teachedModalities = teachedModalities;
+    }
+
+    public void addTeachedModalities(TeachedModality teachedModality) {
+        this.teachedModalities.add(teachedModality);
+    }
+
+    public void removeTeachedModalities(TeachedModality teachedModality) {
+        this.teachedModalities.remove(teachedModality);
     }
 
     public Set<Echelon> getEchelons() {
@@ -44,11 +52,4 @@ public class Coach extends User {
         this.echelons = echelons;
     }
 
-    public void addModality(Modality modality) {
-        modalities.add(modality);
-    }
-
-    public void removeModality(Modality modality) {
-        modalities.remove(modality);
-    }
 }

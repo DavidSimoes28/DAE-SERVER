@@ -29,7 +29,7 @@ public class CoachController {
                 coach.getEmail()
         );
         coachDTO.setEchelons(EchelonController.toDTOs(coach.getEchelons()));
-        coachDTO.setModalities(ModalityController.toDTOs(coach.getModalities()));
+        //coachDTO.setModalities(ModalityController.toDTOs(coach.getModalities()));
         return coachDTO;
     }
 
@@ -80,7 +80,7 @@ public class CoachController {
         }
     }
 
-    @PUT
+    /*@PUT
     @Path("/{username}/enroll/{id}")
     public Response enrollCoachModality (@PathParam("username") String username, @PathParam("id") int modalityId) throws Exception {
         Coach coach = coachBean.enroll(modalityId,username);
@@ -100,7 +100,7 @@ public class CoachController {
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_COACH", e);
         }
-    }
+    }*/
 
     @DELETE
     @Path("/{username}")

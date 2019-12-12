@@ -55,7 +55,7 @@ public class GraduationsController {
         }
     }
 
-    @POST
+    /*@POST
     @Path("/")
     public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
         graduationsBean.create(graduationsDTO.getCode(),graduationsDTO.getName(),graduationsDTO.getMinimumAge());
@@ -64,7 +64,7 @@ public class GraduationsController {
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_GRADUATION", e);
         }
-    }
+    }*/
 
     @PUT
     @Path("/{code}")

@@ -26,7 +26,7 @@ public class ModalityController {
                 modality.getId(),
                 modality.getName()
         );
-        modalityDTO.setAthletes(AthleteController.toDTOs(modality.getAthletes()));
+        //modalityDTO.setAthletes(AthleteController.toDTOs(modality.getAthletes()));
         modalityDTO.setCoaches(CoachController.toDTOs(modality.getCoaches()));
         return modalityDTO;
     }
