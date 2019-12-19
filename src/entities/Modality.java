@@ -10,6 +10,14 @@ import java.util.Set;
         @NamedQuery(
                 name = "getAllModalities",
                 query = "SELECT s FROM Modality s ORDER BY s.id"
+        ),
+        @NamedQuery(
+                name = "getActiveModalities",
+                query = "SELECT s FROM Modality s WHERE s.active = false ORDER BY s.id"
+        ),
+        @NamedQuery(
+                name = "getDeactivatedModalities",
+                query = "SELECT s FROM Modality s WHERE s.active = true ORDER BY s.id"
         )
 })
 @Table(name = "MODALITIES")
