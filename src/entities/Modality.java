@@ -36,6 +36,8 @@ public class Modality implements Serializable {
     private Set<Graduations> graduations;
     @OneToMany
     private Set<TeachedModality> teachedModalities;
+    private int sportYear;
+    private boolean active;
 
     public Modality() {
         coaches = new LinkedHashSet<>();
@@ -46,8 +48,10 @@ public class Modality implements Serializable {
         teachedModalities = new LinkedHashSet<>();
     }
 
-    public Modality(String name) {
+    public Modality(String name, int sportYear, boolean active) {
         this.name = name;
+        this.sportYear = sportYear;
+        this.active = active;
         coaches = new LinkedHashSet<>();
         practicedModalities = new LinkedHashSet<>();
         schedules = new LinkedHashSet<>();
@@ -182,5 +186,21 @@ public class Modality implements Serializable {
 
     public void removeTeachedModalities(TeachedModality teachedModality) {
         this.teachedModalities.remove(teachedModality);
+    }
+
+    public int getSportYear() {
+        return sportYear;
+    }
+
+    public void setSportYear(int sportYear) {
+        this.sportYear = sportYear;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

@@ -16,16 +16,20 @@ public class Coach extends User {
     private Set<TeachedModality> teachedModalities;
     @ManyToMany
     private Set<Echelon> echelons;
+    @OneToMany
+    private Set<Classes> classes;
 
     public Coach() {
         echelons = new LinkedHashSet<>();
         teachedModalities = new LinkedHashSet<>();
+        classes = new LinkedHashSet<>();
     }
 
     public Coach(String username, String password, String name, String email) {
         super(username, password, name, email);
         echelons = new LinkedHashSet<>();
         teachedModalities = new LinkedHashSet<>();
+        classes = new LinkedHashSet<>();
     }
 
     public Set<TeachedModality> getTeachedModalities() {
@@ -52,4 +56,19 @@ public class Coach extends User {
         this.echelons = echelons;
     }
 
+    public Set<Classes> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Set<Classes> classes) {
+        this.classes = classes;
+    }
+
+    public void addClasses(Classes classes) {
+        this.classes.add(classes);
+    }
+
+    public void removeClasses(Classes classes) {
+        this.classes.remove(classes);
+    }
 }

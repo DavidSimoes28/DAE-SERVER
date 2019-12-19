@@ -21,9 +21,9 @@ public class ProductBean {
     public ProductBean() {
     }
 
-    public Product create(String type, String description, Double value) throws Exception {
-        ProductType productType = productTypeBean.find(type);
-        Product product = new Product(productType,description,value);
+    public Product create(int type_id, String description, Double value,int stock) throws Exception {
+        ProductType productType = productTypeBean.find(type_id);
+        Product product = new Product(productType,description,value,stock,Product.class.getName());
         em.persist(product);
         return product;
     }
@@ -44,14 +44,14 @@ public class ProductBean {
         }
     }
 
-    public Product update(int id, String type, String description, Double value) throws Exception {
+    public Product update(int id, int type_id, String description, Double value, int stock) throws Exception {
         try{
             Product product = em.find(Product.class, id);
             if(product == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
             }
 
-            Product p1 = create(type,description,value);
+            Product p1 = create(type_id,description,value, stock);
             p1.setParentProduct(product);
             product.addChildrenProducts(p1);
 

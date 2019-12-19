@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 @NamedQueries({
         @NamedQuery(
@@ -25,12 +26,16 @@ public class Purchase {
     private Double price;
 
     public Purchase() {
+        payments = new LinkedHashSet<>();
+        products = new LinkedHashSet<>();
     }
 
     public Purchase(Partner partner, Date release_date, Double price) {
         this.partner = partner;
         this.release_date = release_date;
         this.price = price;
+        payments = new LinkedHashSet<>();
+        products = new LinkedHashSet<>();
     }
 
     public int getId() {
@@ -64,7 +69,6 @@ public class Purchase {
     public void removePayment(Payment payment) {
         this.payments.remove(payment);
     }
-
 
     public Set<Product> getProducts() {
         return products;

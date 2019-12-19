@@ -22,26 +22,30 @@ public class Product implements Serializable {
     @ManyToOne
     private ProductType type;
     private String description;
-    private Double value;
+    private Double valueInEur;
+    private int stock;
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Purchase> purchases;
     @ManyToOne
     private Product parentProduct;
     @OneToMany(mappedBy = "parentProduct")
     private List<Product> childrenProducts;
+    private String table_name;
 
     public Product() {
         this.purchases = new LinkedHashSet<>();
         this.childrenProducts = new ArrayList<>();
     }
 
-    public Product(ProductType type, String description, Double value) {
+    public Product(ProductType type, String description, Double value, int stock, String table_name) {
         this.type = type;
         this.description = description;
-        this.value = value;
+        this.valueInEur = value;
         this.parentProduct = null;
         this.purchases = new LinkedHashSet<>();
         this.childrenProducts = new ArrayList<>();
+        this.stock = stock;
+        this.table_name = table_name;
     }
 
     public int getId() {
@@ -68,12 +72,20 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getValueInEur() {
+        return valueInEur;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setValueInEur(Double value) {
+        this.valueInEur = value;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public Set<Purchase> getPurchases() {

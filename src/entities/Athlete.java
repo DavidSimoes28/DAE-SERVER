@@ -18,15 +18,17 @@ public class Athlete extends Partner{
     @JoinTable(name = "ATHLETES_CLASSES",
             joinColumns = @JoinColumn(name = "COACHES_USERNAME", referencedColumnName = "USERNAME"),
             inverseJoinColumns = @JoinColumn(name = "CLASSES_ID", referencedColumnName = "ID"))
-    private Set<Class> classes;
+    private Set<Classes> classes;
 
     public Athlete() {
         modalities = new LinkedHashSet<>();
+        classes = new LinkedHashSet<>();
     }
 
     public Athlete(String username, String password, String name, String email) {
-        super(username, password, name, email);
+        super(username, password, name, email,0.0);
         modalities = new LinkedHashSet<>();
+        classes = new LinkedHashSet<>();
     }
 
     public Set<PracticedModality> getModalities() {
@@ -45,19 +47,19 @@ public class Athlete extends Partner{
         this.modalities.remove(modality);
     }
 
-    public Set<Class> getClasses() {
+    public Set<Classes> getClasses() {
         return classes;
     }
 
-    public void setClasses(Set<Class> classes) {
+    public void setClasses(Set<Classes> classes) {
         this.classes = classes;
     }
 
-    public void addClass(Class classes) {
+    public void addClass(Classes classes) {
         this.classes.add(classes);
     }
 
-    public void removeClass(Class classes) {
+    public void removeClass(Classes classes) {
         this.classes.remove(classes);
     }
 }

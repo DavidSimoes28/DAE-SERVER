@@ -57,7 +57,7 @@ public class PartnerController {
         }
     }
 
-    @POST
+    /*@POST
     @Path("/")
     public Response createNewAthlete (PartnerDTO partnerDTO) throws Exception {
         partnerBean.create(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
@@ -66,7 +66,7 @@ public class PartnerController {
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_PARTNER", e);
         }
-    }
+    }*/
 
     @PUT
     @Path("/{username}")

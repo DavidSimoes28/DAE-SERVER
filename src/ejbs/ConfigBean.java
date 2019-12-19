@@ -63,12 +63,12 @@ public class ConfigBean {
             Administrator aaa = administratorBean.create("aaa", "aaa", "aaa", "aaa@aaa.aa");
             Coach john = coachBean.create("john","john","john","john@mail.com");
             Coach mary = coachBean.create("mary","mary","mary","mary@mail.com");
-            Modality judo = modalityBean.create("judo");
-            Modality football = modalityBean.create("football");
+            Modality judo = modalityBean.create("judo",2019,true);
+            Modality football = modalityBean.create("football",2019,true);
             Graduations graduations1 = graduationsBean.create( "grade 1","grade 1",10,judo.getId());
             Graduations graduations2 = graduationsBean.create( "grade 2","grade 2",13,football.getId());
             Athlete mark = athleteBean.create("mark", "mark", "mark", "mark@mail.com");
-            Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com");
+            Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com",15.0);
             State paid = stateBean.create("Paid");
             State not_paid = stateBean.create("Not Paid");
             State partial = stateBean.create("Partial");

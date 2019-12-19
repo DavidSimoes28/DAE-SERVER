@@ -14,6 +14,8 @@ import java.util.Set;
 @Entity
 public class ProductType implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String type;
     @OneToMany(mappedBy = "type")
     private Set<Product> products;
@@ -25,6 +27,14 @@ public class ProductType implements Serializable {
     public ProductType(String type) {
         this.type = type;
         this.products = new LinkedHashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getType() {

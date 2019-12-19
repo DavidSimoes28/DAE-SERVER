@@ -14,17 +14,26 @@ import java.util.Set;
 public class Partner extends User {
     @OneToMany(mappedBy = "partner", cascade = CascadeType.REMOVE)
     private Set<Purchase> purchases;
+    private Double quota;
 
 
     public Partner() {
         purchases = new LinkedHashSet<>();
     }
 
-    public Partner(String username, String password, String name, String email) {
+    public Partner(String username, String password, String name, String email,Double quota) {
         super(username, password, name, email);
+        this.quota = quota;
         purchases = new LinkedHashSet<>();
     }
 
+    public Double getQuota() {
+        return quota;
+    }
+
+    public void setQuota(Double quota) {
+        this.quota = quota;
+    }
 
     public Set<Purchase> getPurchases() {
         return purchases;

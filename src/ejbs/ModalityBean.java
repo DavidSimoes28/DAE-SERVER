@@ -22,8 +22,8 @@ public class ModalityBean {
     public ModalityBean() {
     }
 
-    public Modality create(String name) throws Exception {
-        Modality modality = new Modality(name);
+    public Modality create(String name, int sportYear, boolean active) throws Exception {
+        Modality modality = new Modality(name,sportYear,active);
         em.persist(modality);
         return modality;
     }

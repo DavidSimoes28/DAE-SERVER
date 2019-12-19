@@ -19,9 +19,6 @@ public class ProductTypeBean {
     }
 
     public ProductType create(String type) throws Exception {
-        if (find(type)!=null){
-            throw new Exception("Type of product '" + type + "' already exists");
-        }
         ProductType productType = new ProductType(type);
         em.persist(productType);
         return productType;
@@ -35,9 +32,9 @@ public class ProductTypeBean {
         }
     }
 
-    public ProductType find(String type) throws Exception {
+    public ProductType find(int id) throws Exception {
         try{
-            return em.find(ProductType.class, type);
+            return em.find(ProductType.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_PRODUCT_TYPE", e);
         }
