@@ -22,9 +22,6 @@ public class EchelonBean {
     }
 
     public Echelon create(String name, int initialAge, int finalAge, int modality_id) throws Exception {
-        if (find(name)!=null){
-            throw new Exception("Echelon '" + name + "' already exists");
-        }
         Modality modality = modalityBean.find(modality_id);
         Echelon echelon = new Echelon(name,initialAge,finalAge,modality);
         em.persist(echelon);
@@ -40,17 +37,17 @@ public class EchelonBean {
         }
     }
 
-    public Echelon find(String echelon) throws Exception {
+    public Echelon find(int id) throws Exception {
         try{
-            return em.find(Echelon.class, echelon);
+            return em.find(Echelon.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_ECHELON", e);
         }
     }
 
-    public Echelon update(String name, int initialAge, int finalAge) throws Exception {
+    public Echelon update(int id,String name, int initialAge, int finalAge) throws Exception {
         try{
-            Echelon echelon = em.find(Echelon.class, name);
+            Echelon echelon = em.find(Echelon.class, id);
 
             if(echelon == null){
                 throw new Exception("ERROR_FINDING_STATE");
@@ -65,9 +62,9 @@ public class EchelonBean {
         }
     }
 
-    public boolean delete(String name) throws Exception{
+    public boolean delete(int id) throws Exception{
         try{
-            Echelon echelon = em.find(Echelon.class, name);
+            Echelon echelon = em.find(Echelon.class, id);
 
             if(echelon == null){
                 throw new Exception("ERROR_FINDING_ECHELON");

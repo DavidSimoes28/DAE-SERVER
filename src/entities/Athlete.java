@@ -16,7 +16,7 @@ public class Athlete extends Partner{
     private Set<PracticedModality> modalities;
     @ManyToMany
     @JoinTable(name = "ATHLETES_CLASSES",
-            joinColumns = @JoinColumn(name = "COACHES_USERNAME", referencedColumnName = "USERNAME"),
+            joinColumns = @JoinColumn(name = "ATHLETES_USERNAME", referencedColumnName = "USERNAME"),
             inverseJoinColumns = @JoinColumn(name = "CLASSES_ID", referencedColumnName = "ID"))
     private Set<Classes> classes;
 

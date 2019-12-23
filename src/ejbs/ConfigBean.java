@@ -76,7 +76,7 @@ public class ConfigBean {
             Echelon echelon2 = echelonBean.create("Junior",15,17,judo.getId());
             Echelon echelon3 = echelonBean.create("Juvenil",13,14,football.getId());
 
-            practicedModalityBean.createWithEchelon(judo.getId(),echelon1.getName(),mark.getName());
+            practicedModalityBean.createWithEchelon(judo.getId(),echelon1.getId(),mark.getName());
 
         }catch (Exception e){
             logger.log(Level.SEVERE,e.getMessage());

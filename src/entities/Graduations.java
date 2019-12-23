@@ -15,6 +15,8 @@ import java.util.Set;
 @Table(name = "GRADUATIONS")
 public class Graduations implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String code;
     private String name;
     private int minimumAge;
@@ -29,6 +31,14 @@ public class Graduations implements Serializable {
         this.name = name;
         this.minimumAge = minimumAge;
         this.modality = modality;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCode() {

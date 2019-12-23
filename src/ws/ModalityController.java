@@ -27,7 +27,7 @@ public class ModalityController {
                 modality.getName()
         );
         //modalityDTO.setAthletes(AthleteController.toDTOs(modality.getAthletes()));
-        modalityDTO.setCoaches(CoachController.toDTOs(modality.getCoaches()));
+        //modalityDTO.setCoaches(CoachController.toDTOs(modality.getCoaches()));
         return modalityDTO;
     }
 
@@ -59,7 +59,7 @@ public class ModalityController {
     @POST
     @Path("/")
     public Response createNewAdministrator (ModalityDTO modalityDTO) throws Exception {
-        modalityBean.create( modalityDTO.getName());
+        //modalityBean.create( modalityDTO.getName());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {

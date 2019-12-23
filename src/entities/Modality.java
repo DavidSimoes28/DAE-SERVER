@@ -13,11 +13,11 @@ import java.util.Set;
         ),
         @NamedQuery(
                 name = "getActiveModalities",
-                query = "SELECT s FROM Modality s WHERE s.active = false ORDER BY s.id"
+                query = "SELECT s FROM Modality s WHERE s.active = true ORDER BY s.id"
         ),
         @NamedQuery(
                 name = "getDeactivatedModalities",
-                query = "SELECT s FROM Modality s WHERE s.active = true ORDER BY s.id"
+                query = "SELECT s FROM Modality s WHERE s.active = false ORDER BY s.id"
         )
 })
 @Table(name = "MODALITIES")
@@ -26,11 +26,6 @@ public class Modality implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @ManyToMany
-    @JoinTable(name = "MODALITIES_COACHES",
-            joinColumns = @JoinColumn(name = "MODALITIES_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "COACHES_USERNAME", referencedColumnName = "USERNAME"))
-    private Set<Coach> coaches;
     @OneToMany(mappedBy = "modality")
     private Set<PracticedModality> practicedModalities;
     @ManyToMany
@@ -48,7 +43,6 @@ public class Modality implements Serializable {
     private boolean active;
 
     public Modality() {
-        coaches = new LinkedHashSet<>();
         practicedModalities = new LinkedHashSet<>();
         schedules = new LinkedHashSet<>();
         echelons = new LinkedHashSet<>();
@@ -60,7 +54,6 @@ public class Modality implements Serializable {
         this.name = name;
         this.sportYear = sportYear;
         this.active = active;
-        coaches = new LinkedHashSet<>();
         practicedModalities = new LinkedHashSet<>();
         schedules = new LinkedHashSet<>();
         echelons = new LinkedHashSet<>();
@@ -68,9 +61,8 @@ public class Modality implements Serializable {
         teachedModalities = new LinkedHashSet<>();
     }
 
-    public Modality(String name, Set<Coach> coaches, Set<PracticedModality> practicedModalities, Set<Schedule> schedules, Set<Echelon> echelons, Set<Graduations> graduations, Set<TeachedModality> teachedModalities) {
+    public Modality(String name, Set<PracticedModality> practicedModalities, Set<Schedule> schedules, Set<Echelon> echelons, Set<Graduations> graduations, Set<TeachedModality> teachedModalities) {
         this.name = name;
-        this.coaches = coaches;
         this.practicedModalities = practicedModalities;
         this.schedules = schedules;
         this.echelons = echelons;
@@ -94,14 +86,6 @@ public class Modality implements Serializable {
         this.name = name;
     }
 
-    public Set<Coach> getCoaches() {
-        return coaches;
-    }
-
-    public void setCoaches(Set<Coach> coaches) {
-        this.coaches = coaches;
-    }
-
     public Set<PracticedModality> getPracticedModalities() {
         return practicedModalities;
     }
@@ -116,13 +100,6 @@ public class Modality implements Serializable {
 
     public void removePracticedModality(PracticedModality practicedModality) {
         this.practicedModalities.remove(practicedModality);
-    }
-    public void addCoach(Coach coach) {
-        this.coaches.add(coach);
-    }
-
-    public void removeCoach(Coach coach) {
-        this.coaches.remove(coach);
     }
 
     public void addAthlete(PracticedModality practicedModalities) {

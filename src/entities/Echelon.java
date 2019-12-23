@@ -15,6 +15,8 @@ import java.util.Set;
 @Table(name = "ECHELONS")
 public class Echelon implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String name;
     private int initialAge;
     private int finalAge;
@@ -31,6 +33,14 @@ public class Echelon implements Serializable {
         this.initialAge = initialAge;
         this.finalAge = finalAge;
         this.modality = modality;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

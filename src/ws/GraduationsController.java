@@ -45,9 +45,9 @@ public class GraduationsController {
     }
 
     @GET
-    @Path("{code}")
-    public Response getAdministratorDetails(@PathParam("code") String code) throws Exception {
-        Graduations graduations = graduationsBean.find(code);
+    @Path("{id}")
+    public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
+        Graduations graduations = graduationsBean.find(id);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(graduations)).build();
         } catch (Exception e) {
@@ -67,20 +67,20 @@ public class GraduationsController {
     }*/
 
     @PUT
-    @Path("/{code}")
+    @Path("/{id}")
     public Response updateAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        Graduations modality = graduationsBean.update(graduationsDTO.getCode(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
+        //Graduations modality = graduationsBean.update(graduationsDTO.getId(),graduationsDTO.getCode(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
         try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(modality)).build();
+            return Response.status(Response.Status.CREATED).build();//.entity(toDTO(modality)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_GRADUATION", e);
         }
     }
 
     @DELETE
-    @Path("/{code}")
-    public Response deleteAdministrator(@PathParam("code") String code) throws Exception {
-        graduationsBean.delete(code);
+    @Path("/{id}")
+    public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
+        graduationsBean.delete(id);
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {

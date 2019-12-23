@@ -23,10 +23,6 @@ public class GraduationsBean {
     }
 
     public Graduations create(String code, String name, int minimumAge, int modality_id) throws Exception {
-        if (find(code)!=null){
-            throw new Exception("Graduation '" + code + "' already exists");
-        }
-
         Modality modality = modalityBean.find(modality_id);
         Graduations graduations = new Graduations(code,name,minimumAge,modality);
         em.persist(graduations);
@@ -42,17 +38,17 @@ public class GraduationsBean {
         }
     }
 
-    public Graduations find(String echelon) throws Exception {
+    public Graduations find(int id) throws Exception {
         try{
-            return em.find(Graduations.class, echelon);
+            return em.find(Graduations.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_GRADUATION", e);
         }
     }
 
-    public Graduations update(String code, String name, int minimumAge) throws Exception {
+    public Graduations update(int id,String code, String name, int minimumAge) throws Exception {
         try{
-            Graduations graduations = em.find(Graduations.class, code);
+            Graduations graduations = em.find(Graduations.class, id);
 
             if(graduations == null){
                 throw new Exception("ERROR_FINDING_GRADUATION");
@@ -67,9 +63,9 @@ public class GraduationsBean {
         }
     }
 
-    public boolean delete(String code) throws Exception{
+    public boolean delete(int id) throws Exception{
         try{
-            Graduations graduations = em.find(Graduations.class, code);
+            Graduations graduations = em.find(Graduations.class, id);
 
             if(graduations == null){
                 throw new Exception("ERROR_FINDING_GRADUATION");

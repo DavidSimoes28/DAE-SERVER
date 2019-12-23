@@ -44,9 +44,9 @@ public class EchelonController {
     }
 
     @GET
-    @Path("{echelon}")
-    public Response getAdministratorDetails(@PathParam("echelon") String echelon) throws Exception {
-        Echelon echelon1 = echelonBean.find(echelon);
+    @Path("{id}")
+    public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
+        Echelon echelon1 = echelonBean.find(id);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(echelon1)).build();
         } catch (Exception e) {
@@ -66,20 +66,20 @@ public class EchelonController {
     }*/
 
     @PUT
-    @Path("/{echelon}")
+    @Path("/{id}")
     public Response updateAdministrator (EchelonDTO echelonDTO) throws Exception {
-        Echelon echelon = echelonBean.update(echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
+        //Echelon echelon = echelonBean.update(echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
         try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(echelon)).build();
+            return Response.status(Response.Status.CREATED).build();//.entity(toDTO(echelon)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_ECHELON", e);
         }
     }
 
     @DELETE
-    @Path("/{echelon}")
-    public Response deleteAdministrator(@PathParam("echelon") String echelon) throws Exception {
-        echelonBean.delete(echelon);
+    @Path("/{id}")
+    public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
+        echelonBean.delete(id);
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
