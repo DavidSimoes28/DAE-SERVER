@@ -71,9 +71,9 @@ public class GraduationsController {
     @PUT
     @Path("/{id}")
     public Response updateAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        //Graduations modality = graduationsBean.update(graduationsDTO.getId(),graduationsDTO.getCode(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
+        Graduations graduations = graduationsBean.update(graduationsDTO.getId(),graduationsDTO.getCode(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
         try{
-            return Response.status(Response.Status.CREATED).build();//.entity(toDTO(modality)).build();
+            return Response.status(Response.Status.CREATED).entity(toDTO(graduations)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_GRADUATION", e);
         }

@@ -22,9 +22,11 @@ public class EchelonController {
     EchelonBean echelonBean;
     public static EchelonDTO toDTO(Echelon echelon) {
         EchelonDTO echelonDTO = new EchelonDTO(
+                echelon.getId(),
                 echelon.getName(),
                 echelon.getInitialAge(),
-                echelon.getFinalAge()
+                echelon.getFinalAge(),
+                ModalityController.toDTO(echelon.getModality())
         );
         return echelonDTO;
     }
@@ -68,9 +70,9 @@ public class EchelonController {
     @PUT
     @Path("/{id}")
     public Response updateAdministrator (EchelonDTO echelonDTO) throws Exception {
-        //Echelon echelon = echelonBean.update(echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
+        Echelon echelon = echelonBean.update(echelonDTO.getId(),echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
         try{
-            return Response.status(Response.Status.CREATED).build();//.entity(toDTO(echelon)).build();
+            return Response.status(Response.Status.CREATED).entity(toDTO(echelon)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_ECHELON", e);
         }
