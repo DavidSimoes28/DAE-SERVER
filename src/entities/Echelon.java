@@ -20,8 +20,6 @@ public class Echelon implements Serializable {
     private String name;
     private int initialAge;
     private int finalAge;
-//    @ManyToMany
-//    private Set<Coach> coaches;
     @ManyToOne
     private Modality modality;
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class CoachDTO extends UserDTO {
-    private List<ModalityDTO> modalities;
+    private List<TeachedModalityDTO> modalities;
     private List<EchelonDTO> echelons;
 
     public CoachDTO() {
@@ -20,11 +20,11 @@ public class CoachDTO extends UserDTO {
         modalities = new ArrayList<>();
     }
 
-    public List<ModalityDTO> getModalities() {
+    public List<TeachedModalityDTO> getModalities() {
         return modalities;
     }
 
-    public void setModalities(List<ModalityDTO> modalities) {
+    public void setModalities(List<TeachedModalityDTO> modalities) {
         this.modalities = modalities;
     }
 

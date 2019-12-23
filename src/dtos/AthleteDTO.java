@@ -1,54 +1,37 @@
 package dtos;
 
-import entities.Graduations;
-
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AthleteDTO extends PartnerDTO {
-    private List<EchelonDTO> echelons;
-    private List<GraduationsDTO> graduations;
-    private List<ModalityDTO> modalities;
+    private List<PracticedModalityDTO> modalities;
+    private List<ClassesDTO> classes;
 
 
     public AthleteDTO() {
-        echelons = new ArrayList<>();
-        graduations = new ArrayList<>();
+        classes = new ArrayList<>();
         modalities = new ArrayList<>();
     }
 
     public AthleteDTO(String username, String password, String name, String email) {
         super(username, password, name, email);
-        //this.modalityID = modalityID;
-        echelons = new ArrayList<>();
-        graduations = new ArrayList<>();
+        classes = new ArrayList<>();
         modalities = new ArrayList<>();
     }
 
-    public List<EchelonDTO> getEchelons() {
-        return echelons;
-    }
-
-    public void setEchelons(List<EchelonDTO> echelons) {
-        this.echelons = echelons;
-    }
-
-    public List<GraduationsDTO> getGraduations() {
-        return graduations;
-    }
-
-    public void setGraduations(List<GraduationsDTO> graduations) {
-        this.graduations = graduations;
-    }
-
-    public List<ModalityDTO> getModalities() {
+    public List<PracticedModalityDTO> getModalities() {
         return modalities;
     }
 
-    public void setModalities(List<ModalityDTO> modalities) {
+    public void setModalities(List<PracticedModalityDTO> modalities) {
         this.modalities = modalities;
     }
 
+    public List<ClassesDTO> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<ClassesDTO> classes) {
+        this.classes = classes;
+    }
 }
