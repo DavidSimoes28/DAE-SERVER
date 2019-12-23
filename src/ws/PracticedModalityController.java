@@ -2,6 +2,7 @@ package ws;
 
 import dtos.PracticedModalityDTO;
 import ejbs.PracticedModalityBean;
+import entities.Modality;
 import entities.PracticedModality;
 import entities.Schedule;
 
@@ -23,10 +24,10 @@ public class PracticedModalityController {
     PracticedModalityDTO toDTO(PracticedModality practicedModality) {
         PracticedModalityDTO practicedModalityDTO = new PracticedModalityDTO(
                 practicedModality.getId(),
-                practicedModality.getModality().getId(),
-                practicedModality.getEchelon().getId(),
-                practicedModality.getGraduations().getId(),
-                practicedModality.getAthlete().getUsername()
+                ModalityController.toDTO(practicedModality.getModality()),
+                EchelonController.toDTO(practicedModality.getEchelon()),
+                GraduationsController.toDTO(practicedModality.getGraduations()),
+                AthleteController.toDTO(practicedModality.getAthlete())
         );
         //practicedModalityDTO.setSchedules(ScheduleController.toDTOs(practicedModality.getSchedules()));
         return practicedModalityDTO;
@@ -60,7 +61,7 @@ public class PracticedModalityController {
     @POST
     @Path("/")
     public Response createNewCoach (PracticedModalityDTO practicedModalityDTO) throws Exception {
-        practicedModalityBean.create(practicedModalityDTO.getModality(),practicedModalityDTO.getEchelon(),practicedModalityDTO.getGraduations(),practicedModalityDTO.getAthlete());
+        practicedModalityBean.create(practicedModalityDTO.getModality().getId(),practicedModalityDTO.getEchelon().getId(),practicedModalityDTO.getGraduations().getId(),practicedModalityDTO.getAthlete().getUsername());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
@@ -71,7 +72,7 @@ public class PracticedModalityController {
     @PUT
     @Path("/{id}")
     public Response updateCoach (PracticedModalityDTO practicedModalityDTO) throws Exception {
-        PracticedModality practicedModality = practicedModalityBean.update(practicedModalityDTO.getId(),practicedModalityDTO.getEchelon(),practicedModalityDTO.getGraduations());
+        PracticedModality practicedModality = practicedModalityBean.update(practicedModalityDTO.getId(),practicedModalityDTO.getEchelon().getId(),practicedModalityDTO.getGraduations().getId());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(practicedModality)).build();
         } catch (Exception e) {

@@ -9,20 +9,20 @@ import java.util.Set;
 public class ModalityDTO implements Serializable {
     private int id;
     private String name;
-    private int scheduleId;
-    private List<CoachDTO> coaches;
-    private List<AthleteDTO> athletes;
+    private List<ScheduleDTO> scheduleDTOS;
+    private int sportYear;
+    private boolean active;
 
     public ModalityDTO() {
-        coaches = new ArrayList<>();
-        athletes = new ArrayList<>();
+        scheduleDTOS = new ArrayList<>();
     }
 
-    public ModalityDTO(int id, String name) {
+    public ModalityDTO(int id, String name, int sportYear, boolean active) {
         this.id = id;
         this.name = name;
-        coaches = new ArrayList<>();
-        athletes = new ArrayList<>();
+        this.sportYear = sportYear;
+        this.active = active;
+        scheduleDTOS = new ArrayList<>();
     }
 
     public int getId() {
@@ -41,27 +41,27 @@ public class ModalityDTO implements Serializable {
         this.name = name;
     }
 
-    public int getScheduleId() {
-        return scheduleId;
+    public int getSportYear() {
+        return sportYear;
     }
 
-    public void setScheduleId(int scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setSportYear(int sportYear) {
+        this.sportYear = sportYear;
     }
 
-    public List<CoachDTO> getCoaches() {
-        return coaches;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setCoaches(List<CoachDTO> coaches) {
-        this.coaches = coaches;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public List<AthleteDTO> getAthletes() {
-        return athletes;
+    public List<ScheduleDTO> getScheduleDTOS() {
+        return scheduleDTOS;
     }
 
-    public void setAthletes(List<AthleteDTO> athletes) {
-        this.athletes = athletes;
+    public void setScheduleDTOS(List<ScheduleDTO> scheduleDTOS) {
+        this.scheduleDTOS = scheduleDTOS;
     }
 }

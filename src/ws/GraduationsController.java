@@ -23,9 +23,11 @@ public class GraduationsController {
 
     public static GraduationsDTO toDTO(Graduations graduations) {
         GraduationsDTO graduationsDTO = new GraduationsDTO(
+                graduations.getId(),
                 graduations.getCode(),
                 graduations.getName(),
-                graduations.getMinimumAge()
+                graduations.getMinimumAge(),
+                ModalityController.toDTO(graduations.getModality())
         );
         return graduationsDTO;
     }
@@ -55,16 +57,16 @@ public class GraduationsController {
         }
     }
 
-    /*@POST
+    @POST
     @Path("/")
     public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        graduationsBean.create(graduationsDTO.getCode(),graduationsDTO.getName(),graduationsDTO.getMinimumAge());
+        graduationsBean.create(graduationsDTO.getCode(),graduationsDTO.getName(),graduationsDTO.getMinimumAge(),graduationsDTO.getModalityDTO().getId());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_GRADUATION", e);
         }
-    }*/
+    }
 
     @PUT
     @Path("/{id}")

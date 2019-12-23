@@ -4,17 +4,17 @@ import java.util.Set;
 
 public class PracticedModalityDTO {
 
-    int id;
-    private int modality;
-    private int echelon;
-    private int graduations;
-    private String athlete;
+    private int id;
+    private ModalityDTO modality;
+    private EchelonDTO echelon;
+    private GraduationsDTO graduations;
+    private AthleteDTO athlete;
     private Set<ScheduleDTO> schedules;
 
     public PracticedModalityDTO() {
     }
 
-    public PracticedModalityDTO(int id, int modality, int echelon, int graduations, String athlete) {
+    public PracticedModalityDTO(int id, ModalityDTO modality, EchelonDTO echelon, GraduationsDTO graduations, AthleteDTO athlete) {
         this.id = id;
         this.modality = modality;
         this.echelon = echelon;
@@ -30,35 +30,35 @@ public class PracticedModalityDTO {
         this.id = id;
     }
 
-    public int getModality() {
+    public ModalityDTO getModality() {
         return modality;
     }
 
-    public void setModality(int modality) {
+    public void setModality(ModalityDTO modality) {
         this.modality = modality;
     }
 
-    public int getEchelon() {
+    public EchelonDTO getEchelon() {
         return echelon;
     }
 
-    public void setEchelon(int echelon) {
+    public void setEchelon(EchelonDTO echelon) {
         this.echelon = echelon;
     }
 
-    public int getGraduations() {
+    public GraduationsDTO getGraduations() {
         return graduations;
     }
 
-    public void setGraduations(int graduations) {
+    public void setGraduations(GraduationsDTO graduations) {
         this.graduations = graduations;
     }
 
-    public String getAthlete() {
+    public AthleteDTO getAthlete() {
         return athlete;
     }
 
-    public void setAthlete(String athlete) {
+    public void setAthlete(AthleteDTO athlete) {
         this.athlete = athlete;
     }
 

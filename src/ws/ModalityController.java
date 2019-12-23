@@ -24,7 +24,9 @@ public class ModalityController {
     public static ModalityDTO toDTO(Modality modality) {
         ModalityDTO modalityDTO = new ModalityDTO(
                 modality.getId(),
-                modality.getName()
+                modality.getName(),
+                modality.getSportYear(),
+                modality.isActive()
         );
         //modalityDTO.setAthletes(AthleteController.toDTOs(modality.getAthletes()));
         //modalityDTO.setCoaches(CoachController.toDTOs(modality.getCoaches()));
@@ -59,7 +61,7 @@ public class ModalityController {
     @POST
     @Path("/")
     public Response createNewAdministrator (ModalityDTO modalityDTO) throws Exception {
-        //modalityBean.create( modalityDTO.getName());
+        modalityBean.create(modalityDTO.getName(),modalityDTO.getSportYear(),modalityDTO.isActive());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
