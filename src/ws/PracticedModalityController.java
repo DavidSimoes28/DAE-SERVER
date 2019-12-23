@@ -29,7 +29,7 @@ public class PracticedModalityController {
                 GraduationsController.toDTO(practicedModality.getGraduations()),
                 AthleteController.toDTO(practicedModality.getAthlete())
         );
-        //practicedModalityDTO.setSchedules(ScheduleController.toDTOs(practicedModality.getSchedules()));
+        practicedModalityDTO.setSchedules(ScheduleController.toDTOs(practicedModality.getSchedules()));
         return practicedModalityDTO;
     }
 

@@ -1,6 +1,6 @@
 package dtos;
 
-import java.util.Set;
+import java.util.List;
 
 public class PracticedModalityDTO {
 
@@ -9,7 +9,7 @@ public class PracticedModalityDTO {
     private EchelonDTO echelon;
     private GraduationsDTO graduations;
     private AthleteDTO athlete;
-    private Set<ScheduleDTO> schedules;
+    private List<ScheduleDTO> schedules;
 
     public PracticedModalityDTO() {
     }
@@ -62,11 +62,11 @@ public class PracticedModalityDTO {
         this.athlete = athlete;
     }
 
-    public Set<ScheduleDTO> getSchedules() {
+    public List<ScheduleDTO> getSchedules() {
         return schedules;
     }
 
-    public void setSchedules(Set<ScheduleDTO> schedules) {
+    public void setSchedules(List<ScheduleDTO> schedules) {
         this.schedules = schedules;
     }
 }
