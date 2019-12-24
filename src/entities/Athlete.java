@@ -15,8 +15,8 @@ public class Athlete extends Partner{
     @OneToMany(mappedBy = "athlete", fetch = FetchType.EAGER)
     private Set<PracticedModality> modalities;
     @ManyToMany
-    @JoinTable(name = "ATHLETES_CLASSES",
-            joinColumns = @JoinColumn(name = "ATHLETES_USERNAME", referencedColumnName = "USERNAME"),
+    @JoinTable(name = "USERS_CLASSES",
+            joinColumns = @JoinColumn(name = "USER_USERNAME", referencedColumnName = "USERNAME"),
             inverseJoinColumns = @JoinColumn(name = "CLASSES_ID", referencedColumnName = "ID"))
     private Set<Classes> classes;
 
