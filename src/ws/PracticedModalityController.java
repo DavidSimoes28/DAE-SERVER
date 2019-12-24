@@ -11,6 +11,7 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ public class PracticedModalityController {
     @EJB
     private PracticedModalityBean practicedModalityBean;
 
-    PracticedModalityDTO toDTO(PracticedModality practicedModality) {
+    public static PracticedModalityDTO toDTO(PracticedModality practicedModality) {
         PracticedModalityDTO practicedModalityDTO = new PracticedModalityDTO(
                 practicedModality.getId(),
                 ModalityController.toDTO(practicedModality.getModality()),
@@ -33,8 +34,8 @@ public class PracticedModalityController {
         return practicedModalityDTO;
     }
 
-    List<PracticedModalityDTO> toDTOs(List<PracticedModality> practicedModalities) {
-        return practicedModalities.stream().map(this::toDTO).collect(Collectors.toList());
+    public static List<PracticedModalityDTO> toDTOs(Collection<PracticedModality> practicedModalities) {
+        return practicedModalities.stream().map(PracticedModalityController::toDTO).collect(Collectors.toList());
     }
 
     @GET

@@ -9,12 +9,20 @@ import java.util.Set;
 public class ModalityDTO implements Serializable {
     private int id;
     private String name;
+    private List<PracticedModalityDTO> practicedModalities;
+    private List<EchelonDTO> echelons;
+    private List<GraduationsDTO> graduations;
+    private List<TeachedModalityDTO> teachedModalities;
     private List<ScheduleDTO> scheduleDTOS;
     private int sportYear;
     private boolean active;
 
     public ModalityDTO() {
         scheduleDTOS = new ArrayList<>();
+        echelons = new ArrayList<>();
+        graduations = new ArrayList<>();
+        teachedModalities = new ArrayList<>();
+        practicedModalities = new ArrayList<>();
     }
 
     public ModalityDTO(int id, String name, int sportYear, boolean active) {
@@ -23,6 +31,10 @@ public class ModalityDTO implements Serializable {
         this.sportYear = sportYear;
         this.active = active;
         scheduleDTOS = new ArrayList<>();
+        echelons = new ArrayList<>();
+        graduations = new ArrayList<>();
+        teachedModalities = new ArrayList<>();
+        practicedModalities = new ArrayList<>();
     }
 
     public int getId() {
@@ -63,5 +75,37 @@ public class ModalityDTO implements Serializable {
 
     public void setScheduleDTOS(List<ScheduleDTO> scheduleDTOS) {
         this.scheduleDTOS = scheduleDTOS;
+    }
+
+    public List<PracticedModalityDTO> getPracticedModalities() {
+        return practicedModalities;
+    }
+
+    public void setPracticedModalities(List<PracticedModalityDTO> practicedModalities) {
+        this.practicedModalities = practicedModalities;
+    }
+
+    public List<EchelonDTO> getEchelons() {
+        return echelons;
+    }
+
+    public void setEchelons(List<EchelonDTO> echelons) {
+        this.echelons = echelons;
+    }
+
+    public List<GraduationsDTO> getGraduations() {
+        return graduations;
+    }
+
+    public void setGraduations(List<GraduationsDTO> graduations) {
+        this.graduations = graduations;
+    }
+
+    public List<TeachedModalityDTO> getTeachedModalities() {
+        return teachedModalities;
+    }
+
+    public void setTeachedModalities(List<TeachedModalityDTO> teachedModalities) {
+        this.teachedModalities = teachedModalities;
     }
 }

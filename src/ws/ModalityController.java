@@ -28,8 +28,11 @@ public class ModalityController {
                 modality.getSportYear(),
                 modality.isActive()
         );
-        //modalityDTO.setAthletes(AthleteController.toDTOs(modality.getAthletes()));
-        //modalityDTO.setCoaches(CoachController.toDTOs(modality.getCoaches()));
+        modalityDTO.setScheduleDTOS(ScheduleController.toDTOs(modality.getSchedules()));
+        modalityDTO.setEchelons(EchelonController.toDTOs(modality.getEchelons()));
+        modalityDTO.setGraduations(GraduationsController.toDTOs(modality.getGraduations()));
+        modalityDTO.setPracticedModalities(PracticedModalityController.toDTOs(modality.getPracticedModalities()));
+        modalityDTO.setTeachedModalities(TeachedModalityController.toDTOs(modality.getTeachedModalities()));
         return modalityDTO;
     }
 

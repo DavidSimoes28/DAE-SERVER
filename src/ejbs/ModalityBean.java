@@ -1,14 +1,13 @@
 package ejbs;
 
-import entities.Coach;
-import entities.Modality;
+import entities.*;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.security.auth.Subject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,6 +40,31 @@ public class ModalityBean {
             return em.find(Modality.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_ADMINISTRATOR", e);
+        }
+    }
+
+    public List<Athlete> getAllAthleteWhoPracticedAModality(int id) throws Exception {
+        try{
+            List<Athlete> athletes = new ArrayList<>();
+            Modality modality = em.find(Modality.class, id);
+            for (PracticedModality practicedModality : modality.getPracticedModalities()) {
+                athletes.add(practicedModality.getAthlete());
+            }
+            if(athletes.isEmpty()){
+                return null;
+            }
+            return athletes;
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
+        }
+    }
+
+    public Set<Schedule> getModalitySchedules(int id) throws Exception {
+        try{
+            Modality modality = em.find(Modality.class, id);
+            return modality.getSchedules();
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
         }
     }
 

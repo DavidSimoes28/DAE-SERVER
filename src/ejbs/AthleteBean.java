@@ -1,13 +1,17 @@
 package ejbs;
 
 import entities.Athlete;
+import entities.Modality;
+import entities.PracticedModality;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "AthleteEJB")
 public class AthleteBean {
@@ -25,8 +29,6 @@ public class AthleteBean {
             throw new Exception("Username '" + username + "' already exists");
         }
         Athlete athlete = new Athlete(username,password,name,email);
-        //Modality modality = modalityBean.find(modalityID);
-        //athlete.addModality(modality);
         em.persist(athlete);
         return athlete;
     }
@@ -42,6 +44,44 @@ public class AthleteBean {
     public Athlete find(String username) throws Exception {
         try{
             return em.find(Athlete.class, username);
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
+        }
+    }
+
+    public Set<PracticedModality> getAllPracticedModalityByAthlete(String username) throws Exception {
+        try{
+            return em.find(Athlete.class, username).getModalities();
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
+        }
+    }
+
+    public PracticedModality findPracticedModalityByAthlete(String username, int id) throws Exception {
+        try{
+            Athlete athlete = em.find(Athlete.class, username);
+            for (PracticedModality practicedModality : athlete.getModalities()) {
+                if(practicedModality.getId() == id){
+                    return practicedModality;
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
+        }
+    }
+
+    public List<Modality> getAllModalityPracticedByAthlete(String username, int id) throws Exception {
+        try{
+            List<Modality> modalities = new ArrayList<>();
+            Athlete athlete = em.find(Athlete.class, username);
+            for (PracticedModality practicedModality : athlete.getModalities()) {
+                modalities.add(practicedModality.getModality());
+            }
+            if(modalities.isEmpty()){
+                return null;
+            }
+            return modalities;
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_ATHLETE", e);
         }
