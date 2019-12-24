@@ -2,8 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -22,6 +20,8 @@ public class Payment implements Serializable {
     private int quantity;
     @ManyToOne
     private State state;
+    @OneToOne
+    public Receipt receipt;
 
     public Payment() {
     }
@@ -62,5 +62,13 @@ public class Payment implements Serializable {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Receipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
     }
 }

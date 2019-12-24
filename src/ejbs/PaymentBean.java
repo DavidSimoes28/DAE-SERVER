@@ -3,6 +3,7 @@ package ejbs;
 import entities.Payment;
 import entities.Purchase;
 import entities.State;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -40,11 +41,11 @@ public class PaymentBean {
         }
     }
 
-    public Payment find(int id) throws Exception {
+    public Payment find(int id) throws MyEntityNotFoundException {
         try{
             return em.find(Payment.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_PRODUCT", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRODUCT");
         }
     }
 
