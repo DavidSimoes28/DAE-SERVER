@@ -24,7 +24,6 @@ public class GraduationsController {
     public static GraduationsDTO toDTO(Graduations graduations) {
         GraduationsDTO graduationsDTO = new GraduationsDTO(
                 graduations.getId(),
-                graduations.getCode(),
                 graduations.getName(),
                 graduations.getMinimumAge(),
                 ModalityController.toDTO(graduations.getModality())
@@ -60,7 +59,7 @@ public class GraduationsController {
     @POST
     @Path("/")
     public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        graduationsBean.create(graduationsDTO.getCode(),graduationsDTO.getName(),graduationsDTO.getMinimumAge(),graduationsDTO.getModalityDTO().getId());
+        graduationsBean.create(graduationsDTO.getName(),graduationsDTO.getMinimumAge(),graduationsDTO.getModalityDTO().getId());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
@@ -71,7 +70,7 @@ public class GraduationsController {
     @PUT
     @Path("/{id}")
     public Response updateAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        Graduations graduations = graduationsBean.update(graduationsDTO.getId(),graduationsDTO.getCode(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
+        Graduations graduations = graduationsBean.update(graduationsDTO.getId(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(graduations)).build();
         } catch (Exception e) {

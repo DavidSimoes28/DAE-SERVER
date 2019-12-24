@@ -22,7 +22,7 @@ public class Purchase {
     private Set<Payment> payments;
     @ManyToMany
     private Set<Product> products;
-    private Date release_date;
+    private Date releaseDate;
     private Double price;
 
     public Purchase() {
@@ -30,9 +30,9 @@ public class Purchase {
         products = new LinkedHashSet<>();
     }
 
-    public Purchase(Partner partner, Date release_date, Double price) {
+    public Purchase(Partner partner, Date releaseDate, Double price) {
         this.partner = partner;
-        this.release_date = release_date;
+        this.releaseDate = releaseDate;
         this.price = price;
         payments = new LinkedHashSet<>();
         products = new LinkedHashSet<>();
@@ -86,12 +86,12 @@ public class Purchase {
         this.products.remove(product);
     }
 
-    public Date getRelease_date() {
-        return release_date;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(Date release_date) {
-        this.release_date = release_date;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Double getPrice() {

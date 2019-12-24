@@ -26,10 +26,14 @@ public class Schedule implements Serializable {
     @ManyToMany(mappedBy = "schedules")
     private Set<PracticedModality> practicedModalities;
     @ManyToMany(mappedBy = "schedules")
+    private Set<TeachedModality> teachedModalities;
+    @ManyToMany(mappedBy = "schedules")
     private Set<Modality> modalities;
 
     public Schedule() {
         this.practicedModalities = new LinkedHashSet<>();
+        this.teachedModalities = new LinkedHashSet<>();
+        this.modalities = new LinkedHashSet<>();
     }
 
     public Schedule(DayOfWeek dayOfWeek, HourTime startDate, HourTime endDate) {
@@ -37,6 +41,8 @@ public class Schedule implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.practicedModalities = new LinkedHashSet<>();
+        this.teachedModalities = new LinkedHashSet<>();
+        this.modalities = new LinkedHashSet<>();
     }
 
     public int getId() {
@@ -101,5 +107,20 @@ public class Schedule implements Serializable {
 
     public void removeModality(Modality modality) {
         this.modalities.remove(modality);
+    }
+
+    public Set<TeachedModality> getTeachedModalities() {
+        return teachedModalities;
+    }
+
+    public void setTeachedModalities(Set<TeachedModality> teachedModalities) {
+        this.teachedModalities = teachedModalities;
+    }
+
+    public void addTeachedModality(TeachedModality teachedModality) {
+        this.teachedModalities.add(teachedModality);
+    }
+    public void removeTeachedModality(TeachedModality teachedModality) {
+        this.teachedModalities.remove(teachedModality);
     }
 }

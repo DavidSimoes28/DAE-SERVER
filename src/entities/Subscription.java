@@ -23,28 +23,28 @@ public class Subscription {
     @ManyToOne
     @Nullable
     private Graduations graduations;
-    private Date subscription_date;
-    private Double subscription_price;
+    private Date subscriptionDate;
+    private Double subscriptionPrice;
 
     public Subscription() {
     }
 
-    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Graduations graduations, Date subscription_date, Double subscription_price) {
+    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Graduations graduations, Date subscriptionDate, Double subscriptionPrice) {
         this.athlete = athlete;
         this.modality = modality;
         this.schedule = schedule;
         this.graduations = graduations;
-        this.subscription_date = subscription_date;
-        this.subscription_price = subscription_price;
+        this.subscriptionDate = subscriptionDate;
+        this.subscriptionPrice = subscriptionPrice;
     }
 
-    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Echelon echelon, Date subscription_date, Double subscription_price) {
+    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Echelon echelon, Date subscriptionDate, Double subscriptionPrice) {
         this.athlete = athlete;
         this.modality = modality;
         this.schedule = schedule;
         this.echelon = echelon;
-        this.subscription_date = subscription_date;
-        this.subscription_price = subscription_price;
+        this.subscriptionDate = subscriptionDate;
+        this.subscriptionPrice = subscriptionPrice;
     }
 
     public int getId() {
@@ -95,19 +95,19 @@ public class Subscription {
         this.graduations = graduations;
     }
 
-    public Date getSubscription_date() {
-        return subscription_date;
+    public Date getSubscriptionDate() {
+        return subscriptionDate;
     }
 
-    public void setSubscription_date(Date subscription_date) {
-        this.subscription_date = subscription_date;
+    public void setSubscriptionDate(Date subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
     }
 
-    public Double getSubscription_price() {
-        return subscription_price;
+    public Double getSubscriptionPrice() {
+        return subscriptionPrice;
     }
 
-    public void setSubscription_price(Double subscription_price) {
-        this.subscription_price = subscription_price;
+    public void setSubscriptionPrice(Double subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllGraduations",
-                query = "SELECT a FROM Graduations a ORDER BY a.code"
+                query = "SELECT a FROM Graduations a ORDER BY a.id"
         )
 })
 @Entity
@@ -17,7 +17,6 @@ public class Graduations implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String code;
     private String name;
     private int minimumAge;
     @ManyToOne
@@ -26,8 +25,7 @@ public class Graduations implements Serializable {
     public Graduations(){
     }
 
-    public Graduations(String code, String name, int minimumAge, Modality modality) {
-        this.code = code;
+    public Graduations(String name, int minimumAge, Modality modality) {
         this.name = name;
         this.minimumAge = minimumAge;
         this.modality = modality;
@@ -39,14 +37,6 @@ public class Graduations implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {

@@ -22,9 +22,9 @@ public class GraduationsBean {
     public GraduationsBean() {
     }
 
-    public Graduations create(String code, String name, int minimumAge, int modality_id) throws Exception {
+    public Graduations create( String name, int minimumAge, int modality_id) throws Exception {
         Modality modality = modalityBean.find(modality_id);
-        Graduations graduations = new Graduations(code,name,minimumAge,modality);
+        Graduations graduations = new Graduations(name,minimumAge,modality);
         em.persist(graduations);
         modality.addGraduation(graduations);
         return graduations;
@@ -46,7 +46,7 @@ public class GraduationsBean {
         }
     }
 
-    public Graduations update(int id,String code, String name, int minimumAge) throws Exception {
+    public Graduations update(int id, String name, int minimumAge) throws Exception {
         try{
             Graduations graduations = em.find(Graduations.class, id);
 

@@ -10,21 +10,21 @@ public class SubscriptionDTO implements Serializable {
     private ScheduleDTO schedule;
     private EchelonDTO echelon;
     private GraduationsDTO graduations;
-    private Date subscription_date;
-    private Double subscription_price;
+    private Date subscriptionDate;
+    private Double subscriptionPrice;
 
     public SubscriptionDTO() {
     }
 
-    public SubscriptionDTO(int id, AthleteDTO athlete, ModalityDTO modality, ScheduleDTO schedule, EchelonDTO echelon, GraduationsDTO graduations, Date subscription_date, Double subscription_price) {
+    public SubscriptionDTO(int id, AthleteDTO athlete, ModalityDTO modality, ScheduleDTO schedule, EchelonDTO echelon, GraduationsDTO graduations, Date subscriptionDate, Double subscriptionPrice) {
         this.id = id;
         this.athlete = athlete;
         this.modality = modality;
         this.schedule = schedule;
         this.echelon = echelon;
         this.graduations = graduations;
-        this.subscription_date = subscription_date;
-        this.subscription_price = subscription_price;
+        this.subscriptionDate = subscriptionDate;
+        this.subscriptionPrice = subscriptionPrice;
     }
 
     public int getId() {
@@ -75,19 +75,19 @@ public class SubscriptionDTO implements Serializable {
         this.graduations = graduations;
     }
 
-    public Date getSubscription_date() {
-        return subscription_date;
+    public Date getSubscriptionDate() {
+        return subscriptionDate;
     }
 
-    public void setSubscription_date(Date subscription_date) {
-        this.subscription_date = subscription_date;
+    public void setSubscriptionDate(Date subscription_date) {
+        this.subscriptionDate = subscription_date;
     }
 
-    public Double getSubscription_price() {
-        return subscription_price;
+    public Double getSubscriptionPrice() {
+        return subscriptionPrice;
     }
 
-    public void setSubscription_price(Double subscription_price) {
-        this.subscription_price = subscription_price;
+    public void setSubscription_price(Double subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
     }
 }

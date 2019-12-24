@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Set;
 @NamedQueries({
         @NamedQuery(
@@ -22,11 +23,13 @@ public class TeachedModality implements Serializable {
     private Set<Schedule> schedules;
 
     public TeachedModality() {
+        this.schedules = new LinkedHashSet<>();
     }
 
     public TeachedModality(Modality modality, Coach coach) {
         this.modality = modality;
         this.coach = coach;
+        this.schedules = new LinkedHashSet<>();
     }
 
     public int getId() {

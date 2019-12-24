@@ -2,7 +2,6 @@ package dtos;
 
 public class GraduationsDTO {
     private int id;
-    private String code;
     private String name;
     private int minimumAge;
     private ModalityDTO modalityDTO;
@@ -10,9 +9,8 @@ public class GraduationsDTO {
     public GraduationsDTO() {
     }
 
-    public GraduationsDTO(int id, String code, String name, int minimumAge, ModalityDTO modalityDTO) {
+    public GraduationsDTO(int id, String name, int minimumAge, ModalityDTO modalityDTO) {
         this.id = id;
-        this.code = code;
         this.name = name;
         this.minimumAge = minimumAge;
         this.modalityDTO = modalityDTO;
@@ -24,14 +22,6 @@ public class GraduationsDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {

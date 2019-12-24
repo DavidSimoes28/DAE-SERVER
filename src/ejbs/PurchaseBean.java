@@ -21,9 +21,9 @@ public class PurchaseBean {
 
     public PurchaseBean() {
     }
-    public Purchase create(String username, Date release_date, Double price) throws Exception {
+    public Purchase create(String username, Date releaseDate, Double price) throws Exception {
         Partner partner = partnerBean.find(username);
-        Purchase purchase = new Purchase(partner,release_date,price);
+        Purchase purchase = new Purchase(partner,releaseDate,price);
         em.persist(purchase);
         return purchase;
     }
@@ -44,14 +44,14 @@ public class PurchaseBean {
         }
     }
 
-    public Purchase update(int id, Date release_date, Double price) throws Exception {
+    public Purchase update(int id, Date releaseDate, Double price) throws Exception {
         try{
             Purchase purchase = em.find(Purchase.class, id);
             if(purchase == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
             }
 
-            purchase.setRelease_date(release_date);
+            purchase.setReleaseDate(releaseDate);
             purchase.setPrice(price);
             em.merge(purchase);
             return purchase;
