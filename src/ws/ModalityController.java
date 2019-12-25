@@ -1,14 +1,19 @@
 package ws;
 
 import dtos.ModalityDTO;
+import ejbs.AthleteBean;
 import ejbs.ModalityBean;
+import entities.Athlete;
 import entities.Modality;
+import entities.PracticedModality;
+import entities.Schedule;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +26,8 @@ import java.util.stream.Collectors;
 public class ModalityController {
     @EJB
     private ModalityBean modalityBean;
+    @EJB
+    private AthleteBean athleteBean;
     public static ModalityDTO toDTO(Modality modality) {
         ModalityDTO modalityDTO = new ModalityDTO(
                 modality.getId(),
@@ -41,13 +48,17 @@ public class ModalityController {
         modalityDTO.setSchedules(ScheduleController.toDTOs(modality.getSchedules()));
         modalityDTO.setEchelons(EchelonController.toDTOs(modality.getEchelons()));
         modalityDTO.setGraduations(GraduationsController.toDTOs(modality.getGraduations()));
-        modalityDTO.setPracticedModalities(PracticedModalityController.toDTOs(modality.getPracticedModalities()));
-        modalityDTO.setTeachedModalities(TeachedModalityController.toDTOs(modality.getTeachedModalities()));
+        modalityDTO.setAthletes(AthleteController.toDTOs(modality.getModalityAthletes()));
+        modalityDTO.setCoaches(CoachController.toDTOs(modality.getModalityCoaches()));
         return modalityDTO;
     }
 
     public static List<ModalityDTO> toDTOs(Collection<Modality> modalities) {
         return modalities.stream().map(ModalityController::toDTO).collect(Collectors.toList());
+    }
+
+    public static List<ModalityDTO> toDTOsDetails(Collection<Modality> modalities) {
+        return modalities.stream().map(ModalityController::toDTODetails).collect(Collectors.toList());
     }
 
     @GET
@@ -71,23 +82,43 @@ public class ModalityController {
         }
     }
 
+    @GET
+    @Path("{id}/{username}/schedules")
+    public Response getPracticedDetails(@PathParam("id") int id,@PathParam("username") String username) throws Exception {
+        Modality modality = modalityBean.find(id);
+        Athlete athlete = athleteBean.find(username);
+        List<Schedule> schedules = new ArrayList<>();
+        for (PracticedModality practicedModality : athlete.getPracticedModalities()) {
+            if(practicedModality.getModality().getId() == modality.getId()){
+                for (Schedule schedule : practicedModality.getSchedules()) {
+                    schedules.add(schedule);
+                }
+            }
+        }
+        try{
+            return Response.status(Response.Status.OK).entity(ScheduleController.toDTOs(schedules)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_COACHES", e);
+        }
+    }
+
     @POST
     @Path("/")
     public Response createNewAdministrator (ModalityDTO modalityDTO) throws Exception {
         modalityBean.create(modalityDTO.getName(),modalityDTO.getSportYear(),modalityDTO.isActive());
         try{
-            return Response.status(Response.Status.CREATED).build();
+            return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_MODALITY", e);
         }
     }
 
     @PUT
-    @Path("/{username}")
+    @Path("/{id}")
     public Response updateAdministrator (ModalityDTO modalityDTO) throws Exception {
         Modality modality = modalityBean.update(modalityDTO.getId(), modalityDTO.getName());
         try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(modality)).build();
+            return Response.status(Response.Status.OK).entity(toDTO(modality)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_MODALITY", e);
         }
@@ -98,7 +129,7 @@ public class ModalityController {
     public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
         modalityBean.delete(id);
         try{
-            return Response.status(Response.Status.CREATED).build();
+            return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_DELETING_MODALITY", e);
         }

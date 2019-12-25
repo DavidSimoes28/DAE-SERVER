@@ -2,14 +2,15 @@ package ws;
 
 import dtos.AthleteDTO;
 import ejbs.AthleteBean;
-import entities.Athlete;
-import entities.Graduations;
+import entities.*;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.naming.ldap.PagedResultsControl;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -30,10 +31,31 @@ public class AthleteController {
                 athlete.getName(),
                 athlete.getEmail()
         );
-         /*athleteDTO.setModalities(ModalityController.toDTOs(athlete.getModalities()));
-         athleteDTO.setEchelons(EchelonController.toDTOs(athlete.getEchelons()));
-         athleteDTO.setGraduations(GraduationsController.toDTOs(athlete.getGraduations()));*/
          return athleteDTO;
+    }
+
+    public static AthleteDTO toDTODetails(Athlete athlete) {
+        AthleteDTO athleteDTO = new AthleteDTO(
+                athlete.getUsername(),
+                athlete.getPassword(),
+                athlete.getName(),
+                athlete.getEmail()
+        );
+
+        Set<Modality> modalities = athlete.getModalities();
+        if(modalities != null){
+            athleteDTO.setModalities(ModalityController.toDTOs(modalities));
+        }
+        Set<Echelon> echelons = athlete.getEchelons();
+        if(echelons != null){
+            athleteDTO.setEchelons(EchelonController.toDTOs(echelons));
+        }
+        Set<Graduations> graduations = athlete.getGraduations();
+        if(graduations != null){
+            athleteDTO.setGraduations(GraduationsController.toDTOs(graduations));
+        }
+         //athlete.setClasses();
+        return athleteDTO;
     }
 
     public static List<AthleteDTO> toDTOs(Collection<Athlete> administrators) {
@@ -55,7 +77,7 @@ public class AthleteController {
     public Response getAdministratorDetails(@PathParam("username") String username) throws Exception {
         Athlete athlete = athleteBean.find(username);
         try{
-            return Response.status(Response.Status.OK).entity(toDTO(athlete/*,null*/)).build();
+            return Response.status(Response.Status.OK).entity(toDTODetails(athlete)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_ATHLETES", e);
         }

@@ -1,0 +1,49 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+
+
+### Get JWT token
+POST http://localhost:8080/SportsClubManagement_war_exploded/api/login/token
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=admin
+
+### Who am I?
+GET http://localhost:8080/AcademicManagement_war_exploded/api/login/claims
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJoaSIsImlzcyI6InF1aWNrc3RhcnQtand0LWlzc3VlciIsImF1ZCI6Imp3dC1hdWRpZW5jZSIsImdyb3VwcyI6WyJTdHVkZW50Il0sImV4cCI6MTU3MzE2MjgyM30.agKyddo-iQO5AJQT2ix0vydJEaBSugS318qhrXyuIQbfGnjOrUs8WVobRYifka1L3wpcCdsJqG47LIaV2iOJrrXuFmNdUYGGmAioqub0NeEToI5OdziV4eKQquA0zvadDSj1NvhU7O9yHezgXZ_7Oi6NEy0u1mwpOnAb0iunL8O4L15mzqGQI0zsTTXOfyHZuC1xrkseWxcxdixBFDdMpU7sqs3P45ucZaUS_crBeC7iGgvt_mtmJJIto-vn4ZLB0zIA6Dvu_jEGi2u9B2OOIMSbpY0zPwF2AzO2cKKtQF876TwgPR_o88C_nL81bLGdqle6VbdChVrrRk6xcgsP2g
+
+##### Get students list
+GET http://localhost:8080/AcademicManagement_war_exploded/api/students/
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmb28iLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiU3R1ZGVudCJdLCJleHAiOjE1NzMxNjM1NzF9.NNXSZdrnuVSXCcemXd5eeumyUSUoA8Z8haXbjKMVwUuWiBVOnnfgPny2ur0kIEAVjSyZsCUtGkFBaBTWb66RL0hHRyluRexDPXTJL09BzzLm-oVAD-VaIjXQLvKnXhtruVSLml_f2g3z-TI_Pg7wifPV1GMCzfVdrM0auHZaZnL7uZBvqmBrvOhZZfwLvnKwMFPIXOVRANpzRFqCpCToRlVoFaZSvguLN3PpAfPLOe09evjS5LGE8US4pPSyeMgMCot8PUSXhtwyo1A3tjYoN788ATAu2Nz6E32U-3-qpSKDsw2blaf84IZrVVv1Hau4GM4i9cT_yFh0S-FIZV2FiA
+### Create new student
+POST http://localhost:8080/AcademicManagement_war_exploded/api/students
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhYmMiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiVGVhY2hlciJdLCJleHAiOjE1NzMxNTk1ODl9.bxYsUgqhKD5fm8wlHwzF9pyOPPKTOaMfDNTZP5wpTjcZ1tB27ltY3NDtSmAGBRfxnBHiqDT5ExI9Z8fAxANTWLHcJuoEB-CFA8P_PgeUqV6FjqpZJPV47Z-DNdgHehRa3T0sDiskcq9gVAsOGO-8ofQDbh2PGQX0Q6gFOObVARPqkOJFMwd6bakZWG3J3n9TP7zqq_7qTu9X_edyMbpYvvCu31OxBhq40SmnciyDFoWgzOZp2V_xK2Ni90qv6iY2nk7BOWjnnaZy9ohBEze31X9GNrleGcj-NQ4l0xi37eepAZZ09fIZ_A8VP1ClK6jGJMbNXVekRsS-2D5Iye2ywQ
+{ "email": "dae.ei.ipleiria@gmail.com",
+ "name": "Jane Doe",
+ "username": "1234567",
+ "password": "aaaaa",
+ "courseCode":"1",
+"courseName": "EI",
+"subjects" :[]
+ }
+### Enroll student in a subject - run after the previous POST
+PUT http://localhost:8080/AcademicManagement_war_exploded/api/students/1234567/subjects/enroll/1
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhYmMiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiVGVhY2hlciJdLCJleHAiOjE1NzMxNTk1ODl9.bxYsUgqhKD5fm8wlHwzF9pyOPPKTOaMfDNTZP5wpTjcZ1tB27ltY3NDtSmAGBRfxnBHiqDT5ExI9Z8fAxANTWLHcJuoEB-CFA8P_PgeUqV6FjqpZJPV47Z-DNdgHehRa3T0sDiskcq9gVAsOGO-8ofQDbh2PGQX0Q6gFOObVARPqkOJFMwd6bakZWG3J3n9TP7zqq_7qTu9X_edyMbpYvvCu31OxBhq40SmnciyDFoWgzOZp2V_xK2Ni90qv6iY2nk7BOWjnnaZy9ohBEze31X9GNrleGcj-NQ4l0xi37eepAZZ09fIZ_A8VP1ClK6jGJMbNXVekRsS-2D5Iye2ywQ
+### Get a student’s details
+GET http://localhost:8080/AcademicManagement_war_exploded/api/students/foo
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmb28iLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiU3R1ZGVudCJdLCJleHAiOjE1NzMxNjMzNzN9.Aaf0mgM4BGjrtry8ZtBlCSN27w7muVb-noSKER8j0V-ToXpShz0f_O7nnK-Zy1ec72NEYng9JNaUO26HtTKTAE3LQdTiy9A3LZmDNUZACngrDUjIviWlucdwznbvLnCvoW_tP-URWUItoA3DbIg9a5FL4eaEubxECSbaJKhaW24jFUudo7tFSYgdIiCvPq-UHI4pyR1pENw3tPgMLk_xGMtaQQL1boGwV0Vey-VbpONVgHwX35l62yaZJCvUQnQhnH-xmD1zMpbW25jqUtuWrlSohQuAYrzSNQax-_AtKPhqfapxLDex5iPi2ek2KGGF03yAo7bsbu8UFtXkNdSz2g
+### Delete a student - run after the previous POST
+DELETE http://localhost:8080/AcademicManagement_war_exploded/api/students/foo
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhYmMiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiVGVhY2hlciJdLCJleHAiOjE1NzMxNTk1ODl9.bxYsUgqhKD5fm8wlHwzF9pyOPPKTOaMfDNTZP5wpTjcZ1tB27ltY3NDtSmAGBRfxnBHiqDT5ExI9Z8fAxANTWLHcJuoEB-CFA8P_PgeUqV6FjqpZJPV47Z-DNdgHehRa3T0sDiskcq9gVAsOGO-8ofQDbh2PGQX0Q6gFOObVARPqkOJFMwd6bakZWG3J3n9TP7zqq_7qTu9X_edyMbpYvvCu31OxBhq40SmnciyDFoWgzOZp2V_xK2Ni90qv6iY2nk7BOWjnnaZy9ohBEze31X9GNrleGcj-NQ4l0xi37eepAZZ09fIZ_A8VP1ClK6jGJMbNXVekRsS-2D5Iye2ywQ
+###

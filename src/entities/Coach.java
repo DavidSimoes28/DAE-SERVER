@@ -72,10 +72,11 @@ public class Coach extends User {
         this.classes.remove(classes);
     }
 
-    public Set<Modality> getModalities(Set<TeachedModality> teachedModalities){
+    public Set<Modality> getModalities(){
         Set<Modality> modalities = new LinkedHashSet<>();
         for (TeachedModality teachedModality : teachedModalities) {
-            modalities.add(teachedModality.getModality());
+            if(teachedModality.getCoach()!=null)
+                modalities.add(teachedModality.getModality());
         }
         return modalities;
     }

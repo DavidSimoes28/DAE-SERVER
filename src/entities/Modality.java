@@ -2,7 +2,9 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -187,5 +189,23 @@ public class Modality implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Set<Athlete> getModalityAthletes() {
+        Set<Athlete> athletes = new LinkedHashSet<>();
+        for (PracticedModality practicedModality : practicedModalities) {
+            if (practicedModality.getAthlete()!=null)
+                athletes.add(practicedModality.getAthlete());
+        }
+        return athletes;
+    }
+
+    public Set<Coach> getModalityCoaches() {
+        Set<Coach> coaches = new LinkedHashSet<>();
+        for (TeachedModality teachedModality : teachedModalities) {
+            if (teachedModality.getCoach()!=null)
+                coaches.add(teachedModality.getCoach());
+        }
+        return coaches;
     }
 }

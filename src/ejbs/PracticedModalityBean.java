@@ -36,7 +36,7 @@ public class PracticedModalityBean {
         PracticedModality practicedModality = new PracticedModality(modality,echelon,graduations,athlete);
         em.persist(practicedModality);
         modality.addPracticedModality(practicedModality);
-        athlete.addModality(practicedModality);
+        athlete.addPracticedModality(practicedModality);
         return practicedModality;
     }
 
@@ -48,7 +48,7 @@ public class PracticedModalityBean {
         PracticedModality practicedModality = new PracticedModality(modality,echelon,athlete);
         em.persist(practicedModality);
         modality.addPracticedModality(practicedModality);
-        athlete.addModality(practicedModality);
+        athlete.addPracticedModality(practicedModality);
         return practicedModality;
     }
 
@@ -60,7 +60,7 @@ public class PracticedModalityBean {
         PracticedModality practicedModality = new PracticedModality(modality,graduations,athlete);
         em.persist(practicedModality);
         modality.addPracticedModality(practicedModality);
-        athlete.addModality(practicedModality);
+        athlete.addPracticedModality(practicedModality);
         return practicedModality;
     }
 

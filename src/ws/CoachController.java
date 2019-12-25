@@ -39,7 +39,7 @@ public class CoachController {
                 coach.getEmail()
         );
         coachDTO.setEchelons(EchelonController.toDTOs(coach.getEchelons()));
-        coachDTO.setModalities(TeachedModalityController.toDTOs(coach.getTeachedModalities()));
+        coachDTO.setModalities(ModalityController.toDTOs(coach.getModalities()));
         return coachDTO;
     }
 

@@ -51,7 +51,7 @@ public class AthleteBean {
 
     public Set<PracticedModality> getAllPracticedModalityByAthlete(String username) throws Exception {
         try{
-            return em.find(Athlete.class, username).getModalities();
+            return em.find(Athlete.class, username).getPracticedModalities();
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_ATHLETE", e);
         }
@@ -60,7 +60,7 @@ public class AthleteBean {
     public PracticedModality findPracticedModalityByAthlete(String username, int id) throws Exception {
         try{
             Athlete athlete = em.find(Athlete.class, username);
-            for (PracticedModality practicedModality : athlete.getModalities()) {
+            for (PracticedModality practicedModality : athlete.getPracticedModalities()) {
                 if(practicedModality.getId() == id){
                     return practicedModality;
                 }
@@ -75,7 +75,7 @@ public class AthleteBean {
         try{
             List<Modality> modalities = new ArrayList<>();
             Athlete athlete = em.find(Athlete.class, username);
-            for (PracticedModality practicedModality : athlete.getModalities()) {
+            for (PracticedModality practicedModality : athlete.getPracticedModalities()) {
                 modalities.add(practicedModality.getModality());
             }
             if(modalities.isEmpty()){
