@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/PracticedModality")
+@Path("/practicedModalities")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 public class PracticedModalityController {
@@ -23,13 +23,33 @@ public class PracticedModalityController {
     private PracticedModalityBean practicedModalityBean;
 
     public static PracticedModalityDTO toDTO(PracticedModality practicedModality) {
-        PracticedModalityDTO practicedModalityDTO = new PracticedModalityDTO(
-                practicedModality.getId(),
-                ModalityController.toDTO(practicedModality.getModality()),
-                EchelonController.toDTO(practicedModality.getEchelon()),
-                GraduationsController.toDTO(practicedModality.getGraduations()),
-                AthleteController.toDTO(practicedModality.getAthlete())
-        );
+        PracticedModalityDTO practicedModalityDTO = null;
+        if(practicedModality.getGraduations() == null){
+            practicedModalityDTO = new PracticedModalityDTO(
+                    practicedModality.getId(),
+                    practicedModality.getModality().getId(),
+                    practicedModality.getEchelon().getId(),
+                    -1,
+                    practicedModality.getAthlete().getUsername()
+            );
+        }
+        else if(practicedModality.getEchelon() == null){
+            practicedModalityDTO = new PracticedModalityDTO(
+                    practicedModality.getId(),
+                    practicedModality.getModality().getId(),
+                    -1,
+                    practicedModality.getGraduations().getId(),
+                    practicedModality.getAthlete().getUsername()
+            );
+        }else {
+            practicedModalityDTO = new PracticedModalityDTO(
+                    practicedModality.getId(),
+                    practicedModality.getModality().getId(),
+                    practicedModality.getEchelon().getId(),
+                    practicedModality.getGraduations().getId(),
+                    practicedModality.getAthlete().getUsername()
+            );
+        }
         practicedModalityDTO.setSchedules(ScheduleController.toDTOs(practicedModality.getSchedules()));
         return practicedModalityDTO;
     }
@@ -62,7 +82,7 @@ public class PracticedModalityController {
     @POST
     @Path("/")
     public Response createNewCoach (PracticedModalityDTO practicedModalityDTO) throws Exception {
-        practicedModalityBean.create(practicedModalityDTO.getModality().getId(),practicedModalityDTO.getEchelon().getId(),practicedModalityDTO.getGraduations().getId(),practicedModalityDTO.getAthlete().getUsername());
+        practicedModalityBean.create(practicedModalityDTO.getModalityId(),practicedModalityDTO.getEchelonId(),practicedModalityDTO.getGraduationsId(),practicedModalityDTO.getAthleteUsername());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
@@ -73,7 +93,7 @@ public class PracticedModalityController {
     @PUT
     @Path("/{id}")
     public Response updateCoach (PracticedModalityDTO practicedModalityDTO) throws Exception {
-        PracticedModality practicedModality = practicedModalityBean.update(practicedModalityDTO.getId(),practicedModalityDTO.getEchelon().getId(),practicedModalityDTO.getGraduations().getId());
+        PracticedModality practicedModality = practicedModalityBean.update(practicedModalityDTO.getId(),practicedModalityDTO.getEchelonId(),practicedModalityDTO.getGraduationsId());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(practicedModality)).build();
         } catch (Exception e) {

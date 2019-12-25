@@ -5,17 +5,17 @@ import java.util.List;
 
 public class TeachedModalityDTO implements Serializable {
     private int id;
-    private ModalityDTO modality;
-    private CoachDTO coach;
+    private int modalityId;
+    private String coachUsername;
     private List<ScheduleDTO> schedules;
 
     public TeachedModalityDTO() {
     }
 
-    public TeachedModalityDTO(int id, ModalityDTO modality, CoachDTO coach) {
+    public TeachedModalityDTO(int id, int modalityId, String coachUsername) {
         this.id = id;
-        this.modality = modality;
-        this.coach = coach;
+        this.modalityId = modalityId;
+        this.coachUsername = coachUsername;
     }
 
     public int getId() {
@@ -26,20 +26,20 @@ public class TeachedModalityDTO implements Serializable {
         this.id = id;
     }
 
-    public ModalityDTO getModality() {
-        return modality;
+    public int getModalityId() {
+        return modalityId;
     }
 
-    public void setModality(ModalityDTO modality) {
-        this.modality = modality;
+    public void setModalityId(int modalityId) {
+        this.modalityId = modalityId;
     }
 
-    public CoachDTO getCoach() {
-        return coach;
+    public String getCoachUsername() {
+        return coachUsername;
     }
 
-    public void setCoach(CoachDTO coach) {
-        this.coach = coach;
+    public void setCoachUsername(String coachUsername) {
+        this.coachUsername = coachUsername;
     }
 
     public List<ScheduleDTO> getSchedules() {

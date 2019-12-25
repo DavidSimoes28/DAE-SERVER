@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public class PaymentDTO implements Serializable {
     private int id;
-    private PurchaseDTO purchase;
+    private int purchaseId;
     private int quantity;
-    private StateDTO state;
+    private int stateId;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(int id, PurchaseDTO purchase, int quantity, StateDTO state) {
+    public PaymentDTO(int id, int purchaseId, int quantity, int stateId) {
         this.id = id;
-        this.purchase = purchase;
+        this.purchaseId = purchaseId;
         this.quantity = quantity;
-        this.state = state;
+        this.stateId = stateId;
     }
 
     public int getId() {
@@ -26,12 +26,12 @@ public class PaymentDTO implements Serializable {
         this.id = id;
     }
 
-    public PurchaseDTO getPurchase() {
-        return purchase;
+    public int getPurchaseId() {
+        return purchaseId;
     }
 
-    public void setPurchase(PurchaseDTO purchase) {
-        this.purchase = purchase;
+    public void setPurchaseId(int purchaseId) {
+        this.purchaseId = purchaseId;
     }
 
     public int getQuantity() {
@@ -42,11 +42,11 @@ public class PaymentDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public StateDTO getState() {
-        return state;
+    public int getStateId() {
+        return stateId;
     }
 
-    public void setState(StateDTO state) {
-        this.state = state;
+    public void setStateId(int stateId) {
+        this.stateId = stateId;
     }
 }

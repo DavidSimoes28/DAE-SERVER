@@ -5,17 +5,17 @@ public class EchelonDTO {
     private String name;
     private int initialAge;
     private int finalAge;
-    private ModalityDTO modalityDTO;
+    private int modalityId;
 
     public EchelonDTO() {
     }
 
-    public EchelonDTO(int id, String name, int initialAge, int finalAge, ModalityDTO modalityDTO) {
+    public EchelonDTO(int id, String name, int initialAge, int finalAge, int modalityId) {
         this.id = id;
         this.name = name;
         this.initialAge = initialAge;
         this.finalAge = finalAge;
-        this.modalityDTO = modalityDTO;
+        this.modalityId = modalityId;
     }
 
     public int getId() {
@@ -50,11 +50,11 @@ public class EchelonDTO {
         this.finalAge = finalAge;
     }
 
-    public ModalityDTO getModalityDTO() {
-        return modalityDTO;
+    public int getModalityId() {
+        return modalityId;
     }
 
-    public void setModalityDTO(ModalityDTO modalityDTO) {
-        this.modalityDTO = modalityDTO;
+    public void setModalityId(int modalityId) {
+        this.modalityId = modalityId;
     }
 }

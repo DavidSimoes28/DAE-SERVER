@@ -26,7 +26,7 @@ public class EchelonController {
                 echelon.getName(),
                 echelon.getInitialAge(),
                 echelon.getFinalAge(),
-                ModalityController.toDTO(echelon.getModality())
+                echelon.getModality().getId()
         );
         return echelonDTO;
     }

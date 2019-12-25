@@ -6,18 +6,18 @@ import java.util.List;
 
 public class PurchaseDTO implements Serializable {
     private int id;
-    private PartnerDTO partner;
+    private String partnerUsername;
     private List<ProductDTO> products;
-    private Date release_date;
+    private Date releaseDate;
     private Double price;
 
     public PurchaseDTO() {
     }
 
-    public PurchaseDTO(int id, PartnerDTO partner, Date release_date, Double price) {
+    public PurchaseDTO(int id, String partnerUsername, Date releaseDate, Double price) {
         this.id = id;
-        this.partner = partner;
-        this.release_date = release_date;
+        this.partnerUsername = partnerUsername;
+        this.releaseDate = releaseDate;
         this.price = price;
     }
 
@@ -29,12 +29,12 @@ public class PurchaseDTO implements Serializable {
         this.id = id;
     }
 
-    public PartnerDTO getPartner() {
-        return partner;
+    public String getPartnerUsername() {
+        return partnerUsername;
     }
 
-    public void setPartner(PartnerDTO partner) {
-        this.partner = partner;
+    public void setPartnerUsername(String partnerUsername) {
+        this.partnerUsername = partnerUsername;
     }
 
     public List<ProductDTO> getProducts() {
@@ -45,12 +45,12 @@ public class PurchaseDTO implements Serializable {
         this.products = products;
     }
 
-    public Date getRelease_date() {
-        return release_date;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(Date release_date) {
-        this.release_date = release_date;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Double getPrice() {

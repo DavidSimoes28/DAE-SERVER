@@ -13,12 +13,12 @@ public class ModalityDTO implements Serializable {
     private List<EchelonDTO> echelons;
     private List<GraduationsDTO> graduations;
     private List<TeachedModalityDTO> teachedModalities;
-    private List<ScheduleDTO> scheduleDTOS;
+    private List<ScheduleDTO> schedules;
     private int sportYear;
     private boolean active;
 
     public ModalityDTO() {
-        scheduleDTOS = new ArrayList<>();
+        schedules= new ArrayList<>();
         echelons = new ArrayList<>();
         graduations = new ArrayList<>();
         teachedModalities = new ArrayList<>();
@@ -30,7 +30,7 @@ public class ModalityDTO implements Serializable {
         this.name = name;
         this.sportYear = sportYear;
         this.active = active;
-        scheduleDTOS = new ArrayList<>();
+        schedules = new ArrayList<>();
         echelons = new ArrayList<>();
         graduations = new ArrayList<>();
         teachedModalities = new ArrayList<>();
@@ -69,12 +69,12 @@ public class ModalityDTO implements Serializable {
         this.active = active;
     }
 
-    public List<ScheduleDTO> getScheduleDTOS() {
-        return scheduleDTOS;
+    public List<ScheduleDTO> getSchedules() {
+        return schedules;
     }
 
-    public void setScheduleDTOS(List<ScheduleDTO> scheduleDTOS) {
-        this.scheduleDTOS = scheduleDTOS;
+    public void setSchedules(List<ScheduleDTO> schedules) {
+        this.schedules = schedules;
     }
 
     public List<PracticedModalityDTO> getPracticedModalities() {

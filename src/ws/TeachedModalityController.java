@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/teachedModality")
+@Path("/teachedModalities")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 public class TeachedModalityController {
@@ -24,8 +24,8 @@ public class TeachedModalityController {
     public static TeachedModalityDTO toDTO(TeachedModality teachedModality) {
         TeachedModalityDTO teachedModalityDTO = new TeachedModalityDTO(
                 teachedModality.getId(),
-                ModalityController.toDTO(teachedModality.getModality()),
-                CoachController.toDTO(teachedModality.getCoach())
+                teachedModality.getModality().getId(),
+                teachedModality.getCoach().getUsername()
         );
         teachedModalityDTO.setSchedules(ScheduleController.toDTOs(teachedModality.getSchedules()));
         return teachedModalityDTO;

@@ -28,7 +28,17 @@ public class ModalityController {
                 modality.getSportYear(),
                 modality.isActive()
         );
-        modalityDTO.setScheduleDTOS(ScheduleController.toDTOs(modality.getSchedules()));
+        return modalityDTO;
+    }
+
+    public static ModalityDTO toDTODetails(Modality modality) {
+        ModalityDTO modalityDTO = new ModalityDTO(
+                modality.getId(),
+                modality.getName(),
+                modality.getSportYear(),
+                modality.isActive()
+        );
+        modalityDTO.setSchedules(ScheduleController.toDTOs(modality.getSchedules()));
         modalityDTO.setEchelons(EchelonController.toDTOs(modality.getEchelons()));
         modalityDTO.setGraduations(GraduationsController.toDTOs(modality.getGraduations()));
         modalityDTO.setPracticedModalities(PracticedModalityController.toDTOs(modality.getPracticedModalities()));
@@ -55,7 +65,7 @@ public class ModalityController {
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         Modality modality = modalityBean.find(id);
         try{
-            return Response.status(Response.Status.OK).entity(toDTO(modality)).build();
+            return Response.status(Response.Status.OK).entity(toDTODetails(modality)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_MODALITIES", e);
         }

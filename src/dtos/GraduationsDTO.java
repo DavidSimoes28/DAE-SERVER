@@ -4,16 +4,16 @@ public class GraduationsDTO {
     private int id;
     private String name;
     private int minimumAge;
-    private ModalityDTO modalityDTO;
+    private int modalityId;
 
     public GraduationsDTO() {
     }
 
-    public GraduationsDTO(int id, String name, int minimumAge, ModalityDTO modalityDTO) {
+    public GraduationsDTO(int id, String name, int minimumAge, int modalityId) {
         this.id = id;
         this.name = name;
         this.minimumAge = minimumAge;
-        this.modalityDTO = modalityDTO;
+        this.modalityId = modalityId;
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class GraduationsDTO {
         this.minimumAge = minimumAge;
     }
 
-    public ModalityDTO getModalityDTO() {
-        return modalityDTO;
+    public int getModalityId() {
+        return modalityId;
     }
 
-    public void setModalityDTO(ModalityDTO modalityDTO) {
-        this.modalityDTO = modalityDTO;
+    public void setModalityId(int modalityId) {
+        this.modalityId = modalityId;
     }
 }

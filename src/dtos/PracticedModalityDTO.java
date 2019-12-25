@@ -5,21 +5,21 @@ import java.util.List;
 public class PracticedModalityDTO {
 
     private int id;
-    private ModalityDTO modality;
-    private EchelonDTO echelon;
-    private GraduationsDTO graduations;
-    private AthleteDTO athlete;
+    private int modalityId;
+    private int echelonId;
+    private int graduationsId;
+    private String athleteUsername;
     private List<ScheduleDTO> schedules;
 
     public PracticedModalityDTO() {
     }
 
-    public PracticedModalityDTO(int id, ModalityDTO modality, EchelonDTO echelon, GraduationsDTO graduations, AthleteDTO athlete) {
+    public PracticedModalityDTO(int id, int modalityId, int echelonId, int graduationsId, String athleteUsername) {
         this.id = id;
-        this.modality = modality;
-        this.echelon = echelon;
-        this.graduations = graduations;
-        this.athlete = athlete;
+        this.modalityId = modalityId;
+        this.echelonId = echelonId;
+        this.graduationsId = graduationsId;
+        this.athleteUsername = athleteUsername;
     }
 
     public int getId() {
@@ -30,36 +30,36 @@ public class PracticedModalityDTO {
         this.id = id;
     }
 
-    public ModalityDTO getModality() {
-        return modality;
+    public int getModalityId() {
+        return modalityId;
     }
 
-    public void setModality(ModalityDTO modality) {
-        this.modality = modality;
+    public void setModalityId(int modalityId) {
+        this.modalityId = modalityId;
     }
 
-    public EchelonDTO getEchelon() {
-        return echelon;
+    public int getEchelonId() {
+        return echelonId;
     }
 
-    public void setEchelon(EchelonDTO echelon) {
-        this.echelon = echelon;
+    public void setEchelonId(int echelonId) {
+        this.echelonId = echelonId;
     }
 
-    public GraduationsDTO getGraduations() {
-        return graduations;
+    public int getGraduationsId() {
+        return graduationsId;
     }
 
-    public void setGraduations(GraduationsDTO graduations) {
-        this.graduations = graduations;
+    public void setGraduationsId(int graduationsId) {
+        this.graduationsId = graduationsId;
     }
 
-    public AthleteDTO getAthlete() {
-        return athlete;
+    public String getAthleteUsername() {
+        return athleteUsername;
     }
 
-    public void setAthlete(AthleteDTO athlete) {
-        this.athlete = athlete;
+    public void setAthleteUsername(String athleteUsername) {
+        this.athleteUsername = athleteUsername;
     }
 
     public List<ScheduleDTO> getSchedules() {

@@ -28,8 +28,18 @@ public class CoachController {
                 coach.getName(),
                 coach.getEmail()
         );
+        return coachDTO;
+    }
+
+    public static CoachDTO toDTODetails(Coach coach) {
+        CoachDTO coachDTO = new CoachDTO(
+                coach.getUsername(),
+                coach.getPassword(),
+                coach.getName(),
+                coach.getEmail()
+        );
         coachDTO.setEchelons(EchelonController.toDTOs(coach.getEchelons()));
-        //coachDTO.setModalities(ModalityController.toDTOs(coach.getModalities()));
+        coachDTO.setModalities(TeachedModalityController.toDTOs(coach.getTeachedModalities()));
         return coachDTO;
     }
 
@@ -52,7 +62,7 @@ public class CoachController {
     public Response getAdministratorDetails(@PathParam("username") String username) throws Exception {
         Coach coach = coachBean.find(username);
         try{
-            return Response.status(Response.Status.OK).entity(toDTO(coach/*,null*/)).build();
+            return Response.status(Response.Status.OK).entity(toDTODetails(coach)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_COACHES", e);
         }

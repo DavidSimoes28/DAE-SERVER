@@ -26,7 +26,7 @@ public class GraduationsController {
                 graduations.getId(),
                 graduations.getName(),
                 graduations.getMinimumAge(),
-                ModalityController.toDTO(graduations.getModality())
+                graduations.getModality().getId()
         );
         return graduationsDTO;
     }
@@ -59,7 +59,7 @@ public class GraduationsController {
     @POST
     @Path("/")
     public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
-        graduationsBean.create(graduationsDTO.getName(),graduationsDTO.getMinimumAge(),graduationsDTO.getModalityDTO().getId());
+        graduationsBean.create(graduationsDTO.getName(),graduationsDTO.getMinimumAge(),graduationsDTO.getId());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
