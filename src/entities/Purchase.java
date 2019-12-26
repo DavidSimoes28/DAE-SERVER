@@ -12,7 +12,8 @@ import java.util.Set;
 })
 @Entity
 @Table(name = "PURCHASE")
-public class Purchase {
+public class
+Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
