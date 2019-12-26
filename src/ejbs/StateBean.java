@@ -18,9 +18,6 @@ public class StateBean {
     }
 
     public State create(String name) throws Exception {
-        if (find(name)!=null){
-            throw new Exception("State '" + name + "' already exists");
-        }
         State state = new State(name);
         em.persist(state);
         return state;
@@ -34,34 +31,17 @@ public class StateBean {
         }
     }
 
-    public State find(String name) throws Exception {
+    public State find(int id) throws Exception {
         try{
-            return em.find(State.class, name);
+            return em.find(State.class, id);
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_STATE", e);
         }
     }
 
-    /*public State update(String name) throws Exception {
+    public boolean delete(int id) throws Exception{
         try{
-            State state1 = em.find(State.class, name);
-
-            if(state1 == null){
-                throw new Exception("ERROR_FINDING_STATE");
-            }
-
-            //em.lock(coach, LockModeType.OPTIMISTIC);
-            state1.setName(name);
-            em.merge(state1);
-            return state1;
-        }catch (Exception e){
-            throw new Exception("ERROR_FINDING_STATE");
-        }
-    }*/
-
-    public boolean delete(String name) throws Exception{
-        try{
-            State state = em.find(State.class, name);
+            State state = em.find(State.class, id);
 
             if(state == null){
                 throw new Exception("ERROR_FINDING_STATE");

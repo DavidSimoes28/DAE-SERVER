@@ -15,6 +15,8 @@ import java.util.Set;
 @Table(name = "STATES")
 public class State implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String name;
     @OneToMany(mappedBy = "state", cascade = CascadeType.REMOVE)
     private Set<Payment> payments;
@@ -26,6 +28,14 @@ public class State implements Serializable {
     public State(String state) {
         this.name = state;
         payments = new LinkedHashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

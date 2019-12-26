@@ -85,7 +85,8 @@ public class ConfigBean {
             State not_paid = stateBean.create("Not Paid");
             State partial = stateBean.create("Partial");
 
-            PracticedModality practicedModality = practicedModalityBean.createWithEchelon(judo.getId(),echelon1.getId(),mark.getName());
+            //PracticedModality practicedModality = practicedModalityBean.createWithEchelon(judo.getId(),echelon1.getId(),mark.getName());
+
 
             TeachedModality teachedModality = teachedModalityBean.create(judo.getId(),john.getUsername());
             TeachedModality teachedModality1 = teachedModalityBean.create(judo.getId(),john.getUsername());
@@ -111,9 +112,10 @@ public class ConfigBean {
             teachedModality.addSchedule(schedule1);
             teachedModality1.addSchedule(schedule3);
 
-            practicedModality.addSchedule(schedule1);
+            /*practicedModality.addSchedule(schedule1);
             practicedModality.addSchedule(schedule);
-            practicedModality.addSchedule(schedule3);
+            practicedModality.addSchedule(schedule3);*/
+            Subscription subscription = subscriptionBean.createWithEchelon(mark.getUsername(),judo.getId(),schedule1.getId(),echelon1.getId(),new Date(2019,10,20),20.0);
 
             Classes classes = classBean.create(john.getUsername(),schedule.getId(),judo.getId(),new Date(2019,10,20));
             classes.addAthletesPresent(mark);
@@ -132,8 +134,8 @@ public class ConfigBean {
             Purchase purchase1 = purchaseBean.create(charles.getUsername(),new Date(2019,10,20),100.0);
             purchase1.addProduct(product);
 
-            paymentBean.create(0,paid.getName(),purchase.getId());
-            paymentBean.create(10,partial.getName(),purchase1.getId());
+            paymentBean.create(0,paid.getId(),purchase.getId());
+            paymentBean.create(10,partial.getId(),purchase1.getId());
 
 
         }catch (Exception e){

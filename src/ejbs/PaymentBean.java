@@ -25,8 +25,8 @@ public class PaymentBean {
     public PaymentBean() {
     }
 
-    public Payment create(int quantity, String stateName, int purchaseId) throws Exception {
-        State state = stateBean.find(stateName);
+    public Payment create(int quantity, int stateId, int purchaseId) throws Exception {
+        State state = stateBean.find(stateId);
         Purchase purchase = purchaseBean.find(purchaseId);
         Payment payment = new Payment(quantity,state,purchase);
         em.persist(payment);
@@ -49,10 +49,10 @@ public class PaymentBean {
         }
     }
 
-    public Payment update(int id, int quantity, String stateName) throws Exception {
+    public Payment update(int id, int quantity, int stateId) throws Exception {
         try{
             Payment payment = em.find(Payment.class, id);
-            State state = stateBean.find(stateName);
+            State state = stateBean.find(stateId);
             if(payment == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
             }
