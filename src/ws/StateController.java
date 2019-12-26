@@ -40,9 +40,9 @@ public class StateController {
     }
 
     @GET
-    @Path("{name}")
-    public Response getAdministratorDetails(@PathParam("name") String name) throws Exception {
-        State state = stateBean.find(name);
+    @Path("{id}")
+    public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
+        State state = stateBean.find(id);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(state)).build();
         } catch (Exception e) {
@@ -62,9 +62,9 @@ public class StateController {
     }
 
     @DELETE
-    @Path("/{name}")
-    public Response deleteAdministrator(@PathParam("name") String name) throws Exception {
-        stateBean.delete(name);
+    @Path("/{id}")
+    public Response deleteAdministrator(@PathParam("id")int id) throws Exception {
+        stateBean.delete(id);
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {

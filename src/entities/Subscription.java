@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllSubscriptions",
+                query = "SELECT a FROM Subscription a ORDER BY a.id"
+        )
+})
+
 @Table(name = "SUBSCRIPTIONS")
 public class Subscription {
     @Id

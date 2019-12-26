@@ -6,20 +6,20 @@ import java.util.List;
 
 public class ClassesDTO implements Serializable {
     private int id;
-    private CoachDTO coach;
-    private ScheduleDTO schedule;
+    private String coachUsername;
+    private int scheduleID;
     private List<AthleteDTO> athletesPresent;
-    private ModalityDTO modality;
+    private int modalityID;
     private Date date;
 
     public ClassesDTO() {
     }
 
-    public ClassesDTO(int id, CoachDTO coach, ScheduleDTO schedule, ModalityDTO modality, Date date) {
+    public ClassesDTO(int id, String coachUsername, int scheduleID, int modalityID, Date date) {
         this.id = id;
-        this.coach = coach;
-        this.schedule = schedule;
-        this.modality = modality;
+        this.coachUsername = coachUsername;
+        this.scheduleID = scheduleID;
+        this.modalityID = modalityID;
         this.date = date;
     }
 
@@ -31,20 +31,20 @@ public class ClassesDTO implements Serializable {
         this.id = id;
     }
 
-    public CoachDTO getCoach() {
-        return coach;
+    public String getCoachUsername() {
+        return coachUsername;
     }
 
-    public void setCoach(CoachDTO coach) {
-        this.coach = coach;
+    public void setCoachUsername(String coachUsername) {
+        this.coachUsername = coachUsername;
     }
 
-    public ScheduleDTO getSchedule() {
-        return schedule;
+    public int getScheduleID() {
+        return scheduleID;
     }
 
-    public void setSchedule(ScheduleDTO schedule) {
-        this.schedule = schedule;
+    public void setScheduleID(int scheduleID) {
+        this.scheduleID = scheduleID;
     }
 
     public List<AthleteDTO> getAthletesPresent() {
@@ -55,12 +55,12 @@ public class ClassesDTO implements Serializable {
         this.athletesPresent = athletesPresent;
     }
 
-    public ModalityDTO getModality() {
-        return modality;
+    public int getModalityID() {
+        return modalityID;
     }
 
-    public void setModality(ModalityDTO modality) {
-        this.modality = modality;
+    public void setModalityID(int modalityID) {
+        this.modalityID = modalityID;
     }
 
     public Date getDate() {

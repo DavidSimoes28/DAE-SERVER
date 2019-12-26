@@ -5,24 +5,24 @@ import java.util.Date;
 
 public class SubscriptionDTO implements Serializable {
     private int id;
-    private AthleteDTO athlete;
-    private ModalityDTO modality;
-    private ScheduleDTO schedule;
-    private EchelonDTO echelon;
-    private GraduationsDTO graduations;
+    private String athleteUsername;
+    private int modalityId;
+    private int scheduleId;
+    private int echelonId;
+    private int graduationsId;
     private Date subscriptionDate;
     private Double subscriptionPrice;
 
     public SubscriptionDTO() {
     }
 
-    public SubscriptionDTO(int id, AthleteDTO athlete, ModalityDTO modality, ScheduleDTO schedule, EchelonDTO echelon, GraduationsDTO graduations, Date subscriptionDate, Double subscriptionPrice) {
+    public SubscriptionDTO(int id, String athleteUsername, int modalityId, int scheduleId, int echelonId, int graduationsId, Date subscriptionDate, Double subscriptionPrice) {
         this.id = id;
-        this.athlete = athlete;
-        this.modality = modality;
-        this.schedule = schedule;
-        this.echelon = echelon;
-        this.graduations = graduations;
+        this.athleteUsername = athleteUsername;
+        this.modalityId = modalityId;
+        this.scheduleId = scheduleId;
+        this.echelonId = echelonId;
+        this.graduationsId = graduationsId;
         this.subscriptionDate = subscriptionDate;
         this.subscriptionPrice = subscriptionPrice;
     }
@@ -35,59 +35,59 @@ public class SubscriptionDTO implements Serializable {
         this.id = id;
     }
 
-    public AthleteDTO getAthlete() {
-        return athlete;
+    public String getAthleteUsername() {
+        return athleteUsername;
     }
 
-    public void setAthlete(AthleteDTO athlete) {
-        this.athlete = athlete;
+    public void setAthleteUsername(String athleteUsername) {
+        this.athleteUsername = athleteUsername;
     }
 
-    public ModalityDTO getModality() {
-        return modality;
+    public int getModalityId() {
+        return modalityId;
     }
 
-    public void setModality(ModalityDTO modality) {
-        this.modality = modality;
+    public void setModalityId(int modalityId) {
+        this.modalityId = modalityId;
     }
 
-    public ScheduleDTO getSchedule() {
-        return schedule;
+    public int getScheduleId() {
+        return scheduleId;
     }
 
-    public void setSchedule(ScheduleDTO schedule) {
-        this.schedule = schedule;
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
-    public EchelonDTO getEchelon() {
-        return echelon;
+    public int getEchelonId() {
+        return echelonId;
     }
 
-    public void setEchelon(EchelonDTO echelon) {
-        this.echelon = echelon;
+    public void setEchelonId(int echelonId) {
+        this.echelonId = echelonId;
     }
 
-    public GraduationsDTO getGraduations() {
-        return graduations;
+    public int getGraduationsId() {
+        return graduationsId;
     }
 
-    public void setGraduations(GraduationsDTO graduations) {
-        this.graduations = graduations;
+    public void setGraduationsId(int graduationsId) {
+        this.graduationsId = graduationsId;
     }
 
     public Date getSubscriptionDate() {
         return subscriptionDate;
     }
 
-    public void setSubscriptionDate(Date subscription_date) {
-        this.subscriptionDate = subscription_date;
+    public void setSubscriptionDate(Date subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
     }
 
     public Double getSubscriptionPrice() {
         return subscriptionPrice;
     }
 
-    public void setSubscription_price(Double subscriptionPrice) {
+    public void setSubscriptionPrice(Double subscriptionPrice) {
         this.subscriptionPrice = subscriptionPrice;
     }
 }
