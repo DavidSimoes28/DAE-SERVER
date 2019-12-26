@@ -44,14 +44,14 @@ public class PurchaseBean {
         }
     }
 
-    public Purchase update(int id, Date releaseDate, Double price) throws Exception {
+    public Purchase update(int id, Double price) throws Exception {
         try{
             Purchase purchase = em.find(Purchase.class, id);
             if(purchase == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
             }
 
-            purchase.setReleaseDate(releaseDate);
+            //purchase.setReleaseDate(releaseDate);
             purchase.setPrice(price);
             em.merge(purchase);
             return purchase;
