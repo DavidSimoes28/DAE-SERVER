@@ -1,13 +1,17 @@
 package ws;
 
+import dtos.EmailDTO;
 import dtos.PartnerDTO;
+import ejbs.EmailBean;
 import ejbs.PartnerBean;
 import entities.Athlete;
 import entities.Modality;
 import entities.Partner;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,6 +26,8 @@ import java.util.stream.Collectors;
 public class PartnerController {
     @EJB
     private PartnerBean partnerBean;
+    @EJB
+    private EmailBean emailBean;
     public static PartnerDTO toDTO(Partner partner) {
         PartnerDTO partnerDTO = new PartnerDTO(
                 partner.getUsername(),
@@ -67,7 +73,17 @@ public class PartnerController {
             throw new EJBException("ERROR_CREATING_PARTNER", e);
         }
     }
+    @POST
+    @Path("{username}/email/send")
+    public Response sendEmail(@PathParam("username") String username, EmailDTO emailDTO) throws MyEntityNotFoundException, MessagingException {
+        Partner partner = partnerBean.find(username);
+        if(partner == null){
+            throw new MyEntityNotFoundException("student not found");
+        }
+        emailBean.send(partner.getUsername(),emailDTO.getSubject(),emailDTO.getMessage());
+        return Response.status(Response.Status.OK).entity("E-mail sent").build();
 
+    }
     @PUT
     @Path("/{username}")
     public Response updateAthlete (PartnerDTO partnerDTO) throws Exception {

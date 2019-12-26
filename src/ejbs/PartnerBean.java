@@ -2,6 +2,7 @@ package ejbs;
 
 import entities.Modality;
 import entities.Partner;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -36,11 +37,11 @@ public class PartnerBean {
         }
     }
 
-    public Partner find(String username) throws Exception {
+    public Partner find(String username) throws MyEntityNotFoundException {
         try{
             return em.find(Partner.class, username);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_PARTNER", e);
+            throw new  MyEntityNotFoundException("ERROR_FINDING_PARTNER");
         }
     }
 
