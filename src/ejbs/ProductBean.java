@@ -2,6 +2,7 @@ package ejbs;
 
 import entities.Product;
 import entities.ProductType;
+import entities.Subscription;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -24,6 +25,13 @@ public class ProductBean {
     public Product create(int type_id, String description, Double value,int stock) throws Exception {
         ProductType productType = productTypeBean.find(type_id);
         Product product = new Product(productType,description,value,stock,Product.class.getName());
+        em.persist(product);
+        return product;
+    }
+
+    public Product createSubscriptionProduct(int type_id, String description) throws Exception {
+        ProductType productType = productTypeBean.find(type_id);
+        Product product = new Product(productType,description,0.0,0, Subscription.class.getName());
         em.persist(product);
         return product;
     }

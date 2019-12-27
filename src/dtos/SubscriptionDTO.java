@@ -1,6 +1,8 @@
 package dtos;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SubscriptionDTO implements Serializable {
@@ -9,21 +11,27 @@ public class SubscriptionDTO implements Serializable {
     private int modalityId;
     private int scheduleId;
     private int echelonId;
-    private int graduationsId;
+    private int graduationId;
     private Date subscriptionDate;
     private Double subscriptionPrice;
+    private int stateId;
 
     public SubscriptionDTO() {
     }
 
-    public SubscriptionDTO(int id, String athleteUsername, int modalityId, int scheduleId, int echelonId, int graduationsId, Date subscriptionDate, Double subscriptionPrice) {
+    public SubscriptionDTO(int id, String athleteUsername, int modalityId, int scheduleId, int echelonId, int graduationId, Date subscriptionDate, Double subscriptionPrice) {
         this.id = id;
         this.athleteUsername = athleteUsername;
         this.modalityId = modalityId;
         this.scheduleId = scheduleId;
         this.echelonId = echelonId;
-        this.graduationsId = graduationsId;
-        this.subscriptionDate = subscriptionDate;
+        this.graduationId = graduationId;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            this.subscriptionDate = format.parse(new SimpleDateFormat("yyyy-MM-dd").format(subscriptionDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.subscriptionPrice = subscriptionPrice;
     }
 
@@ -67,12 +75,12 @@ public class SubscriptionDTO implements Serializable {
         this.echelonId = echelonId;
     }
 
-    public int getGraduationsId() {
-        return graduationsId;
+    public int getGraduationId() {
+        return graduationId;
     }
 
-    public void setGraduationsId(int graduationsId) {
-        this.graduationsId = graduationsId;
+    public void setGraduationId(int graduationsId) {
+        this.graduationId = graduationsId;
     }
 
     public Date getSubscriptionDate() {
@@ -89,5 +97,13 @@ public class SubscriptionDTO implements Serializable {
 
     public void setSubscriptionPrice(Double subscriptionPrice) {
         this.subscriptionPrice = subscriptionPrice;
+    }
+
+    public int getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(int stateId) {
+        this.stateId = stateId;
     }
 }

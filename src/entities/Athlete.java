@@ -27,7 +27,8 @@ public class Athlete extends Partner{
     }
 
     public Athlete(String username, String password, String name, String email) {
-        super(username, password, name, email,0.0);
+        super(username, password, name, email);
+        super.setQuota(0.0);
         practicedModalities = new LinkedHashSet<>();
         classes = new LinkedHashSet<>();
     }

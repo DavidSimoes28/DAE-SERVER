@@ -17,7 +17,6 @@ public class Payment implements Serializable {
     private int id;
     @ManyToOne
     private Purchase purchase;
-    private int quantity;
     @ManyToOne
     private State state;
     @OneToOne
@@ -26,8 +25,7 @@ public class Payment implements Serializable {
     public Payment() {
     }
 
-    public Payment(int quantity, State state, Purchase purchase) {
-        this.quantity = quantity;
+    public Payment(State state, Purchase purchase) {
         this.state = state;
         this.purchase = purchase;
     }
@@ -46,14 +44,6 @@ public class Payment implements Serializable {
 
     public void setPurchase(Purchase purchase) {
         this.purchase = purchase;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public State getState() {

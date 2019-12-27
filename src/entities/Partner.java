@@ -21,9 +21,8 @@ public class Partner extends User {
         purchases = new LinkedHashSet<>();
     }
 
-    public Partner(String username, String password, String name, String email,Double quota) {
+    public Partner(String username, String password, String name, String email) {
         super(username, password, name, email);
-        this.quota = quota;
         purchases = new LinkedHashSet<>();
     }
 

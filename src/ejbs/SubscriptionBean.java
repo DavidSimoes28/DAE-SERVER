@@ -26,28 +26,38 @@ public class SubscriptionBean {
     ScheduleBean scheduleBean;
     @EJB
     PracticedModalityBean practicedModalityBean;
+    @EJB
+    ProductBean productBean;
+    @EJB
+    PurchaseBean purchaseBean;
+    @EJB
+    PaymentBean paymentBean;
 
-    public Subscription createWithGraduation(String athleteUsername, int modalityId, int scheduleId, int graduationsId, Date subscriptionDate, Double subscriptionPrice) throws Exception {
+    public Subscription create(String athleteUsername, int modalityId, int scheduleId, int echelonId, int graduationId, Date subscriptionDate, Double subscriptionPrice, int stateId) throws Exception {
         Athlete athlete = athleteBean.find(athleteUsername);
         Modality modality = modalityBean.find(modalityId);
         Schedule schedule = scheduleBean.find(scheduleId);
-        Graduations graduations = graduationsBean.find(graduationsId);
-        Subscription subscription = new Subscription(athlete,modality,schedule,graduations,subscriptionDate,subscriptionPrice);
-        em.persist(subscription);
-        PracticedModality practicedModalityWithEchelon = practicedModalityBean.createWithGraduation(modalityId, graduationsId, athleteUsername);
-        practicedModalityWithEchelon.addSchedule(schedule);
-        return subscription;
-    }
-
-    public Subscription createWithEchelon(String athleteUsername, int modalityId, int scheduleId, int echelonId, Date subscriptionDate, Double subscriptionPrice) throws Exception {
-        Athlete athlete = athleteBean.find(athleteUsername);
-        Modality modality = modalityBean.find(modalityId);
-        Schedule schedule = scheduleBean.find(scheduleId);
-        Echelon echelon = echelonBean.find(echelonId);
-        Subscription subscription = new Subscription(athlete,modality,schedule,echelon,subscriptionDate,subscriptionPrice);
+        Echelon echelon = null;
+        Graduations graduations = null;
+        if(echelonId>0){ echelon = echelonBean.find(echelonId);}
+        if(graduationId>0){ graduations = graduationsBean.find(graduationId);}
+        Subscription subscription = new Subscription(athlete,modality,schedule,echelon,graduations,subscriptionDate,subscriptionPrice);
         em.persist(subscription);
 
-        PracticedModality practicedModalityWithEchelon = practicedModalityBean.createWithEchelon(modalityId, echelonId, athleteUsername);
+        Product product = null;
+        for (Product product1 : productBean.all()) {
+            if(product1.getTable_name().equals(Subscription.class.getName())){
+                product = product1;
+            }
+        }
+
+        Purchase purchase = purchaseBean.create(athleteUsername, subscriptionDate, subscriptionPrice);
+        purchase.addProduct(product);
+
+        Payment payment = paymentBean.create(stateId,purchase.getId());
+
+
+        PracticedModality practicedModalityWithEchelon = practicedModalityBean.create(modalityId, echelonId, graduationId, athleteUsername);
         practicedModalityWithEchelon.addSchedule(schedule);
         return subscription;
     }

@@ -11,7 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,7 +71,7 @@ public class ConfigBean {
             Coach john = coachBean.create("john","john","john","john@mail.com");
             Coach mary = coachBean.create("mary","mary","mary","mary@mail.com");
             Athlete mark = athleteBean.create("mark", "mark", "mark", "mark@mail.com");
-            Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com",15.0);
+            Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com");
 
             Modality judo = modalityBean.create("judo",2019,true);
             Modality football = modalityBean.create("football",2019,true);
@@ -115,28 +118,33 @@ public class ConfigBean {
             /*practicedModality.addSchedule(schedule1);
             practicedModality.addSchedule(schedule);
             practicedModality.addSchedule(schedule3);*/
-            Subscription subscription = subscriptionBean.createWithEchelon(mark.getUsername(),judo.getId(),schedule1.getId(),echelon1.getId(),new Date(2019,10,20),20.0);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse("2019-10-20");
 
-            Classes classes = classBean.create(john.getUsername(),schedule.getId(),judo.getId(),new Date(2019,10,20));
+            Classes classes = classBean.create(john.getUsername(),schedule.getId(),judo.getId(),date);
             classes.addAthletesPresent(mark);
             mark.addClass(classes);
 
             ProductType productType = productTypeBean.create("Shoes");
             ProductType productType1 = productTypeBean.create("Balls");
+            ProductType productType2 = productTypeBean.create("Subscription");
 
             Product product = productBean.create(productType.getId(),"best shoes ever",100.0,10);
             Product product1 = productBean.create(productType.getId(),"Sport shoes",50.0,10);
             Product product2 = productBean.create(productType1.getId(),"football balls of adidas",60.0,5);
+            Product product3 = productBean.createSubscriptionProduct(productType2.getId(),"Subscription");
 
-            Purchase purchase = purchaseBean.create(charles.getUsername(),new Date(2019,10,20),20.0);
+            Purchase purchase = purchaseBean.create(charles.getUsername(),date,20.0);
             purchase.addProduct(product1);
             purchase.addProduct(product2);
-            Purchase purchase1 = purchaseBean.create(charles.getUsername(),new Date(2019,10,20),100.0);
+            Purchase purchase1 = purchaseBean.create(charles.getUsername(),date,100.0);
             purchase1.addProduct(product);
 
-            paymentBean.create(0,paid.getId(),purchase.getId());
-            paymentBean.create(10,partial.getId(),purchase1.getId());
+            paymentBean.create(paid.getId(),purchase.getId());
+            paymentBean.create(partial.getId(),purchase1.getId());
 
+
+            Subscription subscription = subscriptionBean.create(mark.getUsername(),judo.getId(),schedule1.getId(),echelon1.getId(),0,date,20.0,paid.getId());
 
         }catch (Exception e){
             logger.log(Level.SEVERE,e.getMessage());

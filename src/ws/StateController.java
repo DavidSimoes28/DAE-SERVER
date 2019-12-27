@@ -21,6 +21,7 @@ public class StateController {
 
     StateDTO toDTO(State state) {
         return new StateDTO(
+                state.getId(),
                 state.getName()
         );
     }

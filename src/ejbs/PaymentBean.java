@@ -25,11 +25,12 @@ public class PaymentBean {
     public PaymentBean() {
     }
 
-    public Payment create(int quantity, int stateId, int purchaseId) throws Exception {
+    public Payment create(int stateId, int purchaseId) throws Exception {
         State state = stateBean.find(stateId);
         Purchase purchase = purchaseBean.find(purchaseId);
-        Payment payment = new Payment(quantity,state,purchase);
+        Payment payment = new Payment(state,purchase);
         em.persist(payment);
+        purchase.addPayment(payment);
         return payment;
     }
 
@@ -49,15 +50,13 @@ public class PaymentBean {
         }
     }
 
-    public Payment update(int id, int quantity, int stateId) throws Exception {
+    public Payment update(int id, int stateId) throws Exception {
         try{
             Payment payment = em.find(Payment.class, id);
             State state = stateBean.find(stateId);
             if(payment == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
             }
-
-            payment.setQuantity(quantity);
             payment.setState(state);
 
             em.merge(payment);

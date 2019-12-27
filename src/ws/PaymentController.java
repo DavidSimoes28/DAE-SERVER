@@ -27,11 +27,8 @@ public class PaymentController {
         PaymentDTO paymentDTO = new PaymentDTO(
                 payment.getId(),
                 payment.getPurchase().getId(),
-                payment.getQuantity(),
                 payment.getState().getId()
         );
-
-
         return paymentDTO;
 
 }
@@ -50,10 +47,21 @@ public class PaymentController {
         }
     }
 
+    @GET
+    @Path("{id}")
+    public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
+        Payment payment = paymentBean.find(id);
+        try{
+            return Response.status(Response.Status.OK).entity(toDTO(payment)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_PARTNERS", e);
+        }
+    }
+
     @POST
     @Path("/")
     public Response createNewPayment (PaymentDTO paymentDTO) throws Exception {
-        paymentBean.create(paymentDTO.getQuantity(),paymentDTO.getStateId(),paymentDTO.getPurchaseId());
+        paymentBean.create(paymentDTO.getStateId(),paymentDTO.getPurchaseId());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
@@ -64,7 +72,7 @@ public class PaymentController {
     @PUT
     @Path("/{id}")
     public Response updatePayment (PaymentDTO paymentDTO) throws Exception {
-        Payment payment = paymentBean.update(paymentDTO.getId(),paymentDTO.getQuantity(),paymentDTO.getStateId());
+        Payment payment = paymentBean.update(paymentDTO.getId(),paymentDTO.getStateId());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(payment)).build();
         } catch (Exception e) {

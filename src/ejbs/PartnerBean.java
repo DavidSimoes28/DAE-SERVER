@@ -20,11 +20,11 @@ public class PartnerBean {
 
     }
 
-    public Partner create(String username, String password, String name, String email, Double quota) throws Exception {
+    public Partner create(String username, String password, String name, String email) throws Exception {
         if (find(username)!=null){
             throw new Exception("Username '" + username + "' already exists");
         }
-        Partner partner = new Partner(username,password,name,email,quota);
+        Partner partner = new Partner(username,password,name,email);
         em.persist(partner);
         return partner;
     }

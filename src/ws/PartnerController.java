@@ -66,7 +66,7 @@ public class PartnerController {
     @POST
     @Path("/")
     public Response createNewAthlete (PartnerDTO partnerDTO) throws Exception {
-        partnerBean.create(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail(),0.0);
+        partnerBean.create(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {

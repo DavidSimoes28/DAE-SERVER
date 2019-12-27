@@ -29,8 +29,10 @@ public class PracticedModalityBean {
 
     public PracticedModality create(int modality_id, int echelon_id, int graduation_id, String username) throws Exception {
         Modality modality = modalityBean.find(modality_id);
-        Echelon echelon = echelonBean.find(echelon_id);
-        Graduations graduations = graduationsBean.find(graduation_id);
+        Echelon echelon = null;
+        Graduations graduations = null;
+        if(echelon_id>0){ echelon = echelonBean.find(echelon_id);}
+        if(graduation_id>0){ graduations = graduationsBean.find(graduation_id);}
         Athlete athlete = athleteBean.find(username);
 
         PracticedModality practicedModality = new PracticedModality(modality,echelon,graduations,athlete);
@@ -40,7 +42,7 @@ public class PracticedModalityBean {
         return practicedModality;
     }
 
-    public PracticedModality createWithEchelon(int modality_id, int echelon_id, String username) throws Exception {
+    /*public PracticedModality createWithEchelon(int modality_id, int echelon_id, String username) throws Exception {
         Modality modality = modalityBean.find(modality_id);
         Echelon echelon = echelonBean.find(echelon_id);
         Athlete athlete = athleteBean.find(username);
@@ -62,7 +64,7 @@ public class PracticedModalityBean {
         modality.addPracticedModality(practicedModality);
         athlete.addPracticedModality(practicedModality);
         return practicedModality;
-    }
+    }*/
 
     public List<PracticedModality> all() {
         try {

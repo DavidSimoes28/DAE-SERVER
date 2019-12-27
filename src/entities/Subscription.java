@@ -36,20 +36,12 @@ public class Subscription {
     public Subscription() {
     }
 
-    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Graduations graduations, Date subscriptionDate, Double subscriptionPrice) {
-        this.athlete = athlete;
-        this.modality = modality;
-        this.schedule = schedule;
-        this.graduations = graduations;
-        this.subscriptionDate = subscriptionDate;
-        this.subscriptionPrice = subscriptionPrice;
-    }
-
-    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Echelon echelon, Date subscriptionDate, Double subscriptionPrice) {
+    public Subscription(Athlete athlete, Modality modality, Schedule schedule, Echelon echelon, Graduations graduations, Date subscriptionDate, Double subscriptionPrice) {
         this.athlete = athlete;
         this.modality = modality;
         this.schedule = schedule;
         this.echelon = echelon;
+        this.graduations = graduations;
         this.subscriptionDate = subscriptionDate;
         this.subscriptionPrice = subscriptionPrice;
     }
