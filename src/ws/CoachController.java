@@ -40,6 +40,7 @@ public class CoachController {
         );
         coachDTO.setEchelons(EchelonController.toDTOs(coach.getEchelons()));
         coachDTO.setModalities(ModalityController.toDTOs(coach.getModalities()));
+        coachDTO.setClasses(ClassController.toDTOs(coach.getClasses()));
         return coachDTO;
     }
 
