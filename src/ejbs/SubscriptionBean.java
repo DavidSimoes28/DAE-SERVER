@@ -32,6 +32,8 @@ public class SubscriptionBean {
     PurchaseBean purchaseBean;
     @EJB
     PaymentBean paymentBean;
+    @EJB
+    ProductTypeBean productTypeBean;
 
     public Subscription create(String athleteUsername, int modalityId, int scheduleId, int echelonId, int graduationId, Date subscriptionDate, Double subscriptionPrice, int stateId) throws Exception {
         Athlete athlete = athleteBean.find(athleteUsername);
@@ -51,14 +53,29 @@ public class SubscriptionBean {
             }
         }
 
+        ProductType productType = null;
+        for (ProductType productType1 : productTypeBean.all()) {
+            if(productType1.getType().toUpperCase().equals("SUBSCRIPTION")){
+                productType = productType1;
+            }
+        }
+
+        if(productType == null){
+           productType = productTypeBean.create("Subscription");
+        }
+
+        if(product == null){
+            product = productBean.createSubscriptionProduct(productType.getId(),"Subscription");
+        }
+
         Purchase purchase = purchaseBean.create(athleteUsername, subscriptionDate, subscriptionPrice);
         purchase.addProduct(product);
 
         Payment payment = paymentBean.create(stateId,purchase.getId());
 
 
-        PracticedModality practicedModalityWithEchelon = practicedModalityBean.create(modalityId, echelonId, graduationId, athleteUsername);
-        practicedModalityWithEchelon.addSchedule(schedule);
+        PracticedModality practicedModality = practicedModalityBean.create(modalityId, echelonId, graduationId, athleteUsername);
+        practicedModality.addSchedule(schedule);
         return subscription;
     }
 
