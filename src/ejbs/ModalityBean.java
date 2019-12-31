@@ -16,7 +16,7 @@ public class ModalityBean {
     @PersistenceContext
     private EntityManager em;
     @EJB
-    CoachBean coachBean;
+    ScheduleBean scheduleBean;
 
     public ModalityBean() {
     }
@@ -63,6 +63,45 @@ public class ModalityBean {
         try{
             Modality modality = em.find(Modality.class, id);
             return modality.getSchedules();
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
+        }
+    }
+
+    public Modality addScheduleToModality(int modalityId,int scheduleId) throws Exception {
+        try{
+            Schedule schedule = scheduleBean.find(scheduleId);
+            Modality modality = find(modalityId);
+            modality.addSchedule(schedule);
+            return modality;
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_ATHLETE", e);
+        }
+    }
+
+    public List<Schedule> missingScheduleFromModality(int modalityId) throws Exception {
+        try{
+            Modality modality = find(modalityId);
+            List<Schedule> schedules = new ArrayList<>();
+            List<Schedule> all = scheduleBean.all();
+            List<Schedule> missing = new ArrayList<>();
+            for (Schedule schedule : modality.getSchedules()) {
+                schedules.add(schedule);
+            }
+            int i = 0;
+            for (Schedule schedule : all) {
+                for (Schedule schedule1: schedules) {
+                    if(schedule.getId() == schedule1.getId()){
+                        i = 1;
+                    }
+                }
+                if(i!=1){
+                    missing.add(schedule);
+                    schedules.add(schedule);
+                }
+                i=0;
+            }
+            return missing;
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_ATHLETE", e);
         }

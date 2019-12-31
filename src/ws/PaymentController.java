@@ -1,8 +1,10 @@
 package ws;
 
 import dtos.PaymentDTO;
+import dtos.ReceiptDTO;
 import ejbs.PaymentBean;
 import entities.Payment;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -29,6 +31,9 @@ public class PaymentController {
                 payment.getPurchase().getId(),
                 payment.getState().getId()
         );
+        if(payment.getReceipt() != null){
+            paymentDTO.setReceiptId(payment.getReceipt().getId());
+        }
         return paymentDTO;
 
 }
@@ -69,6 +74,37 @@ public class PaymentController {
         }
     }
 
+    @GET
+    @Path("{id}/receipt/")
+    public Response getDocuments(@PathParam("id") int id) throws MyEntityNotFoundException {
+        Payment payment = paymentBean.find(id);
+        if (payment == null) {
+            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
+        }
+        if(payment.getReceipt() == null){
+            return Response.status(Response.Status.OK)
+                    .entity(null)
+                    .build();
+        }
+        return Response.status(Response.Status.OK)
+                .entity(ReceiptController.toDTO(payment.getReceipt()))
+                .build();
+        //return ReceiptController.toDTO(payment.getReceipt());
+    }
+
+    @GET
+    @Path("{id}/hasReceipt/")
+    public Response hasDocuments(@PathParam("id")int id)
+            throws MyEntityNotFoundException {
+        Payment payment = paymentBean.find(id);
+        if (payment == null) {
+            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
+        }
+
+        return Response.status(Response.Status.OK)
+                .entity(new Boolean(!payment.getReceipt().equals(null)))
+                .build();
+    }
     @PUT
     @Path("/{id}")
     public Response updatePayment (PaymentDTO paymentDTO) throws Exception {

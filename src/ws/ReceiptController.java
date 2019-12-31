@@ -89,31 +89,7 @@ public class ReceiptController {
         return null;
     }
 
-    @GET
-    @Path("{id}/receipt/")
-    public ReceiptDTO getDocuments(@PathParam("id") int id) throws MyEntityNotFoundException {
-        Payment payment = paymentBean.find(id);
-        if (payment == null) {
-            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
-        }
-        return toDTO(receiptBean.findReceipt(id));
-    }
-
-    @GET
-    @Path("{id}/hasDocuments/")
-    public Response hasDocuments(@PathParam("id")int id)
-            throws MyEntityNotFoundException {
-        Payment payment = paymentBean.find(id);
-        if (payment == null) {
-            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
-        }
-
-        return Response.status(Response.Status.OK)
-                .entity(new Boolean(!payment.getReceipt().equals(null)))
-                .build();
-    }
-
-    ReceiptDTO toDTO(Receipt receipt) {
+    public static ReceiptDTO toDTO(Receipt receipt) {
         return new ReceiptDTO(
                 receipt.getId(),
                 receipt.getFilepath(),

@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Partner;
+import entities.Payment;
 import entities.Purchase;
 
 import javax.ejb.EJB;
@@ -8,6 +9,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +32,7 @@ public class PurchaseBean {
 
     public List<Purchase> all() {
         try {
-            return (List<Purchase>) em.createNamedQuery("getAllProducts").getResultList();
+            return (List<Purchase>) em.createNamedQuery("getAllPurchase").getResultList();
         } catch (Exception e) {
             throw new EJBException("ERROR_RETRIEVING_PRODUCTS", e);
         }
@@ -42,6 +44,19 @@ public class PurchaseBean {
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_PRODUCT", e);
         }
+    }
+
+
+    public List<Payment> findPartnerPayments(String username) {
+        List<Purchase> allPayments = all();
+        List<Payment> payments = new ArrayList<>();
+        for (Purchase purchase : allPayments) {
+            if(purchase.getPartner().getUsername().equals(username) && !purchase.getPayments().isEmpty())
+                for (Payment payment : purchase.getPayments()) {
+                    payments.add(payment);
+                }
+        }
+        return payments;
     }
 
     public Purchase update(int id, Double price) throws Exception {

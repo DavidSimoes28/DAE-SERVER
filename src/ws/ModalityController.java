@@ -1,8 +1,10 @@
 package ws;
 
 import dtos.ModalityDTO;
+import dtos.ScheduleDTO;
 import ejbs.AthleteBean;
 import ejbs.ModalityBean;
+import ejbs.ScheduleBean;
 import entities.Athlete;
 import entities.Modality;
 import entities.PracticedModality;
@@ -13,10 +15,7 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -28,6 +27,8 @@ public class ModalityController {
     private ModalityBean modalityBean;
     @EJB
     private AthleteBean athleteBean;
+    @EJB
+    private ScheduleBean scheduleBean;
     public static ModalityDTO toDTO(Modality modality) {
         ModalityDTO modalityDTO = new ModalityDTO(
                 modality.getId(),
@@ -102,6 +103,17 @@ public class ModalityController {
         }
     }
 
+    @GET
+    @Path("{id}/unassigned/schedules")
+    public Response getUnassignedSchedules(@PathParam("id") int id) throws Exception {
+        List<Schedule> schedules = modalityBean.missingScheduleFromModality(id);
+        try{
+            return Response.status(Response.Status.OK).entity(ScheduleController.toDTOs(schedules)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_COACHES", e);
+        }
+    }
+
     @POST
     @Path("/")
     public Response createNewAdministrator (ModalityDTO modalityDTO) throws Exception {
@@ -110,6 +122,17 @@ public class ModalityController {
             return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_MODALITY", e);
+        }
+    }
+
+    @PUT
+    @Path("/{id}/add/schedule/")
+    public Response addSchedule (ModalityDTO modalityDTO, ScheduleDTO scheduleDTO) throws Exception {
+        Modality modality = modalityBean.addScheduleToModality(modalityDTO.getId(),scheduleDTO.getId());
+        try{
+            return Response.status(Response.Status.OK).entity(toDTO(modality)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_UPDATING_MODALITY", e);
         }
     }
 

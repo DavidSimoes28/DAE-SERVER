@@ -2,6 +2,7 @@ package ejbs;
 
 import entities.Modality;
 import entities.Partner;
+import entities.Payment;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -15,6 +16,8 @@ import java.util.List;
 public class PartnerBean {
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    private PurchaseBean purchaseBean;
 
     public PartnerBean(){
 

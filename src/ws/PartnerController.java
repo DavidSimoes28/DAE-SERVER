@@ -4,9 +4,11 @@ import dtos.EmailDTO;
 import dtos.PartnerDTO;
 import ejbs.EmailBean;
 import ejbs.PartnerBean;
+import ejbs.PurchaseBean;
 import entities.Athlete;
 import entities.Modality;
 import entities.Partner;
+import entities.Payment;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 public class PartnerController {
     @EJB
     private PartnerBean partnerBean;
+    @EJB
+    private PurchaseBean purchaseBean;
     @EJB
     private EmailBean emailBean;
     public static PartnerDTO toDTO(Partner partner) {
@@ -58,6 +62,17 @@ public class PartnerController {
         Partner partner = partnerBean.find(username);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(partner/*,null*/)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_PARTNERS", e);
+        }
+    }
+
+    @GET
+    @Path("{username}/payments")
+    public Response getPartnerPayments(@PathParam("username") String username) throws Exception {
+        List<Payment> partnerPayments = purchaseBean.findPartnerPayments(username);
+        try{
+            return Response.status(Response.Status.OK).entity(PaymentController.toDTOs(partnerPayments)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_PARTNERS", e);
         }

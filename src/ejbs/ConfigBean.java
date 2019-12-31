@@ -71,6 +71,7 @@ public class ConfigBean {
             Coach john = coachBean.create("john","john","john","john@mail.com");
             Coach mary = coachBean.create("mary","mary","mary","mary@mail.com");
             Athlete mark = athleteBean.create("mark", "mark", "mark", "mark@mail.com");
+            Athlete kayle = athleteBean.create("kayle", "kayle", "kayle", "kayle@mail.com");
             Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com");
 
             Modality judo = modalityBean.create("judo",2019,true);
@@ -125,6 +126,7 @@ public class ConfigBean {
             classes.addAthletesPresent(mark);
             mark.addClass(classes);
 
+
             ProductType productType = productTypeBean.create("Shoes");
             ProductType productType1 = productTypeBean.create("Balls");
             ProductType productType2 = productTypeBean.create("Subscription");
@@ -145,6 +147,7 @@ public class ConfigBean {
 
 
             Subscription subscription = subscriptionBean.create(mark.getUsername(),judo.getId(),schedule1.getId(),echelon1.getId(),0,date,20.0,paid.getId());
+            Subscription subscription1 = subscriptionBean.create(kayle.getUsername(),judo.getId(),schedule1.getId(),echelon1.getId(),0,date,20.0,paid.getId());
 
         }catch (Exception e){
             logger.log(Level.SEVERE,e.getMessage());

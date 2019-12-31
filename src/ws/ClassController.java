@@ -81,6 +81,16 @@ public class ClassController {
         }
     }
 
+    @GET
+    @Path("{id}/notPresent")
+    public Response getNotPresentAthletes(@PathParam("id") int id) throws Exception {
+        List<Athlete> notPresentAthletes = classBean.findNotPresentAthletes(id);
+        try{
+            return Response.status(Response.Status.OK).entity(AthleteController.toDTOs(notPresentAthletes)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_CLASS", e);
+        }
+    }
 
     @POST
     @Path("/")
@@ -93,6 +103,27 @@ public class ClassController {
         }
     }
 
+    @PUT
+    @Path("/{id}/present/{username}")
+    public Response addPresentAthlete(@PathParam("id") int id,@PathParam("username") String username) throws Exception {
+        classBean.addPresentAthlete(id,username);
+        try{
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_CREATING_CLASS", e);
+        }
+    }
+
+    @PUT
+    @Path("/{id}/notPresent/{username}")
+    public Response removePresentAthlete(@PathParam("id") int id,@PathParam("username") String username) throws Exception {
+        classBean.removePresentAthlete(id,username);
+        try{
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_CREATING_CLASS", e);
+        }
+    }
 
     @PUT
     @Path("/{id}")
