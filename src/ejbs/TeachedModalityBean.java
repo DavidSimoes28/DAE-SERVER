@@ -1,9 +1,6 @@
 package ejbs;
 
-import entities.Coach;
-import entities.Modality;
-import entities.Schedule;
-import entities.TeachedModality;
+import entities.*;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -28,11 +25,12 @@ public class TeachedModalityBean {
     public TeachedModalityBean() {
     }
 
-    public TeachedModality create(int modality_id, String username) throws Exception {
+    public TeachedModality create(int modality_id, String username, int echelonId) throws Exception {
         Modality modality = modalityBean.find(modality_id);
         Coach coach = coachBean.find(username);
+        Echelon echelon = echelonBean.find(echelonId);
 
-        TeachedModality teachedModality = new TeachedModality(modality,coach);
+        TeachedModality teachedModality = new TeachedModality(modality,coach,echelon);
         em.persist(teachedModality);
         modality.addTeachedModalities(teachedModality);
         coach.addTeachedModalities(teachedModality);

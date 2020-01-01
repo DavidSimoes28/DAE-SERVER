@@ -7,6 +7,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +28,12 @@ public class ClassBean {
     private ScheduleBean scheduleBean;
 
 
-    public Classes create(String coach_username, int schedule_id, int modality_id, Date date) throws Exception {
+    public Classes create(String coach_username, int schedule_id, int modality_id, String dateString) throws Exception {
         Coach coach = coachBean.find(coach_username);
         Schedule schedule = scheduleBean.find(schedule_id);
         Modality modality = modalityBean.find(modality_id);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse(dateString);
         Classes classes = new Classes(coach,schedule,modality,date);
         em.persist(classes);
         coach.addClasses(classes);

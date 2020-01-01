@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -14,20 +15,16 @@ import java.util.Set;
 public class Coach extends User {
     @OneToMany
     private Set<TeachedModality> teachedModalities;
-    @ManyToMany
-    private Set<Echelon> echelons;
     @OneToMany
     private Set<Classes> classes;
 
     public Coach() {
-        echelons = new LinkedHashSet<>();
         teachedModalities = new LinkedHashSet<>();
         classes = new LinkedHashSet<>();
     }
 
     public Coach(String username, String password, String name, String email) {
         super(username, password, name, email);
-        echelons = new LinkedHashSet<>();
         teachedModalities = new LinkedHashSet<>();
         classes = new LinkedHashSet<>();
     }
@@ -46,14 +43,6 @@ public class Coach extends User {
 
     public void removeTeachedModalities(TeachedModality teachedModality) {
         this.teachedModalities.remove(teachedModality);
-    }
-
-    public Set<Echelon> getEchelons() {
-        return echelons;
-    }
-
-    public void setEchelons(Set<Echelon> echelons) {
-        this.echelons = echelons;
     }
 
     public Set<Classes> getClasses() {
@@ -79,5 +68,14 @@ public class Coach extends User {
                 modalities.add(teachedModality.getModality());
         }
         return modalities;
+    }
+
+    public Set<Echelon> getEchelons() {
+        Set<Echelon> echelons = new LinkedHashSet<>();
+        for (TeachedModality teachedModality : teachedModalities) {
+            if(teachedModality.getCoach()!=null)
+                echelons.add(teachedModality.getEchelon());
+        }
+        return echelons;
     }
 }

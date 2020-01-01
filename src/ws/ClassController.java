@@ -11,7 +11,9 @@ import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ public class ClassController {
 
     @EJB
     private ClassBean classBean;
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public static ClassesDTO toDTO(Classes classe) {
         ClassesDTO classesDTO = new ClassesDTO(
@@ -31,7 +34,7 @@ public class ClassController {
                 classe.getCoach().getUsername(),
                 classe.getSchedule().getId(),
                 classe.getModality().getId(),
-                classe.getDate()
+                format.format(classe.getDate())
         );
         return classesDTO;
 
@@ -43,7 +46,7 @@ public class ClassController {
                 classe.getCoach().getUsername(),
                 classe.getSchedule().getId(),
                 classe.getModality().getId(),
-                classe.getDate()
+                format.format(classe.getDate())
         );
 
 
@@ -128,7 +131,7 @@ public class ClassController {
     @PUT
     @Path("/{id}")
     public Response updateAthlete (ClassesDTO classesDTO) throws Exception {
-        Classes classes = classBean.update(classesDTO.getId(),classesDTO.getCoachUsername(),classesDTO.getScheduleID(),classesDTO.getDate());
+        Classes classes = classBean.update(classesDTO.getId(),classesDTO.getCoachUsername(),classesDTO.getScheduleID(),new Date());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(classes)).build();
         } catch (Exception e) {

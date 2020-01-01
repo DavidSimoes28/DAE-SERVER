@@ -1,13 +1,11 @@
 package ws;
 
-import dtos.AdministratorDTO;
-import dtos.EmailDTO;
-import dtos.FilterUserDTO;
-import dtos.UserDTO;
+import dtos.*;
 import ejbs.AdministratorBean;
 import ejbs.EmailBean;
 import entities.Administrator;
 import entities.Partner;
+import entities.User;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -42,6 +40,18 @@ public class AdministratorController {
         return administrators.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    UserDTO userToDTO(User user) {
+        return new AdministratorDTO(
+                user.getUsername(),
+                user.getPassword(),
+                user.getName(),
+                user.getEmail()
+        );
+    }
+    List<UserDTO> userToDTOs(Collection<User> users) {
+        return users.stream().map(this::userToDTO).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<AdministratorDTO> all() {
@@ -49,6 +59,17 @@ public class AdministratorController {
             return toDTOs(administratorBean.all());
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_ADMINISTRATORS", e);
+        }
+    }
+
+    @GET
+    @Path("/email/send/users")
+    public Response getAllSendEmail() throws Exception {
+        Set<User> users = emailBean.allUsers();
+        try{
+            return Response.status(Response.Status.OK).entity(userToDTOs(users)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ADMINISTRATOR", e);
         }
     }
 
@@ -71,6 +92,19 @@ public class AdministratorController {
 
         try{
             return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ADMINISTRATOR", e);
+        }
+    }
+
+    @POST
+    @Path("/email/send/filter")
+    public Response getSendEmailFilter(FilterSendEmailDTO filterSendEmailDTO) throws Exception {
+
+        Set<User> filter = emailBean.filter(filterSendEmailDTO.getModalityId(),filterSendEmailDTO.getEchelonId());
+
+        try{
+            return Response.status(Response.Status.OK).entity(userToDTOs(filter)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_ADMINISTRATOR", e);
         }

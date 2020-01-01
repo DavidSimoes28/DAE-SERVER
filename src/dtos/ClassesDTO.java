@@ -10,12 +10,12 @@ public class ClassesDTO implements Serializable {
     private int scheduleID;
     private List<AthleteDTO> athletesPresent;
     private int modalityID;
-    private Date date;
+    private String date;
 
     public ClassesDTO() {
     }
 
-    public ClassesDTO(int id, String coachUsername, int scheduleID, int modalityID, Date date) {
+    public ClassesDTO(int id, String coachUsername, int scheduleID, int modalityID, String date) {
         this.id = id;
         this.coachUsername = coachUsername;
         this.scheduleID = scheduleID;
@@ -63,11 +63,11 @@ public class ClassesDTO implements Serializable {
         this.modalityID = modalityID;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

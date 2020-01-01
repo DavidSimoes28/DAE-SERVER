@@ -18,6 +18,8 @@ public class TeachedModality implements Serializable {
     @ManyToOne
     private Modality modality;
     @ManyToOne
+    private Echelon echelon;
+    @ManyToOne
     private Coach coach;
     @ManyToMany
     private Set<Schedule> schedules;
@@ -26,9 +28,10 @@ public class TeachedModality implements Serializable {
         this.schedules = new LinkedHashSet<>();
     }
 
-    public TeachedModality(Modality modality, Coach coach) {
+    public TeachedModality(Modality modality, Coach coach, Echelon echelon) {
         this.modality = modality;
         this.coach = coach;
+        this.echelon = echelon;
         this.schedules = new LinkedHashSet<>();
     }
 
@@ -46,6 +49,14 @@ public class TeachedModality implements Serializable {
 
     public void setModality(Modality modality) {
         this.modality = modality;
+    }
+
+    public Echelon getEchelon() {
+        return echelon;
+    }
+
+    public void setEchelon(Echelon echelon) {
+        this.echelon = echelon;
     }
 
     public Coach getCoach() {

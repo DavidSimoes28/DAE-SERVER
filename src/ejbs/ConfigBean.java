@@ -70,6 +70,7 @@ public class ConfigBean {
             Administrator aaa = administratorBean.create("aaa", "aaa", "aaa", "aaa@aaa.aa");
             Coach john = coachBean.create("john","john","john","john@mail.com");
             Coach mary = coachBean.create("mary","mary","mary","mary@mail.com");
+            Coach david = coachBean.create("david","david","david","davidsimoes791@gmail.com");
             Athlete mark = athleteBean.create("mark", "mark", "mark", "mark@mail.com");
             Athlete kayle = athleteBean.create("kayle", "kayle", "kayle", "kayle@mail.com");
             Partner charles = partnerBean.create("charles", "charles", "charles","charles@mail.com");
@@ -92,8 +93,8 @@ public class ConfigBean {
             //PracticedModality practicedModality = practicedModalityBean.createWithEchelon(judo.getId(),echelon1.getId(),mark.getName());
 
 
-            TeachedModality teachedModality = teachedModalityBean.create(judo.getId(),john.getUsername());
-            TeachedModality teachedModality1 = teachedModalityBean.create(judo.getId(),john.getUsername());
+            TeachedModality teachedModality = teachedModalityBean.create(judo.getId(),john.getUsername(),echelon1.getId());
+            TeachedModality teachedModality1 = teachedModalityBean.create(judo.getId(),john.getUsername(),echelon1.getId());
 
             HourTime hourTime = hourTimeBean.create(12,0);
             HourTime hourTime1 = hourTimeBean.create(13,0);
@@ -122,7 +123,7 @@ public class ConfigBean {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = format.parse("2019-10-20");
 
-            Classes classes = classBean.create(john.getUsername(),schedule.getId(),judo.getId(),date);
+            Classes classes = classBean.create(john.getUsername(),schedule.getId(),judo.getId(),"2019-10-20");
             classes.addAthletesPresent(mark);
             mark.addClass(classes);
 
