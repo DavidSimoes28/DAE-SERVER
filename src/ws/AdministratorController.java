@@ -1,15 +1,24 @@
 package ws;
 
 import dtos.AdministratorDTO;
+import dtos.EmailDTO;
+import dtos.FilterUserDTO;
+import dtos.UserDTO;
 import ejbs.AdministratorBean;
+import ejbs.EmailBean;
 import entities.Administrator;
+import entities.Partner;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/administrators")
@@ -18,6 +27,8 @@ import java.util.stream.Collectors;
 public class AdministratorController {
     @EJB
     private AdministratorBean administratorBean;
+    @EJB
+    private EmailBean emailBean;
     AdministratorDTO toDTO(Administrator administrator) {
         return new AdministratorDTO(
                 administrator.getUsername(),
@@ -27,7 +38,7 @@ public class AdministratorController {
         );
     }
 
-    List<AdministratorDTO> toDTOs(List<Administrator> administrators) {
+    List<AdministratorDTO> toDTOs(Collection<Administrator> administrators) {
         return administrators.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
@@ -50,6 +61,32 @@ public class AdministratorController {
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_ADMINISTRATORS", e);
         }
+    }
+
+    @POST
+    @Path("/filter")
+    public Response getAthleteFilter(FilterUserDTO filterUserDTO) throws Exception {
+
+        Set<Administrator> filter = administratorBean.filter(filterUserDTO.getUsername());
+
+        try{
+            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ADMINISTRATOR", e);
+        }
+    }
+
+    @POST
+    @Path("/email/send")
+    public Response sendEmail(EmailDTO emailDTO) throws MyEntityNotFoundException, MessagingException {
+        for (UserDTO user : emailDTO.getUsers()) {
+            if(user == null){
+                throw new MyEntityNotFoundException("student not found");
+            }
+            emailBean.send(user.getEmail(),emailDTO.getSubject(),emailDTO.getMessage());
+        }
+
+        return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
     @POST

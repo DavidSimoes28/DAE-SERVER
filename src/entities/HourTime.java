@@ -23,6 +23,8 @@ public class HourTime implements Serializable {
     private Set<Schedule> schedulesStart;
     @OneToMany(mappedBy = "endDate")
     private Set<Schedule> schedulesEnd;
+    @Version
+    private int version;
 
     public HourTime() {
         this.schedulesStart = new LinkedHashSet<>();

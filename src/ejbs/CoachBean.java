@@ -2,12 +2,19 @@ package ejbs;
 
 import entities.Coach;
 import entities.Modality;
+import entities.PracticedModality;
+import entities.TeachedModality;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,5 +85,50 @@ public class CoachBean {
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_COACH");
         }
+    }
+
+    public Set<Coach> filter(String username, int modalityId) throws Exception {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Coach> criteria = builder.createQuery(Coach.class);
+        Root<Coach> from = criteria.from(Coach.class);
+        criteria.select(from);
+
+        if(!username.equals(null)){
+            criteria.where(builder.equal(from.get("username"), username));
+        }
+        CriteriaQuery<TeachedModality> criteriaTeached = builder.createQuery(TeachedModality.class);
+        Root<TeachedModality> fromTeached = criteria.from(TeachedModality.class);
+        criteriaTeached.select(fromTeached);
+
+        if(modalityId > 0){
+            criteriaTeached.where(builder.equal(fromTeached.get("modality"), modalityBean.find(modalityId)));
+        }
+
+        TypedQuery<Coach> queryCoach = em.createQuery(criteria);
+        TypedQuery<TeachedModality> queryTeached = em.createQuery(criteriaTeached);
+
+        Set<Coach> result = new LinkedHashSet<>();
+
+        if((username.equals("") || username.equals(null)) && modalityId <= 0 ){
+            for (Coach coach : all()) {
+                result.add(coach);
+            }
+            return result;
+        }
+
+
+        if(!username.equals(null) && !username.equals("")){
+            for (Coach coach : queryCoach.getResultList()) {
+                result.add(coach);
+            }
+        }
+
+        for (TeachedModality teachedModality : queryTeached.getResultList()) {
+            if(teachedModality.getModality() != null && modalityId == teachedModality.getModality().getId()){
+                result.add(teachedModality.getCoach());
+            }
+        }
+
+        return result;
     }
 }

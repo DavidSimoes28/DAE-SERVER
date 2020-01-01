@@ -1,13 +1,19 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -79,6 +85,23 @@ public class ModalityBean {
         }
     }
 
+    public Modality removeScheduleToModality(int modalityId, int scheduleId) throws MyIllegalArgumentException {
+        try{
+            Schedule schedule = scheduleBean.find(scheduleId);
+            Modality modality = find(modalityId);
+            int i = 0;
+            for (Schedule modalitySchedule : modality.getSchedules()) {
+                if(modalitySchedule.getId() == scheduleId){
+                    i=1;
+                }
+            }
+            if(i==1) modality.removeSchedule(schedule);
+            return modality;
+        } catch (Exception e) {
+            throw new MyIllegalArgumentException("ERROR_FINDING_ATHLETE");
+        }
+    }
+
     public List<Schedule> missingScheduleFromModality(int modalityId) throws Exception {
         try{
             Modality modality = find(modalityId);
@@ -138,5 +161,36 @@ public class ModalityBean {
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_STUDENT");
         }
+    }
+
+    public Set<Modality> filter(String name) throws Exception {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Modality> criteria = builder.createQuery(Modality.class);
+        Root<Modality> from = criteria.from(Modality.class);
+        criteria.select(from);
+
+        if(!name.equals(null)){
+            criteria.where(builder.equal(from.get("name"), name));
+        }
+
+        TypedQuery<Modality> query= em.createQuery(criteria);
+
+        Set<Modality> result = new LinkedHashSet<>();
+
+        if((name.equals("") || name.equals(null))){
+            for (Modality modality : all()) {
+                result.add(modality);
+            }
+            return result;
+        }
+
+
+        if(!name.equals(null) && !name.equals("")){
+            for (Modality modality : query.getResultList()) {
+                result.add(modality);
+            }
+        }
+
+        return result;
     }
 }

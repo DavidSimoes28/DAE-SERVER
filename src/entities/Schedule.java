@@ -29,6 +29,8 @@ public class Schedule implements Serializable {
     private Set<TeachedModality> teachedModalities;
     @ManyToMany(mappedBy = "schedules")
     private Set<Modality> modalities;
+    @Version
+    private int version;
 
     public Schedule() {
         this.practicedModalities = new LinkedHashSet<>();

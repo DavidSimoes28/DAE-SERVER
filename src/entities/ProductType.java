@@ -19,6 +19,8 @@ public class ProductType implements Serializable {
     private String type;
     @OneToMany(mappedBy = "type")
     private Set<Product> products;
+    @Version
+    private int version;
 
     public ProductType() {
         this.products = new LinkedHashSet<>();

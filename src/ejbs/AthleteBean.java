@@ -3,13 +3,17 @@ package ejbs;
 import entities.Athlete;
 import entities.Modality;
 import entities.PracticedModality;
+import entities.Purchase;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +24,13 @@ public class AthleteBean {
     private EntityManager em;
     @EJB
     private ModalityBean modalityBean;
+    @EJB
+    private EchelonBean echelonBean;
+    @EJB
+    private GraduationsBean graduationsBean;
+    @EJB
+    private PurchaseBean purchaseBean;
+
     public AthleteBean(){
 
     }
@@ -95,7 +106,7 @@ public class AthleteBean {
                 throw new Exception("ERROR_FINDING_ATHLETE");
             }
 
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
+            em.lock(athlete, LockModeType.OPTIMISTIC);
             athlete.setName(name);
             athlete.setEmail(email);
             athlete.setPassword(password);
@@ -114,11 +125,81 @@ public class AthleteBean {
                 throw new Exception("ERROR_FINDING_ATHLETE");
             }
 
-            //em.lock(coach, LockModeType.OPTIMISTIC);
+
+            if(!athlete.getPracticedModalities().isEmpty()){
+                throw new Exception("ERROR_DELETING_ATHLETE");
+            }
+
+            for (Purchase purchase : purchaseBean.all()) {
+                if(purchase.getPartner().getUsername().equals(athlete.getUsername())){
+                    throw new Exception("ERROR_DELETING_ATHLETE");
+                }
+            }
+
+            //em.lock(athlete, LockModeType.OPTIMISTIC);
             em.remove(athlete);
             return true;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_ATHLETE");
         }
+    }
+
+    public Set<Athlete> filter(String username, int modalityId, int echelonId, int graduationId) throws Exception {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Athlete> criteria = builder.createQuery(Athlete.class);
+        Root<Athlete> from = criteria.from(Athlete.class);
+        criteria.select(from);
+        if(!username.equals(null)){
+            criteria.where(builder.equal(from.get("username"), username));
+        }
+        CriteriaQuery<PracticedModality> criteriaPracticed = builder.createQuery(PracticedModality.class);
+        Root<PracticedModality> fromPracticed = criteria.from(PracticedModality.class);
+        criteriaPracticed.select(fromPracticed);
+
+        if(modalityId > 0){
+            criteriaPracticed.where(builder.equal(fromPracticed.get("modality"), modalityBean.find(modalityId)));
+        }
+        if(echelonId > 0){
+            criteriaPracticed.where(builder.equal(fromPracticed.get("echelon"), echelonBean.find(echelonId)));
+        }
+        if(graduationId > 0){
+            criteriaPracticed.where(builder.equal(fromPracticed.get("graduation"), graduationsBean.find(graduationId)));
+        }
+
+        TypedQuery<Athlete> queryAthlete = em.createQuery(criteria);
+        TypedQuery<PracticedModality> queryPracticed = em.createQuery(criteriaPracticed);
+
+        int i = 0;
+        Set<Athlete> result = new LinkedHashSet<>();
+
+        if((username.equals("") || username.equals(null)) && modalityId <= 0 && echelonId <= 0 && graduationId <= 0){
+            for (Athlete athlete : all()) {
+                result.add(athlete);
+            }
+            return result;
+        }
+
+
+        if(!username.equals(null) && !username.equals("")){
+            for (Athlete athlete : queryAthlete.getResultList()) {
+                result.add(athlete);
+            }
+        }
+
+        for (PracticedModality practicedModality : queryPracticed.getResultList()) {
+            if(practicedModality.getModality() != null && modalityId == practicedModality.getModality().getId()){
+                result.add(practicedModality.getAthlete());
+            }
+            if(practicedModality.getGraduations() != null && graduationId == practicedModality.getGraduations().getId()){
+                result.add(practicedModality.getAthlete());
+            }
+            if(practicedModality.getEchelon() != null && echelonId == practicedModality.getEchelon().getId()){
+                result.add(practicedModality.getAthlete());
+            }
+        }
+
+
+        return result;
     }
 }

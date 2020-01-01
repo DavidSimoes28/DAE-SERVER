@@ -1,14 +1,13 @@
 package ws;
 
 import dtos.EmailDTO;
+import dtos.FilterCoachDTO;
+import dtos.FilterUserDTO;
 import dtos.PartnerDTO;
 import ejbs.EmailBean;
 import ejbs.PartnerBean;
 import ejbs.PurchaseBean;
-import entities.Athlete;
-import entities.Modality;
-import entities.Partner;
-import entities.Payment;
+import entities.*;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -17,6 +16,7 @@ import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class PartnerController {
         return partnerDTO;
     }
 
-    public static Set<PartnerDTO> toDTOs(List<Partner> administrators) {
+    public static Set<PartnerDTO> toDTOs(Collection<Partner> administrators) {
         return administrators.stream().map(PartnerController::toDTO).collect(Collectors.toSet());
     }
 
@@ -79,6 +79,19 @@ public class PartnerController {
     }
 
     @POST
+    @Path("/filter")
+    public Response getAthleteFilter(FilterUserDTO filterUserDTO) throws Exception {
+
+        Set<Partner> filter = partnerBean.filter(filterUserDTO.getUsername());
+
+        try{
+            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ATHLETES", e);
+        }
+    }
+
+    @POST
     @Path("/")
     public Response createNewAthlete (PartnerDTO partnerDTO) throws Exception {
         partnerBean.create(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
@@ -88,17 +101,7 @@ public class PartnerController {
             throw new EJBException("ERROR_CREATING_PARTNER", e);
         }
     }
-    @POST
-    @Path("{username}/email/send")
-    public Response sendEmail(@PathParam("username") String username, EmailDTO emailDTO) throws MyEntityNotFoundException, MessagingException {
-        Partner partner = partnerBean.find(username);
-        if(partner == null){
-            throw new MyEntityNotFoundException("student not found");
-        }
-        emailBean.send(partner.getUsername(),emailDTO.getSubject(),emailDTO.getMessage());
-        return Response.status(Response.Status.OK).entity("E-mail sent").build();
 
-    }
     @PUT
     @Path("/{username}")
     public Response updateAthlete (PartnerDTO partnerDTO) throws Exception {

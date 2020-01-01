@@ -22,6 +22,8 @@ public class Echelon implements Serializable {
     private int finalAge;
     @ManyToOne
     private Modality modality;
+    @Version
+    private int version;
 
     public Echelon() {
     }

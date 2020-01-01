@@ -31,6 +31,8 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "parentProduct")
     private List<Product> childrenProducts;
     private String table_name;
+    @Version
+    private int version;
 
     public Product() {
         this.purchases = new LinkedHashSet<>();

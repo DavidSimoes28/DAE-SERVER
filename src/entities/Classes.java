@@ -9,7 +9,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllClasses",
-                query = "SELECT c FROM Classes c ORDER BY c.id"
+                query = "SELECT c FROM Classes c ORDER BY c.date"
         )
 })
 @Entity
@@ -26,6 +26,8 @@ public class Classes implements Serializable {
     @ManyToOne
     private Modality modality;
     private Date date;
+    @Version
+    private int version;
 
     public Classes() {
         athletesPresent = new LinkedHashSet<>();

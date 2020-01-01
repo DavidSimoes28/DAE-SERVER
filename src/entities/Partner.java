@@ -15,6 +15,8 @@ public class Partner extends User {
     @OneToMany(mappedBy = "partner", cascade = CascadeType.REMOVE)
     private Set<Purchase> purchases;
     private Double quota;
+    @Version
+    private int version;
 
 
     public Partner() {

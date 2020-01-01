@@ -2,6 +2,7 @@ package ws;
 
 
 import dtos.CoachDTO;
+import dtos.FilterCoachDTO;
 import ejbs.CoachBean;
 import entities.Coach;
 
@@ -66,6 +67,19 @@ public class CoachController {
             return Response.status(Response.Status.OK).entity(toDTODetails(coach)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_COACHES", e);
+        }
+    }
+
+    @POST
+    @Path("/filter")
+    public Response getAthleteFilter(FilterCoachDTO filterCoachDTO) throws Exception {
+
+        Set<Coach> filter = coachBean.filter(filterCoachDTO.getUsername(), filterCoachDTO.getModalityId());
+
+        try{
+            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ATHLETES", e);
         }
     }
 

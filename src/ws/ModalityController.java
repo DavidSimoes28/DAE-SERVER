@@ -1,5 +1,6 @@
 package ws;
 
+import dtos.FilterModalityDTO;
 import dtos.ModalityDTO;
 import dtos.ScheduleDTO;
 import ejbs.AthleteBean;
@@ -115,6 +116,19 @@ public class ModalityController {
     }
 
     @POST
+    @Path("/filter")
+    public Response getAthleteFilter(FilterModalityDTO filterModalityDTO) throws Exception {
+
+        Set<Modality> filter = modalityBean.filter(filterModalityDTO.getName());
+
+        try{
+            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ATHLETES", e);
+        }
+    }
+
+    @POST
     @Path("/")
     public Response createNewAdministrator (ModalityDTO modalityDTO) throws Exception {
         modalityBean.create(modalityDTO.getName(),modalityDTO.getSportYear(),modalityDTO.isActive());
@@ -126,9 +140,20 @@ public class ModalityController {
     }
 
     @PUT
-    @Path("/{id}/add/schedule/")
-    public Response addSchedule (ModalityDTO modalityDTO, ScheduleDTO scheduleDTO) throws Exception {
-        Modality modality = modalityBean.addScheduleToModality(modalityDTO.getId(),scheduleDTO.getId());
+    @Path("/{modalityId}/add/schedule/{scheduleId}")
+    public Response addSchedule (@PathParam("modalityId") int modalityId, @PathParam("scheduleId") int scheduleId) throws Exception {
+        Modality modality = modalityBean.addScheduleToModality(modalityId,scheduleId);
+        try{
+            return Response.status(Response.Status.OK).entity(toDTO(modality)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_UPDATING_MODALITY", e);
+        }
+    }
+
+    @PUT
+    @Path("/{modalityId}/remove/schedule/{scheduleId}")
+    public Response removeSchedule (@PathParam("modalityId") int modalityId, @PathParam("scheduleId") int scheduleId) throws Exception {
+        Modality modality = modalityBean.removeScheduleToModality(modalityId,scheduleId);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(modality)).build();
         } catch (Exception e) {

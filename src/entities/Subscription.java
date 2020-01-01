@@ -32,6 +32,8 @@ public class Subscription {
     private Graduations graduations;
     private Date subscriptionDate;
     private Double subscriptionPrice;
+    @Version
+    private int version;
 
     public Subscription() {
     }

@@ -10,7 +10,13 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "PartnerEJB")
 public class PartnerBean {
@@ -81,5 +87,35 @@ public class PartnerBean {
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_PARTNER");
         }
+    }
+
+    public Set<Partner> filter(String username) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Partner> criteria = builder.createQuery(Partner.class);
+        Root<Partner> from = criteria.from(Partner.class);
+        criteria.select(from);
+
+        if(!username.equals(null)){
+            criteria.where(builder.equal(from.get("username"), username));
+        }
+
+        TypedQuery<Partner> query = em.createQuery(criteria);
+        Set<Partner> result = new LinkedHashSet<>();
+
+        if((username.equals("") || username.equals(null))){
+            for (Partner partner : all()) {
+                result.add(partner);
+            }
+            return result;
+        }
+
+
+        if(!username.equals(null) && !username.equals("")){
+            for (Partner partner : query.getResultList()) {
+                result.add(partner);
+            }
+        }
+
+        return result;
     }
 }

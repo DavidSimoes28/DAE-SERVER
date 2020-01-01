@@ -43,6 +43,8 @@ public class Modality implements Serializable {
     private Set<TeachedModality> teachedModalities;
     private int sportYear;
     private boolean active;
+    @Version
+    private int version;
 
     public Modality() {
         practicedModalities = new LinkedHashSet<>();

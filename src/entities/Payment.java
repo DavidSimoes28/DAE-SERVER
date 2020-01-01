@@ -21,6 +21,8 @@ public class Payment implements Serializable {
     private State state;
     @OneToOne
     private Receipt receipt;
+    @Version
+    private int version;
 
     public Payment() {
     }

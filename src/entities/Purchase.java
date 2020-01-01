@@ -25,6 +25,8 @@ Purchase {
     private Set<Product> products;
     private Date releaseDate;
     private Double price;
+    @Version
+    private int version;
 
     public Purchase() {
         payments = new LinkedHashSet<>();

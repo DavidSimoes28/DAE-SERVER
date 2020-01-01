@@ -25,6 +25,8 @@ public class User implements Serializable {
     private String name;
     @Email
     private String email;
+    @Version
+    private int version;
 
     public User() {
     }

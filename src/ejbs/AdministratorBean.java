@@ -7,7 +7,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Stateless(name = "AdministratorEJB")
 public class AdministratorBean {
@@ -75,5 +81,35 @@ public class AdministratorBean {
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_STUDENT");
         }
+    }
+
+    public Set<Administrator> filter(String username) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Administrator> criteria = builder.createQuery(Administrator.class);
+        Root<Administrator> from = criteria.from(Administrator.class);
+        criteria.select(from);
+
+        if(!username.equals(null)){
+            criteria.where(builder.equal(from.get("username"), username));
+        }
+
+        TypedQuery<Administrator> query = em.createQuery(criteria);
+        Set<Administrator> result = new LinkedHashSet<>();
+
+        if((username.equals("") || username.equals(null))){
+            for (Administrator administrator : all()) {
+                result.add(administrator);
+            }
+            return result;
+        }
+
+
+        if(!username.equals(null) && !username.equals("")){
+            for (Administrator administrator : query.getResultList()) {
+                result.add(administrator);
+            }
+        }
+
+        return result;
     }
 }

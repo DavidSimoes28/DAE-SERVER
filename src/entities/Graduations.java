@@ -21,6 +21,8 @@ public class Graduations implements Serializable {
     private int minimumAge;
     @ManyToOne
     private Modality modality;
+    @Version
+    private int version;
 
     public Graduations(){
     }
