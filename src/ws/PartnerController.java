@@ -66,7 +66,7 @@ public class PartnerController {
 
     @GET
     @Path("{username}")
-    @RolesAllowed({"Administrator","Partners"})
+    @RolesAllowed({"Administrator","Partner"})
     public Response getAdministratorDetails(@PathParam("username") String username) throws Exception {
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Administrator") || principal.getName().equals(username)) {
@@ -81,7 +81,7 @@ public class PartnerController {
     }
 
     @GET
-    @RolesAllowed({"Administrator","Partners"})
+    @RolesAllowed({"Administrator","Partner"})
     @Path("{username}/payments")
     public Response getPartnerPayments(@PathParam("username") String username) throws Exception {
         Principal principal = securityContext.getUserPrincipal();

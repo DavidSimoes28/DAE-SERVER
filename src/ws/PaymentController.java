@@ -64,9 +64,9 @@ public class PaymentController {
 
     @GET
     @Path("{id}")
-    @RolesAllowed({"Administrator"})
+    @RolesAllowed({"Administrator","Partner","Athlete"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
-        if(securityContext.isUserInRole("Administrator")) {
+        if(securityContext.isUserInRole("Administrator")  || securityContext.isUserInRole("Partner") || securityContext.isUserInRole("Athlete")) {
             Payment payment = paymentBean.find(id);
             try {
                 return Response.status(Response.Status.OK).entity(toDTO(payment)).build();
@@ -94,9 +94,9 @@ public class PaymentController {
 
     @GET
     @Path("{id}/receipt/")
-    @RolesAllowed({"Administrator","Partner"})
+    @RolesAllowed({"Administrator","Partner","Athlete"})
     public Response getDocuments(@PathParam("id") int id) throws MyEntityNotFoundException {
-        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner")) {
+        if(securityContext.isUserInRole("Administrator")  || securityContext.isUserInRole("Partner") || securityContext.isUserInRole("Athlete")) {
             Payment payment = paymentBean.find(id);
             if (payment == null) {
                 throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
@@ -115,9 +115,9 @@ public class PaymentController {
 
     @GET
     @Path("{id}/hasReceipt/")
-    @RolesAllowed({"Administrator","Partner"})
+    @RolesAllowed({"Administrator","Partner","Athlete"})
     public Response hasDocuments(@PathParam("id")int id) throws MyEntityNotFoundException {
-        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner")) {
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner") || securityContext.isUserInRole("Athlete")) {
             Payment payment = paymentBean.find(id);
             if (payment == null) {
                 throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
@@ -131,9 +131,9 @@ public class PaymentController {
     }
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Administrator"})
+    @RolesAllowed({"Administrator","Partner","Athlete"})
     public Response updatePayment (PaymentDTO paymentDTO) throws Exception {
-        if(securityContext.isUserInRole("Administrator")) {
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner") || securityContext.isUserInRole("Athlete")) {
             Payment payment = paymentBean.update(paymentDTO.getId(), paymentDTO.getStateId());
             try {
                 return Response.status(Response.Status.CREATED).entity(toDTO(payment)).build();

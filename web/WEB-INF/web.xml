@@ -74,6 +74,7 @@
             <web-resource-name>Athlete</web-resource-name>
             <url-pattern>/api/athletes/*</url-pattern>
             <url-pattern>/api/modalities/*</url-pattern>
+            <url-pattern>/api/payments/*</url-pattern>
             <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
