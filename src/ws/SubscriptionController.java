@@ -7,6 +7,7 @@ import ejbs.SubscriptionBean;
 import entities.Product;
 import entities.Subscription;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -70,6 +71,7 @@ public class SubscriptionController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<SubscriptionDTO> all() {
         try {
             return toDTOs(subscriptionBean.all());
@@ -80,6 +82,7 @@ public class SubscriptionController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getSubscriptionDetails(@PathParam("id") int id) throws Exception {
         Subscription subscription = subscriptionBean.find(id);
         try{
@@ -91,6 +94,7 @@ public class SubscriptionController {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewSubscription (SubscriptionDTO subscriptionDTO) throws Exception {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

@@ -4,6 +4,7 @@ import dtos.TeachedModalityDTO;
 import ejbs.TeachedModalityBean;
 import entities.TeachedModality;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.Consumes;
@@ -37,6 +38,7 @@ public class TeachedModalityController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<TeachedModalityDTO> all() {
         try {
             return toDTOs(teachedModalityBean.all());

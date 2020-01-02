@@ -4,6 +4,7 @@ import dtos.GraduationsDTO;
 import ejbs.GraduationsBean;
 import entities.Graduations;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -37,6 +38,7 @@ public class GraduationsController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<GraduationsDTO> all() {
         try {
             return toDTOs(graduationsBean.all());
@@ -47,6 +49,7 @@ public class GraduationsController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         Graduations graduations = graduationsBean.find(id);
         try{
@@ -58,6 +61,7 @@ public class GraduationsController {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAdministrator (GraduationsDTO graduationsDTO) throws Exception {
         graduationsBean.create(graduationsDTO.getName(),graduationsDTO.getMinimumAge(),graduationsDTO.getId());
         try{
@@ -69,6 +73,7 @@ public class GraduationsController {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updateAdministrator (GraduationsDTO graduationsDTO) throws Exception {
         Graduations graduations = graduationsBean.update(graduationsDTO.getId(), graduationsDTO.getName(),graduationsDTO.getMinimumAge());
         try{
@@ -80,6 +85,7 @@ public class GraduationsController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
         graduationsBean.delete(id);
         try{

@@ -8,6 +8,134 @@
         <param-value>true</param-value>
     </context-param>
 
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Administrators</web-resource-name>
+            <url-pattern>/api/administrators/*</url-pattern>
+            <url-pattern>/api/athletes/*</url-pattern>
+            <url-pattern>/api/coaches/*</url-pattern>
+            <url-pattern>/api/classes/*</url-pattern>
+            <url-pattern>/api/echelons/*</url-pattern>
+            <url-pattern>/api/graduations/*</url-pattern>
+            <url-pattern>/api/hourTime/*</url-pattern>
+            <url-pattern>/api/modalities/*</url-pattern>
+            <url-pattern>/api/partners/*</url-pattern>
+            <url-pattern>/api/payments/*</url-pattern>
+            <url-pattern>/api/practicedModalities/*</url-pattern>
+            <url-pattern>/api/products/*</url-pattern>
+            <url-pattern>/api/payments/*</url-pattern>
+            <url-pattern>/api/productPayments/*</url-pattern>
+            <url-pattern>/api/purchases/*</url-pattern>
+            <url-pattern>/api/file/*</url-pattern>
+            <url-pattern>/api/schedules/*</url-pattern>
+            <url-pattern>/api/states/*</url-pattern>
+            <url-pattern>/api/subscriptions/*</url-pattern>
+            <url-pattern>/api/teachedModalities/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Partners</web-resource-name>
+            <url-pattern>/api/partners/*</url-pattern>
+            <url-pattern>/api/purchases/*</url-pattern>
+            <url-pattern>/api/payments/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Partner</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Partners file</web-resource-name>
+            <url-pattern>/api/file/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Partner</role-name>
+            <role-name>Athlete</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Athlete</web-resource-name>
+            <url-pattern>/api/athletes/*</url-pattern>
+            <url-pattern>/api/modalities/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Athlete</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Coach</web-resource-name>
+            <url-pattern>/api/coaches/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Coach</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Coach classes</web-resource-name>
+            <url-pattern>/api/classes/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Coach</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Coach classes</web-resource-name>
+            <url-pattern>/api/modalities/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Coach</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <description>Administrator role</description>
+        <role-name>Administrator</role-name>
+    </security-role>
+    <security-role>
+        <description>Partner role</description>
+        <role-name>Partner</role-name>
+    </security-role>
+    <security-role>
+        <description>Athlete role</description>
+        <role-name>Athlete</role-name>
+    </security-role>
+    <security-role>
+        <description>Coach role</description>
+        <role-name>Coach</role-name>
+    </security-role>
+
+
     <login-config>
         <auth-method>BEARER_TOKEN</auth-method>
         <realm-name>jwt-realm</realm-name>

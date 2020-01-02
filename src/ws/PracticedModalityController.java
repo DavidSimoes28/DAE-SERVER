@@ -6,6 +6,7 @@ import entities.Modality;
 import entities.PracticedModality;
 import entities.Schedule;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -60,6 +61,7 @@ public class PracticedModalityController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<PracticedModalityDTO> all() {
         try {
             return toDTOs(practicedModalityBean.all());
@@ -70,6 +72,7 @@ public class PracticedModalityController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getPracticedDetails(@PathParam("id") int id) throws Exception {
         PracticedModality practicedModality = practicedModalityBean.find(id);
         try{
@@ -81,6 +84,7 @@ public class PracticedModalityController {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewCoach (PracticedModalityDTO practicedModalityDTO) throws Exception {
         practicedModalityBean.create(practicedModalityDTO.getModalityId(),practicedModalityDTO.getEchelonId(),practicedModalityDTO.getGraduationsId(),practicedModalityDTO.getAthleteUsername());
         try{
@@ -92,6 +96,7 @@ public class PracticedModalityController {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updateCoach (PracticedModalityDTO practicedModalityDTO) throws Exception {
         PracticedModality practicedModality = practicedModalityBean.update(practicedModalityDTO.getId(),practicedModalityDTO.getEchelonId(),practicedModalityDTO.getGraduationsId());
         try{
@@ -100,15 +105,4 @@ public class PracticedModalityController {
             throw new EJBException("ERROR_UPDATING_COACH", e);
         }
     }
-
-    /*@DELETE
-    @Path("/{username}")
-    public Response deleteCoach(@PathParam("username") String username) throws Exception {
-        practicedModalityBean.delete(username);
-        try{
-            return Response.status(Response.Status.OK).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_DELETING_COACH", e);
-        }
-    }*/
 }

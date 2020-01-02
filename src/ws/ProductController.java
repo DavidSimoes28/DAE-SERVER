@@ -1,5 +1,6 @@
 package ws;
 
+import dtos.FilterProductDTO;
 import dtos.ProductDTO;
 import ejbs.ProductBean;
 import entities.Product;
@@ -56,6 +57,18 @@ public class ProductController {
             throw new EJBException("ERROR_GET_PRODUCTS", e);
         }
     }
+    @POST
+    @Path("/filter")
+    public Response getAthleteFilter(FilterProductDTO filterProductDTO) throws Exception {
+
+        Set<Product> filter = productBean.filter(filterProductDTO.getId(),filterProductDTO.getProductTypeId());
+
+        try{
+            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_ATHLETES", e);
+        }
+    }
 
     @POST
     @Path("/")
@@ -74,6 +87,17 @@ public class ProductController {
         Product product = productBean.update(productDTO.getId(),productDTO.getProductTypeId(),productDTO.getDescription(),productDTO.getValueInEur(), productDTO.getStock());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(product)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_UPDATING_PRODUCT", e);
+        }
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteProduct (@PathParam("id") int id) throws Exception {
+        productBean.delete(id);
+        try{
+            return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_PRODUCT", e);
         }

@@ -4,6 +4,7 @@ import dtos.ScheduleDTO;
 import ejbs.ScheduleBean;
 import entities.Schedule;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -34,6 +35,7 @@ public class ScheduleController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<ScheduleDTO> all() {
         try {
             return toDTOs(scheduleBean.all());
@@ -44,6 +46,7 @@ public class ScheduleController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         Schedule schedule = scheduleBean.find(id);
         try{
@@ -55,6 +58,7 @@ public class ScheduleController {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updateAthlete (ScheduleDTO scheduleDTO) throws Exception {
         Schedule schedule = scheduleBean.update(scheduleDTO.getId(),scheduleDTO.getDayOfWeek(),scheduleDTO.getStartDate().getId(),scheduleDTO.getEndDate().getId());
         try{
@@ -66,6 +70,7 @@ public class ScheduleController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAthlete(@PathParam("id") int id) throws Exception {
         scheduleBean.delete(id);
         try{

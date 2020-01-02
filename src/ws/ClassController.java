@@ -6,11 +6,14 @@ import ejbs.ClassBean;
 import entities.Athlete;
 import entities.Classes;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -26,6 +29,8 @@ public class ClassController {
 
     @EJB
     private ClassBean classBean;
+    @Context
+    private SecurityContext securityContext;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public static ClassesDTO toDTO(Classes classe) {
@@ -65,9 +70,13 @@ public class ClassController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<ClassesDTO> all() {
         try {
-            return toDTOs(classBean.all());
+            if(securityContext.isUserInRole("Administrator")) {
+                return toDTOs(classBean.all());
+            }
+            return null;
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_CLASSES", e);
         }
@@ -75,80 +84,107 @@ public class ClassController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator","Coach"})
     public Response getClassDetails(@PathParam("id") int id) throws Exception {
-        Classes classes = classBean.find(id);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTODetails(classes)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_CLASS", e);
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Coach")) {
+            Classes classes = classBean.find(id);
+            try {
+                return Response.status(Response.Status.OK).entity(toDTODetails(classes)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_CLASS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @GET
     @Path("{id}/notPresent")
+    @RolesAllowed({"Administrator","Coach"})
     public Response getNotPresentAthletes(@PathParam("id") int id) throws Exception {
-        List<Athlete> notPresentAthletes = classBean.findNotPresentAthletes(id);
-        try{
-            return Response.status(Response.Status.OK).entity(AthleteController.toDTOs(notPresentAthletes)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_CLASS", e);
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Coach")) {
+            List<Athlete> notPresentAthletes = classBean.findNotPresentAthletes(id);
+            try {
+                return Response.status(Response.Status.OK).entity(AthleteController.toDTOs(notPresentAthletes)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_CLASS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewClass (ClassesDTO classesDTO) throws Exception {
-        classBean.create(classesDTO.getCoachUsername(),classesDTO.getScheduleID(),classesDTO.getModalityID(),classesDTO.getDate());
-        try{
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_CLASS", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            classBean.create(classesDTO.getCoachUsername(), classesDTO.getScheduleID(), classesDTO.getModalityID(), classesDTO.getDate());
+            try {
+                return Response.status(Response.Status.CREATED).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_CLASS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
     @Path("/{id}/present/{username}")
+    @RolesAllowed({"Administrator","Coach"})
     public Response addPresentAthlete(@PathParam("id") int id,@PathParam("username") String username) throws Exception {
-        classBean.addPresentAthlete(id,username);
-        try{
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_CLASS", e);
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Coach")) {
+            classBean.addPresentAthlete(id, username);
+            try {
+                return Response.status(Response.Status.CREATED).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_CLASS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
     @Path("/{id}/notPresent/{username}")
+    @RolesAllowed({"Administrator","Coach"})
     public Response removePresentAthlete(@PathParam("id") int id,@PathParam("username") String username) throws Exception {
-        classBean.removePresentAthlete(id,username);
-        try{
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_CLASS", e);
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Coach")) {
+            classBean.removePresentAthlete(id, username);
+            try {
+                return Response.status(Response.Status.CREATED).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_CLASS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updateAthlete (ClassesDTO classesDTO) throws Exception {
-        Classes classes = classBean.update(classesDTO.getId(),classesDTO.getCoachUsername(),classesDTO.getScheduleID(),new Date());
-        try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(classes)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_ATHLETE", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Classes classes = classBean.update(classesDTO.getId(), classesDTO.getCoachUsername(), classesDTO.getScheduleID());
+            try {
+                return Response.status(Response.Status.CREATED).entity(toDTO(classes)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_UPDATING_ATHLETE", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAthlete(@PathParam("id") int id) throws Exception {
-        classBean.delete(id);
-        try{
-            return Response.status(Response.Status.OK).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_DELETING_COACH", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            classBean.delete(id);
+            try {
+                return Response.status(Response.Status.OK).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_DELETING_COACH", e);
+            }
         }
-
+        return Response.status(Response.Status.FORBIDDEN).build();
   }
 }
 

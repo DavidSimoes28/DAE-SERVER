@@ -6,11 +6,14 @@ import ejbs.PurchaseBean;
 import entities.Product;
 import entities.Purchase;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 public class PurchaseController {
     @EJB
     private PurchaseBean purchaseBean;
+    @Context
+    private SecurityContext securityContext;
 
     public static PurchaseDTO toDTO(Purchase purchase) {
         PurchaseDTO purchaseDTO = new PurchaseDTO(
@@ -52,9 +57,13 @@ public class PurchaseController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<PurchaseDTO> all() {
         try {
-            return toDTOs(purchaseBean.all());
+            if(securityContext.isUserInRole("Administrator")) {
+                return toDTOs(purchaseBean.all());
+            }
+            return null;
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_MODALITIES", e);
         }
@@ -62,35 +71,47 @@ public class PurchaseController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator","Partner"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
-        Purchase purchase = purchaseBean.find(id);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTODetails(purchase)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_MODALITIES", e);
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner")) {
+            Purchase purchase = purchaseBean.find(id);
+            try {
+                return Response.status(Response.Status.OK).entity(toDTODetails(purchase)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_MODALITIES", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewPurchase (PurchaseDTO purchaseDTO) throws Exception {
-        purchaseBean.create(purchaseDTO.getPartnerUsername(),purchaseDTO.getReleaseDate(),purchaseDTO.getPrice());
-        try{
-            return Response.status(Response.Status.OK).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_MODALITY", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            purchaseBean.create(purchaseDTO.getPartnerUsername(), purchaseDTO.getReleaseDate(), purchaseDTO.getPrice());
+            try {
+                return Response.status(Response.Status.OK).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_MODALITY", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updatePurchase (PurchaseDTO purchaseDTO) throws Exception {
-        Purchase purchase = purchaseBean.update(purchaseDTO.getId(), purchaseDTO.getPrice());
-        try{
-            return Response.status(Response.Status.OK).entity(toDTO(purchase)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_MODALITY", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Purchase purchase = purchaseBean.update(purchaseDTO.getId(), purchaseDTO.getPrice());
+            try {
+                return Response.status(Response.Status.OK).entity(toDTO(purchase)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_UPDATING_MODALITY", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
 }

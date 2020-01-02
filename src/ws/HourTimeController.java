@@ -4,6 +4,7 @@ import dtos.HourTimeDTO;
 import ejbs.HourTimeBean;
 import entities.HourTime;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -33,6 +34,7 @@ public class HourTimeController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<HourTimeDTO> all() {
         try {
             return toDTOs(hourTimeBean.all());
@@ -43,6 +45,7 @@ public class HourTimeController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         HourTime hourTime = hourTimeBean.find(id);
         try{
@@ -54,6 +57,7 @@ public class HourTimeController {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAthlete (HourTimeDTO hourTimeDTO) throws Exception {
         hourTimeBean.create(hourTimeDTO.getHour(),hourTimeDTO.getMinutes());
         try{
@@ -63,19 +67,9 @@ public class HourTimeController {
         }
     }
 
-    /*@PUT
-    @Path("/{username}")
-    public Response updateAthlete (HourTimeDTO hourTimeDTO) throws Exception {
-        HourTime hourTime = hourTimeBean.update(athleteDTO.getUsername(),athleteDTO.getPassword(),athleteDTO.getName(),athleteDTO.getEmail());
-        try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(athlete)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_ATHLETE", e);
-        }
-    }*/
-
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAthlete(@PathParam("id") int id) throws Exception {
         hourTimeBean.delete(id);
         try{

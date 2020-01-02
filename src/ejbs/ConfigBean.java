@@ -138,10 +138,10 @@ public class ConfigBean {
             Product product3 = productBean.createSubscriptionProduct(productType2.getId(),"Subscription");
 
             Purchase purchase = purchaseBean.create(charles.getUsername(),date,20.0);
-            purchase.addProduct(product1);
-            purchase.addProduct(product2);
+            purchaseBean.addProduct(purchase.getId(),product1.getId());
+            purchaseBean.addProduct(purchase.getId(),product2.getId());
             Purchase purchase1 = purchaseBean.create(charles.getUsername(),date,100.0);
-            purchase1.addProduct(product);
+            purchaseBean.addProduct(purchase1.getId(),product.getId());
 
             paymentBean.create(paid.getId(),purchase.getId());
             paymentBean.create(partial.getId(),purchase1.getId());

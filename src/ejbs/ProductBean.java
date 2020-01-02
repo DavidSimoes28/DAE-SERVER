@@ -9,6 +9,11 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -76,7 +81,7 @@ public class ProductBean {
 
             if(product == null){
                 throw new Exception("ERROR_FINDING_PRODUCT");
-            }else if(product.getPurchases() != null){
+            }else if(!product.getPurchases().isEmpty()){
                 throw new Exception("PRODUCT_ALREADY_SOLD");
             }
             em.remove(product);
@@ -84,5 +89,41 @@ public class ProductBean {
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_PRODUCT");
         }
+    }
+
+    public Set<Product> filter(int id, int productTypeId) throws Exception {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Product> criteria = builder.createQuery(Product.class);
+        Root<Product> from = criteria.from(Product.class);
+        criteria.select(from);
+
+        if(id>0){
+            criteria.where(builder.equal(from.get("id"), id));
+        }
+
+        if(productTypeId > 0){
+            criteria.where(builder.equal(from.get("type"), productTypeBean.find(productTypeId)));
+        }
+
+        TypedQuery<Product> query = em.createQuery(criteria);
+
+        Set<Product> result = new LinkedHashSet<>();
+
+        if(id<=0 && productTypeId <= 0 ){
+            result.addAll(query.getResultList());
+            return result;
+        }
+
+        for (Product product : query.getResultList()) {
+            if (product.getId()==id){
+                result.add(product);
+            }
+            if (productTypeId==product.getType().getId()){
+                result.add(product);
+            }
+        }
+
+        return result;
     }
 }

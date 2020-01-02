@@ -69,7 +69,7 @@ public class SubscriptionBean {
         }
 
         Purchase purchase = purchaseBean.create(athleteUsername, subscriptionDate, subscriptionPrice);
-        purchase.addProduct(product);
+        purchaseBean.addProduct(purchase.getId(),product.getId());
 
         Payment payment = paymentBean.create(stateId,purchase.getId());
 

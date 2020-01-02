@@ -94,7 +94,7 @@ public class ClassBean {
         }
     }
 
-    public Classes update(int classId,String coach_username, int schedule_id, Date date) throws Exception {
+    public Classes update(int classId,String coach_username, int schedule_id) throws Exception {
         try{
             Classes classes = find(classId);
             Coach coach = em.find(Coach.class, coach_username);
@@ -111,7 +111,6 @@ public class ClassBean {
             classes.getCoach().removeClasses(classes);
             classes.setCoach(coach);
             classes.setSchedule(schedule);
-            classes.setDate(date);
             return classes;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_COACH");

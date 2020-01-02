@@ -4,6 +4,7 @@ import dtos.StateDTO;
 import ejbs.StateBean;
 import entities.State;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -32,6 +33,7 @@ public class StateController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<StateDTO> all() {
         try {
             return toDTOs(stateBean.all());
@@ -42,6 +44,7 @@ public class StateController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         State state = stateBean.find(id);
         try{
@@ -53,6 +56,7 @@ public class StateController {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAdministrator (StateDTO stateDTO) throws Exception {
         stateBean.create(stateDTO.getName());
         try{
@@ -64,6 +68,7 @@ public class StateController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAdministrator(@PathParam("id")int id) throws Exception {
         stateBean.delete(id);
         try{

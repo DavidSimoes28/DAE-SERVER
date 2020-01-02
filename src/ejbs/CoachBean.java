@@ -70,7 +70,7 @@ public class CoachBean {
         }
     }
 
-    public Coach update(String username, String password, String name, String email) throws Exception {
+    public Coach update(String username, String name, String email) throws Exception {
         try{
             Coach coach = em.find(Coach.class, username);
 
@@ -81,7 +81,6 @@ public class CoachBean {
             //em.lock(coach, LockModeType.OPTIMISTIC);
             coach.setName(name);
             coach.setEmail(email);
-            coach.setPassword(password);
             em.merge(coach);
             return coach;
         }catch (Exception e){

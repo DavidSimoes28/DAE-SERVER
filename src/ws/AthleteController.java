@@ -5,6 +5,7 @@ import dtos.FilterAthleteDTO;
 import ejbs.AthleteBean;
 import entities.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.naming.ldap.PagedResultsControl;
@@ -13,8 +14,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +33,9 @@ import java.util.stream.Collectors;
 public class AthleteController {
     @EJB
     private AthleteBean athleteBean;
+    @Context
+    private SecurityContext securityContext;
+
     public static AthleteDTO toDTO(Athlete athlete) {
          AthleteDTO athleteDTO = new AthleteDTO(
                 athlete.getUsername(),
@@ -69,9 +76,13 @@ public class AthleteController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<AthleteDTO> all() {
         try {
-            return toDTOs(athleteBean.all());
+            if(securityContext.isUserInRole("Administrator")){
+                return toDTOs(athleteBean.all());
+            }
+            return null;
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_COACHES", e);
         }
@@ -79,58 +90,79 @@ public class AthleteController {
 
     @GET
     @Path("{username}")
+    @RolesAllowed({"Administrator","Athlete"})
     public Response getAdministratorDetails(@PathParam("username") String username) throws Exception {
-        Athlete athlete = athleteBean.find(username);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTODetails(athlete)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_ATHLETES", e);
+        Principal principal = securityContext.getUserPrincipal();
+        if(securityContext.isUserInRole("Administrator") || principal.getName().equals(username)){
+
+            Athlete athlete = athleteBean.find(username);
+            try{
+                return Response.status(Response.Status.OK).entity(toDTODetails(athlete)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_ATHLETES", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/filter")
+    @RolesAllowed({"Administrator"})
     public Response getAthleteFilter(FilterAthleteDTO filterAthleteDTO) throws Exception {
-        //Athlete athlete = athleteBean.find(username);
-        Set<Athlete> filter = athleteBean.filter(filterAthleteDTO.getUsername(), filterAthleteDTO.getModalityId(), filterAthleteDTO.getEchelonId(), filterAthleteDTO.getGraduationId());
+        if(securityContext.isUserInRole("Administrator")) {
+            Set<Athlete> filter = athleteBean.filter(filterAthleteDTO.getUsername(), filterAthleteDTO.getModalityId(), filterAthleteDTO.getEchelonId(), filterAthleteDTO.getGraduationId());
 
-        try{
-            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_ATHLETES", e);
+            try {
+                return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_ATHLETES", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAthlete (AthleteDTO athleteDTO) throws Exception {
-        athleteBean.create(athleteDTO.getUsername(), athleteDTO.getPassword(), athleteDTO.getName(), athleteDTO.getEmail());
-        try{
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_ATHLETE", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            athleteBean.create(athleteDTO.getUsername(), athleteDTO.getPassword(), athleteDTO.getName(), athleteDTO.getEmail());
+            try {
+                return Response.status(Response.Status.CREATED).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_ATHLETE", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response updateAthlete (AthleteDTO athleteDTO) throws Exception {
-        Athlete athlete = athleteBean.update(athleteDTO.getUsername(),athleteDTO.getPassword(),athleteDTO.getName(),athleteDTO.getEmail());
-        try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(athlete)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_ATHLETE", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Athlete athlete = athleteBean.update(athleteDTO.getUsername(), athleteDTO.getPassword(), athleteDTO.getName(), athleteDTO.getEmail());
+            try {
+                return Response.status(Response.Status.CREATED).entity(toDTO(athlete)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_UPDATING_ATHLETE", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAthlete(@PathParam("username") String username) throws Exception {
-        athleteBean.delete(username);
-        try{
-            return Response.status(Response.Status.OK).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_DELETING_COACH", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            athleteBean.delete(username);
+            try {
+                return Response.status(Response.Status.OK).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_DELETING_COACH", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

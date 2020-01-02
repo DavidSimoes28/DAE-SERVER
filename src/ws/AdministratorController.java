@@ -8,6 +8,7 @@ import entities.Partner;
 import entities.User;
 import exceptions.MyEntityNotFoundException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.mail.MessagingException;
@@ -54,6 +55,7 @@ public class AdministratorController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<AdministratorDTO> all() {
         try {
             return toDTOs(administratorBean.all());
@@ -64,6 +66,7 @@ public class AdministratorController {
 
     @GET
     @Path("/email/send/users")
+    @RolesAllowed({"Administrator"})
     public Response getAllSendEmail() throws Exception {
         Set<User> users = emailBean.allUsers();
         try{
@@ -75,6 +78,7 @@ public class AdministratorController {
 
     @GET
     @Path("{username}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("username") String username) throws Exception {
         Administrator administrator = administratorBean.find(username);
         try{
@@ -86,6 +90,7 @@ public class AdministratorController {
 
     @POST
     @Path("/filter")
+    @RolesAllowed({"Administrator"})
     public Response getAthleteFilter(FilterUserDTO filterUserDTO) throws Exception {
 
         Set<Administrator> filter = administratorBean.filter(filterUserDTO.getUsername());
@@ -99,6 +104,7 @@ public class AdministratorController {
 
     @POST
     @Path("/email/send/filter")
+    @RolesAllowed({"Administrator"})
     public Response getSendEmailFilter(FilterSendEmailDTO filterSendEmailDTO) throws Exception {
 
         Set<User> filter = emailBean.filter(filterSendEmailDTO.getModalityId(),filterSendEmailDTO.getEchelonId());
@@ -112,6 +118,7 @@ public class AdministratorController {
 
     @POST
     @Path("/email/send")
+    @RolesAllowed({"Administrator"})
     public Response sendEmail(EmailDTO emailDTO) throws MyEntityNotFoundException, MessagingException {
         for (UserDTO user : emailDTO.getUsers()) {
             if(user == null){
@@ -125,6 +132,7 @@ public class AdministratorController {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAdministrator (AdministratorDTO administratorDTO) throws Exception {
         administratorBean.create(administratorDTO.getUsername(), administratorDTO.getPassword(), administratorDTO.getName(), administratorDTO.getEmail());
         try{
@@ -136,6 +144,7 @@ public class AdministratorController {
 
     @PUT
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response updateAdministrator (AdministratorDTO administratorDTO) throws Exception {
         Administrator administrator = administratorBean.update(administratorDTO.getUsername(),administratorDTO.getPassword(),administratorDTO.getName(),administratorDTO.getEmail());
         try{
@@ -147,6 +156,7 @@ public class AdministratorController {
 
     @DELETE
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAdministrator(@PathParam("username") String username) throws Exception {
         administratorBean.delete(username);
         try{

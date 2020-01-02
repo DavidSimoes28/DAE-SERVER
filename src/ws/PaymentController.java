@@ -6,11 +6,15 @@ import ejbs.PaymentBean;
 import entities.Payment;
 import exceptions.MyEntityNotFoundException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +28,8 @@ public class PaymentController {
 
     @EJB
     private PaymentBean paymentBean;
+    @Context
+    private SecurityContext securityContext;
 
     public static PaymentDTO toDTO(Payment payment) {
         PaymentDTO paymentDTO = new PaymentDTO(
@@ -44,9 +50,13 @@ public class PaymentController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<PaymentDTO> all() {
         try {
-            return toDTOs(paymentBean.all());
+            if(securityContext.isUserInRole("Administrator")) {
+                return toDTOs(paymentBean.all());
+            }
+            return null;
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_CLASSES", e);
         }
@@ -54,66 +64,84 @@ public class PaymentController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
-        Payment payment = paymentBean.find(id);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTO(payment)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_PARTNERS", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Payment payment = paymentBean.find(id);
+            try {
+                return Response.status(Response.Status.OK).entity(toDTO(payment)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_PARTNERS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewPayment (PaymentDTO paymentDTO) throws Exception {
-        paymentBean.create(paymentDTO.getStateId(),paymentDTO.getPurchaseId());
-        try{
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_Payment", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            paymentBean.create(paymentDTO.getStateId(), paymentDTO.getPurchaseId());
+            try {
+                return Response.status(Response.Status.CREATED).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_Payment", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @GET
     @Path("{id}/receipt/")
+    @RolesAllowed({"Administrator","Partner"})
     public Response getDocuments(@PathParam("id") int id) throws MyEntityNotFoundException {
-        Payment payment = paymentBean.find(id);
-        if (payment == null) {
-            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
-        }
-        if(payment.getReceipt() == null){
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner")) {
+            Payment payment = paymentBean.find(id);
+            if (payment == null) {
+                throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
+            }
+            if (payment.getReceipt() == null) {
+                return Response.status(Response.Status.OK)
+                        .entity(null)
+                        .build();
+            }
             return Response.status(Response.Status.OK)
-                    .entity(null)
+                    .entity(ReceiptController.toDTO(payment.getReceipt()))
                     .build();
         }
-        return Response.status(Response.Status.OK)
-                .entity(ReceiptController.toDTO(payment.getReceipt()))
-                .build();
-        //return ReceiptController.toDTO(payment.getReceipt());
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @GET
     @Path("{id}/hasReceipt/")
-    public Response hasDocuments(@PathParam("id")int id)
-            throws MyEntityNotFoundException {
-        Payment payment = paymentBean.find(id);
-        if (payment == null) {
-            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
-        }
+    @RolesAllowed({"Administrator","Partner"})
+    public Response hasDocuments(@PathParam("id")int id) throws MyEntityNotFoundException {
+        if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner")) {
+            Payment payment = paymentBean.find(id);
+            if (payment == null) {
+                throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
+            }
 
-        return Response.status(Response.Status.OK)
-                .entity(new Boolean(!payment.getReceipt().equals(null)))
-                .build();
+            return Response.status(Response.Status.OK)
+                    .entity(new Boolean(!payment.getReceipt().equals(null)))
+                    .build();
+        }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updatePayment (PaymentDTO paymentDTO) throws Exception {
-        Payment payment = paymentBean.update(paymentDTO.getId(),paymentDTO.getStateId());
-        try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(payment)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_PAyemnt", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Payment payment = paymentBean.update(paymentDTO.getId(), paymentDTO.getStateId());
+            try {
+                return Response.status(Response.Status.CREATED).entity(toDTO(payment)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_UPDATING_PAyemnt", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
 }

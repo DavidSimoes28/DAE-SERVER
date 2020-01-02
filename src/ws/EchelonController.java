@@ -4,6 +4,7 @@ import dtos.EchelonDTO;
 import ejbs.EchelonBean;
 import entities.Echelon;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
@@ -37,6 +38,7 @@ public class EchelonController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public List<EchelonDTO> all() {
         try {
             return toDTOs(echelonBean.all());
@@ -47,6 +49,7 @@ public class EchelonController {
 
     @GET
     @Path("{id}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         Echelon echelon1 = echelonBean.find(id);
         try{
@@ -56,19 +59,21 @@ public class EchelonController {
         }
     }
 
-    /*@POST
+    @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAdministrator (EchelonDTO echelonDTO) throws Exception {
-        echelonBean.create(echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
+        echelonBean.create(echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge(),echelonDTO.getModalityId());
         try{
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_CREATING_ECHELON", e);
         }
-    }*/
+    }
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response updateAdministrator (EchelonDTO echelonDTO) throws Exception {
         Echelon echelon = echelonBean.update(echelonDTO.getId(),echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
         try{
@@ -80,6 +85,7 @@ public class EchelonController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAdministrator(@PathParam("id") int id) throws Exception {
         echelonBean.delete(id);
         try{

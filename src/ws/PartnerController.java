@@ -10,12 +10,16 @@ import ejbs.PurchaseBean;
 import entities.*;
 import exceptions.MyEntityNotFoundException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +36,9 @@ public class PartnerController {
     private PurchaseBean purchaseBean;
     @EJB
     private EmailBean emailBean;
+    @Context
+    private SecurityContext securityContext;
+
     public static PartnerDTO toDTO(Partner partner) {
         PartnerDTO partnerDTO = new PartnerDTO(
                 partner.getUsername(),
@@ -48,6 +55,7 @@ public class PartnerController {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Set<PartnerDTO> all() {
         try {
             return toDTOs(partnerBean.all());
@@ -58,69 +66,93 @@ public class PartnerController {
 
     @GET
     @Path("{username}")
+    @RolesAllowed({"Administrator","Partners"})
     public Response getAdministratorDetails(@PathParam("username") String username) throws Exception {
-        Partner partner = partnerBean.find(username);
-        try{
-            return Response.status(Response.Status.OK).entity(toDTO(partner/*,null*/)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_PARTNERS", e);
+        Principal principal = securityContext.getUserPrincipal();
+        if(securityContext.isUserInRole("Administrator") || principal.getName().equals(username)) {
+            Partner partner = partnerBean.find(username);
+            try {
+                return Response.status(Response.Status.OK).entity(toDTO(partner/*,null*/)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_PARTNERS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @GET
+    @RolesAllowed({"Administrator","Partners"})
     @Path("{username}/payments")
     public Response getPartnerPayments(@PathParam("username") String username) throws Exception {
-        List<Payment> partnerPayments = purchaseBean.findPartnerPayments(username);
-        try{
-            return Response.status(Response.Status.OK).entity(PaymentController.toDTOs(partnerPayments)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_PARTNERS", e);
+        Principal principal = securityContext.getUserPrincipal();
+        if(securityContext.isUserInRole("Administrator") || principal.getName().equals(username)) {
+            List<Payment> partnerPayments = purchaseBean.findPartnerPayments(username);
+            try {
+                return Response.status(Response.Status.OK).entity(PaymentController.toDTOs(partnerPayments)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_PARTNERS", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/filter")
+    @RolesAllowed({"Administrator"})
     public Response getAthleteFilter(FilterUserDTO filterUserDTO) throws Exception {
-
-        Set<Partner> filter = partnerBean.filter(filterUserDTO.getUsername());
-
-        try{
-            return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_GET_ATHLETES", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Set<Partner> filter = partnerBean.filter(filterUserDTO.getUsername());
+            try {
+                return Response.status(Response.Status.OK).entity(toDTOs(filter)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_ATHLETES", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAthlete (PartnerDTO partnerDTO) throws Exception {
-        partnerBean.create(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
-        try{
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_CREATING_PARTNER", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            partnerBean.create(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
+            try {
+                return Response.status(Response.Status.CREATED).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_CREATING_PARTNER", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response updateAthlete (PartnerDTO partnerDTO) throws Exception {
-        Partner partner = partnerBean.update(partnerDTO.getUsername(),partnerDTO.getPassword(),partnerDTO.getName(),partnerDTO.getEmail());
-        try{
-            return Response.status(Response.Status.CREATED).entity(toDTO(partner)).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_UPDATING_PARTNER", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            Partner partner = partnerBean.update(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
+            try {
+                return Response.status(Response.Status.CREATED).entity(toDTO(partner)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_UPDATING_PARTNER", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAthlete(@PathParam("username") String username) throws Exception {
-        partnerBean.delete(username);
-        try{
-            return Response.status(Response.Status.OK).build();
-        } catch (Exception e) {
-            throw new EJBException("ERROR_DELETING_PARTNER", e);
+        if(securityContext.isUserInRole("Administrator")) {
+            partnerBean.delete(username);
+            try {
+                return Response.status(Response.Status.OK).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_DELETING_PARTNER", e);
+            }
         }
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

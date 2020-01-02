@@ -2,6 +2,7 @@ package ejbs;
 
 import entities.Partner;
 import entities.Payment;
+import entities.Product;
 import entities.Purchase;
 
 import javax.ejb.EJB;
@@ -20,13 +21,32 @@ public class PurchaseBean {
     private EntityManager em;
     @EJB
     private PartnerBean partnerBean;
+    @EJB
+    private ProductBean productBean;
 
     public PurchaseBean() {
     }
+
     public Purchase create(String username, Date releaseDate, Double price) throws Exception {
         Partner partner = partnerBean.find(username);
         Purchase purchase = new Purchase(partner,releaseDate,price);
         em.persist(purchase);
+        return purchase;
+    }
+
+    public Purchase addProduct(int id, int productId) throws Exception {
+        Product product = productBean.find(productId);
+        Purchase purchase = find(id);
+        purchase.addProduct(product);
+        product.addPurchase(purchase);
+        return purchase;
+    }
+
+    public Purchase removeProduct(int id, int productId) throws Exception {
+        Product product = productBean.find(productId);
+        Purchase purchase = find(id);
+        purchase.removeProduct(product);
+        product.removePurchase(purchase);
         return purchase;
     }
 
