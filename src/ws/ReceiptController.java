@@ -2,8 +2,10 @@ package ws;
 
 import dtos.ReceiptDTO;
 import ejbs.PaymentBean;
+import ejbs.PurchaseBean;
 import ejbs.ReceiptBean;
 import entities.Payment;
+import entities.Purchase;
 import entities.Receipt;
 import exceptions.MyEntityNotFoundException;
 import org.apache.commons.io.IOUtils;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 public class ReceiptController {
 
     @EJB
+    PurchaseBean purchaseBean;
+    @EJB
     PaymentBean paymentBean;
     @EJB
     ReceiptBean receiptBean;
@@ -45,12 +49,16 @@ public class ReceiptController {
     }
 
     @POST
-    @Path("{id}/upload")
+    @Path("{purchaseId}/payment/{paymentId}/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadFile(@PathParam("id") int id, MultipartFormDataInput input) throws MyEntityNotFoundException, IOException {
-        Payment payment = paymentBean.find(id);
+    public Response uploadFile(@PathParam("purchaseId") int purchaseId,@PathParam("paymentId") int paymentId, MultipartFormDataInput input) throws Exception {
+        Purchase purchase = purchaseBean.find(purchaseId);
+        if (purchase == null) {
+            throw new MyEntityNotFoundException("Receipt with id " + purchaseId + " not found.");
+        }
+        Payment payment = paymentBean.find(paymentId);
         if (payment == null) {
-            throw new MyEntityNotFoundException("Receipt with id " + id + " not found.");
+            throw new MyEntityNotFoundException("Receipt with id " + paymentId + " not found.");
         }
 
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
@@ -78,7 +86,7 @@ public class ReceiptController {
                 fileName = customDir.getCanonicalPath() + File.separator + fileName;
                 writeFile(bytes, fileName);
 
-                receiptBean.create(id, path, fileName);
+                receiptBean.create(purchaseId, paymentId, path, fileName);
 
                 return Response.status(200).entity("Uploaded file name : " + fileName).build();
 

@@ -39,6 +39,32 @@ public class StateBean {
         }
     }
 
+    public State getPaidState() throws Exception {
+        try{
+            for (State state : all()) {
+                if(state.getName().equals("Paid")){
+                    return state;
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_STATE", e);
+        }
+    }
+
+    public State getNotPaidState() throws Exception {
+        try{
+            for (State state : all()) {
+                if(state.getName().equals("Not Paid")){
+                    return state;
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_STATE", e);
+        }
+    }
+
     public boolean delete(int id) throws Exception{
         try{
             State state = em.find(State.class, id);

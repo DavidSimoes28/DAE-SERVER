@@ -4,6 +4,7 @@ package ws;
 import dtos.CoachDTO;
 import dtos.FilterCoachDTO;
 import ejbs.CoachBean;
+import entities.Athlete;
 import entities.Coach;
 
 import javax.ejb.EJB;
@@ -65,6 +66,17 @@ public class CoachController {
         Coach coach = coachBean.find(username);
         try{
             return Response.status(Response.Status.OK).entity(toDTODetails(coach)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_COACHES", e);
+        }
+    }
+
+    @GET
+    @Path("{username}/athletes")
+    public Response getCoachAthletes(@PathParam("username") String username) throws Exception {
+        Set<Athlete> coachAthletes = coachBean.findCoachAthletes(username);
+        try{
+            return Response.status(Response.Status.OK).entity(AthleteController.toDTOs(coachAthletes)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_COACHES", e);
         }

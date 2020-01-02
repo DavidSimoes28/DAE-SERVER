@@ -1,9 +1,6 @@
 package ejbs;
 
-import entities.Coach;
-import entities.Modality;
-import entities.PracticedModality;
-import entities.TeachedModality;
+import entities.*;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -24,6 +21,8 @@ public class CoachBean {
     private EntityManager em;
     @EJB
     ModalityBean modalityBean;
+    @EJB
+    AthleteBean athleteBean;
     public CoachBean() {
     }
 
@@ -47,6 +46,25 @@ public class CoachBean {
     public Coach find(String username) throws Exception {
         try{
             return em.find(Coach.class, username);
+        } catch (Exception e) {
+            throw new Exception("ERROR_FINDING_COACH", e);
+        }
+    }
+
+    public Set<Athlete> findCoachAthletes(String username) throws Exception {
+        try{
+            Set<Athlete> athletes = new LinkedHashSet<>();
+            Coach coach = em.find(Coach.class, username);
+            for (Athlete athlete : athleteBean.all()) {
+                for (PracticedModality practicedModality : athlete.getPracticedModalities()) {
+                    for (Modality modality : coach.getModalities()) {
+                        if(practicedModality.getModality().getId() == modality.getId()){
+                            athletes.add(athlete);
+                        }
+                    }
+                }
+            }
+            return athletes;
         } catch (Exception e) {
             throw new Exception("ERROR_FINDING_COACH", e);
         }

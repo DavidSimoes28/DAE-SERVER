@@ -44,6 +44,17 @@ public class ProductTypeController {
         }
     }
 
+    @GET
+    @Path("/{id}")
+    public Response getProductDetails(@PathParam("id") int id) throws Exception {
+        ProductType productType = productTypeBean.find(id);
+        try {
+            return Response.status(Response.Status.OK).entity(toDTO(productType)).build();
+        } catch (Exception e) {
+            throw new EJBException("ERROR_GET_PRODUCTS", e);
+        }
+    }
+
     @POST
     @Path("/")
     public Response createNewProductType (ProductTypeDTO productTypeDTO) throws Exception {

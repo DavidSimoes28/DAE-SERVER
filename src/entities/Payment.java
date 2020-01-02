@@ -19,7 +19,7 @@ public class Payment implements Serializable {
     private Purchase purchase;
     @ManyToOne
     private State state;
-    @OneToOne
+    @ManyToOne
     private Receipt receipt;
     @Version
     private int version;

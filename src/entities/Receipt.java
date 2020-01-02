@@ -2,11 +2,15 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "RECEIPTS")
 @NamedQueries({
-        @NamedQuery(name = "getPaymentReceipt", query = "SELECT doc FROM Receipt doc WHERE doc.payment.id = :id")
+        @NamedQuery(name = "getPaymentReceipt", query = "SELECT doc FROM Receipt doc WHERE doc.id = :id")
 })
 public class Receipt implements Serializable {
 
@@ -18,16 +22,18 @@ public class Receipt implements Serializable {
 
     private String filename;
 
-    @OneToOne
-    private Payment payment;
+    @OneToMany
+    private Set<Payment> payments;
 
     public Receipt() {
+        payments = new LinkedHashSet<>();
     }
 
-    public Receipt(String filepath, String filename, Payment payment) {
+    public Receipt(String filepath, String filename, Set<Payment> payments) {
         this.filepath = filepath;
         this.filename = filename;
-        this.payment = payment;
+        this.payments = new LinkedHashSet<>();
+        this.payments = payments;
     }
 
     public int getId() {
@@ -54,11 +60,11 @@ public class Receipt implements Serializable {
         this.filename = desiredName;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public Set<Payment> getPayments() {
+        return payments;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
     }
 }

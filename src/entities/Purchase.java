@@ -7,7 +7,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPurchase",
-                query = "SELECT p FROM Purchase p ORDER BY p.id"
+                query = "SELECT p FROM Purchase p ORDER BY p.releaseDate"
         )
 })
 @Entity

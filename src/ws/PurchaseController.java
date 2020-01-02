@@ -65,7 +65,7 @@ public class PurchaseController {
     public Response getAdministratorDetails(@PathParam("id") int id) throws Exception {
         Purchase purchase = purchaseBean.find(id);
         try{
-            return Response.status(Response.Status.OK).entity(toDTO(purchase)).build();
+            return Response.status(Response.Status.OK).entity(toDTODetails(purchase)).build();
         } catch (Exception e) {
             throw new EJBException("ERROR_GET_MODALITIES", e);
         }
