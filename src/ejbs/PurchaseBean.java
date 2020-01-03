@@ -92,6 +92,16 @@ public class PurchaseBean {
         return payments;
     }
 
+    public Set<Payment> removePurchasePayment(int id, int paymentId) throws Exception {
+        Purchase purchase = find(id);
+        for (Payment payment : purchase.getPayments()) {
+            if(payment.getId() == paymentId){
+                purchase.removePayment(payment);
+            }
+        }
+        return purchase.getPayments();
+    }
+
     public Purchase update(int id, Double price) throws Exception {
         Purchase purchase = em.find(Purchase.class, id);
         if(purchase == null){

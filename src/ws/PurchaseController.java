@@ -125,6 +125,21 @@ public class PurchaseController {
     }
 
     @PUT
+    @Path("{id}/remove/payment/{paymentId}")
+    @RolesAllowed({"Administrator"})
+    public Response removePurchasePayment(@PathParam("id") int id, @PathParam("paymentId") int paymentId) throws Exception {
+        if(securityContext.isUserInRole("Administrator")) {
+            Set<Payment> payments = purchaseBean.removePurchasePayment(id, paymentId);
+            try {
+                return Response.status(Response.Status.OK).entity(PaymentController.toDTOs(payments)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_MODALITIES", e);
+            }
+        }
+        return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    @PUT
     @Path("/{id}")
     @RolesAllowed({"Administrator"})
     public Response updatePurchase (PurchaseDTO purchaseDTO) throws Exception {
