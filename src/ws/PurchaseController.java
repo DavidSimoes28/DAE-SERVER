@@ -1,7 +1,9 @@
 package ws;
 
 
+import dtos.ProductDTO;
 import dtos.PurchaseDTO;
+import ejbs.ProductBean;
 import ejbs.PurchaseBean;
 import entities.Product;
 import entities.Purchase;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 public class PurchaseController {
     @EJB
     private PurchaseBean purchaseBean;
+    @EJB
+    private ProductBean productBean;
     @Context
     private SecurityContext securityContext;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,7 +95,10 @@ public class PurchaseController {
     @RolesAllowed({"Administrator"})
     public Response createNewPurchase (PurchaseDTO purchaseDTO) throws Exception {
         if(securityContext.isUserInRole("Administrator")) {
-            purchaseBean.create(purchaseDTO.getPartnerUsername(), purchaseDTO.getReleaseDate(), purchaseDTO.getPrice());
+            Purchase purchase = purchaseBean.create(purchaseDTO.getPartnerUsername(), purchaseDTO.getReleaseDate(), purchaseDTO.getPrice());
+            for (ProductDTO product : purchaseDTO.getProducts()) {
+                purchaseBean.addProduct(purchase.getId(), product.getId());
+            }
             try {
                 return Response.status(Response.Status.OK).build();
             } catch (Exception e) {
