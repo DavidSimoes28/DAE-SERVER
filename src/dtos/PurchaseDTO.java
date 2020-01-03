@@ -8,13 +8,13 @@ public class PurchaseDTO implements Serializable {
     private int id;
     private String partnerUsername;
     private List<ProductDTO> products;
-    private Date releaseDate;
+    private String releaseDate;
     private Double price;
 
     public PurchaseDTO() {
     }
 
-    public PurchaseDTO(int id, String partnerUsername, Date releaseDate, Double price) {
+    public PurchaseDTO(int id, String partnerUsername, String releaseDate, Double price) {
         this.id = id;
         this.partnerUsername = partnerUsername;
         this.releaseDate = releaseDate;
@@ -45,11 +45,11 @@ public class PurchaseDTO implements Serializable {
         this.products = products;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

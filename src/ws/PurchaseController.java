@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -27,12 +28,13 @@ public class PurchaseController {
     private PurchaseBean purchaseBean;
     @Context
     private SecurityContext securityContext;
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public static PurchaseDTO toDTO(Purchase purchase) {
         PurchaseDTO purchaseDTO = new PurchaseDTO(
                 purchase.getId(),
                 purchase.getPartner().getUsername(),
-                purchase.getReleaseDate(),
+                format.format(purchase.getReleaseDate()),
                 purchase.getPrice()
         );
         return purchaseDTO;
@@ -42,7 +44,7 @@ public class PurchaseController {
         PurchaseDTO purchaseDTO = new PurchaseDTO(
                 purchase.getId(),
                 purchase.getPartner().getUsername(),
-                purchase.getReleaseDate(),
+                format.format(purchase.getReleaseDate()),
                 purchase.getPrice()
         );
 

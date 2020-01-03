@@ -1,6 +1,9 @@
 package ejbs;
 
 import entities.Administrator;
+import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -23,10 +26,14 @@ public class AdministratorBean {
     public AdministratorBean() {
     }
 
-    public Administrator create(String username, String password, String name, String email) throws Exception {
+    public Administrator create(String username, String password, String name, String email) throws MyEntityExistsException, MyEntityNotFoundException, MyIllegalArgumentException {
         if (find(username)!=null){
-            throw new Exception("Username '" + username + "' already exists");
+            throw new MyEntityExistsException("Username '" + username + "' already exists");
         }
+        if(username.equals("") || password.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Administrator fields can't be empty");
+        }
+
         Administrator administrator = new Administrator(username,password,name,email);
         em.persist(administrator);
         return administrator;
@@ -40,26 +47,29 @@ public class AdministratorBean {
         }
     }
 
-    public Administrator find(String username) throws Exception {
+    public Administrator find(String username) throws MyEntityNotFoundException {
         try{
             return em.find(Administrator.class, username);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ADMINISTRATOR", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_ADMINISTRATOR");
         }
     }
 
-    public Administrator update(String username, String password, String name, String email) throws Exception {
+    public Administrator update(String username, String name, String email) throws Exception {
+        Administrator administrator = em.find(Administrator.class, username);
+
+        if(administrator == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_STUDENT");
+        }
+
+        if(username.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Administrator fields can't be empty");
+        }
+
         try{
-            Administrator administrator = em.find(Administrator.class, username);
-
-            if(administrator == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
-            }
-
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
+            em.lock(administrator, LockModeType.OPTIMISTIC);
             administrator.setName(name);
             administrator.setEmail(email);
-            administrator.setPassword(password);
             em.merge(administrator);
             return administrator;
         }catch (Exception e){
@@ -68,14 +78,14 @@ public class AdministratorBean {
     }
 
     public boolean delete(String username) throws Exception{
+        Administrator administrator = em.find(Administrator.class, username);
+
+        if(administrator == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_STUDENT");
+        }
+
         try{
-            Administrator administrator = em.find(Administrator.class, username);
-
-            if(administrator == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
-            }
-
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
+            em.lock(administrator, LockModeType.OPTIMISTIC);
             em.remove(administrator);
             return true;
         }catch (Exception e){

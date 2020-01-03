@@ -117,9 +117,6 @@ public class ConfigBean {
             teachedModality.addSchedule(schedule1);
             teachedModality1.addSchedule(schedule3);
 
-            /*practicedModality.addSchedule(schedule1);
-            practicedModality.addSchedule(schedule);
-            practicedModality.addSchedule(schedule3);*/
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = format.parse("2019-10-20");
 
@@ -137,10 +134,10 @@ public class ConfigBean {
             Product product2 = productBean.create(productType1.getId(),"football balls of adidas",60.0,5);
             Product product3 = productBean.createSubscriptionProduct(productType2.getId(),"Subscription");
 
-            Purchase purchase = purchaseBean.create(charles.getUsername(),date,20.0);
+            Purchase purchase = purchaseBean.create(charles.getUsername(),"2019-10-20",20.0);
             purchaseBean.addProduct(purchase.getId(),product1.getId());
             purchaseBean.addProduct(purchase.getId(),product2.getId());
-            Purchase purchase1 = purchaseBean.create(charles.getUsername(),date,100.0);
+            Purchase purchase1 = purchaseBean.create(charles.getUsername(),"2019-10-20",100.0);
             purchaseBean.addProduct(purchase1.getId(),product.getId());
 
             paymentBean.create(paid.getId(),purchase.getId());

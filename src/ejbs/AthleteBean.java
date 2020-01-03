@@ -4,6 +4,10 @@ import entities.Athlete;
 import entities.Modality;
 import entities.PracticedModality;
 import entities.Purchase;
+import exceptions.MyEntityCantBeDeletedException;
+import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -37,7 +41,10 @@ public class AthleteBean {
 
     public Athlete create(String username, String password, String name, String email) throws Exception {
         if (find(username)!=null){
-            throw new Exception("Username '" + username + "' already exists");
+            throw new MyEntityExistsException("Username '" + username + "' already exists");
+        }
+        if(username.equals("") || password.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Athlete fields can't be empty");
         }
         Athlete athlete = new Athlete(username,password,name,email);
         em.persist(athlete);
@@ -56,7 +63,7 @@ public class AthleteBean {
         try{
             return em.find(Athlete.class, username);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ATHLETE", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_ATHLETE");
         }
     }
 
@@ -98,18 +105,20 @@ public class AthleteBean {
         }
     }
 
-    public Athlete update(String username, String password, String name, String email) throws Exception {
+    public Athlete update(String username, String name, String email) throws Exception {
+        Athlete athlete = em.find(Athlete.class, username);
+
+        if(athlete == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_ATHLETE");
+        }
+        if(username.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Administrator fields can't be empty");
+        }
+
         try{
-            Athlete athlete = em.find(Athlete.class, username);
-
-            if(athlete == null){
-                throw new Exception("ERROR_FINDING_ATHLETE");
-            }
-
             em.lock(athlete, LockModeType.OPTIMISTIC);
             athlete.setName(name);
             athlete.setEmail(email);
-            athlete.setPassword(password);
             em.merge(athlete);
             return athlete;
         }catch (Exception e){
@@ -118,25 +127,25 @@ public class AthleteBean {
     }
 
     public boolean delete(String username) throws Exception{
+        Athlete athlete = em.find(Athlete.class, username);
+
+        if(athlete == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_ATHLETE");
+        }
+
+
+        if(!athlete.getPracticedModalities().isEmpty()){
+            throw new MyEntityCantBeDeletedException("ERROR_DELETING_ATHLETE");
+        }
+
+        for (Purchase purchase : purchaseBean.all()) {
+            if(purchase.getPartner().getUsername().equals(athlete.getUsername())){
+                throw new MyEntityCantBeDeletedException("ERROR_DELETING_ATHLETE");
+            }
+        }
+
         try{
-            Athlete athlete = em.find(Athlete.class, username);
-
-            if(athlete == null){
-                throw new Exception("ERROR_FINDING_ATHLETE");
-            }
-
-
-            if(!athlete.getPracticedModalities().isEmpty()){
-                throw new Exception("ERROR_DELETING_ATHLETE");
-            }
-
-            for (Purchase purchase : purchaseBean.all()) {
-                if(purchase.getPartner().getUsername().equals(athlete.getUsername())){
-                    throw new Exception("ERROR_DELETING_ATHLETE");
-                }
-            }
-
-            //em.lock(athlete, LockModeType.OPTIMISTIC);
+            em.lock(athlete, LockModeType.OPTIMISTIC);
             em.remove(athlete);
             return true;
         }catch (Exception e){

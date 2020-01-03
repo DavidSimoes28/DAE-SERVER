@@ -1,10 +1,13 @@
 package ejbs;
 
 import entities.State;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -18,6 +21,9 @@ public class StateBean {
     }
 
     public State create(String name) throws Exception {
+        if(name.equals("")){
+            throw new MyIllegalArgumentException("State field can't be empty");
+        }
         State state = new State(name);
         em.persist(state);
         return state;
@@ -27,7 +33,7 @@ public class StateBean {
         try {
             return (List<State>) em.createNamedQuery("getAllStates").getResultList();
         } catch (Exception e) {
-            throw new EJBException("ERROR_RETRIEVING_COACHES", e);
+            throw new EJBException("ERROR_RETRIEVING_STATES", e);
         }
     }
 
@@ -35,7 +41,7 @@ public class StateBean {
         try{
             return em.find(State.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_STATE", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_STATE");
         }
     }
 
@@ -65,7 +71,7 @@ public class StateBean {
         }
     }
 
-    public boolean delete(int id) throws Exception{
+    /*public boolean delete(int id) throws Exception{
         try{
             State state = em.find(State.class, id);
 
@@ -73,11 +79,11 @@ public class StateBean {
                 throw new Exception("ERROR_FINDING_STATE");
             }
 
-            //em.lock(coach, LockModeType.OPTIMISTIC);
+            em.lock(state, LockModeType.OPTIMISTIC);
             em.remove(state);
             return true;
         }catch (Exception e){
             throw new Exception("ERROR_FINDING_STATE");
         }
-    }
+    }*/
 }

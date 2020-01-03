@@ -131,7 +131,7 @@ public class PartnerController {
     @RolesAllowed({"Administrator"})
     public Response updateAthlete (PartnerDTO partnerDTO) throws Exception {
         if(securityContext.isUserInRole("Administrator")) {
-            Partner partner = partnerBean.update(partnerDTO.getUsername(), partnerDTO.getPassword(), partnerDTO.getName(), partnerDTO.getEmail());
+            Partner partner = partnerBean.update(partnerDTO.getUsername(), partnerDTO.getName(), partnerDTO.getEmail());
             try {
                 return Response.status(Response.Status.CREATED).entity(toDTO(partner)).build();
             } catch (Exception e) {

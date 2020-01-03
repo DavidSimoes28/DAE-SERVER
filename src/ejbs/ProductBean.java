@@ -3,6 +3,9 @@ package ejbs;
 import entities.Product;
 import entities.ProductType;
 import entities.Subscription;
+import exceptions.MyEntityCantBeDeletedException;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -27,15 +30,21 @@ public class ProductBean {
     public ProductBean() {
     }
 
-    public Product create(int type_id, String description, Double value,int stock) throws Exception {
-        ProductType productType = productTypeBean.find(type_id);
+    public Product create(int typeId, String description, Double value,int stock) throws Exception {
+        ProductType productType = productTypeBean.find(typeId);
+        if(description.equals("") || value <= 0 || stock <= 0){
+            throw new MyIllegalArgumentException("Product fields can't be empty");
+        }
         Product product = new Product(productType,description,value,stock,Product.class.getName());
         em.persist(product);
         return product;
     }
 
-    public Product createSubscriptionProduct(int type_id, String description) throws Exception {
-        ProductType productType = productTypeBean.find(type_id);
+    public Product createSubscriptionProduct(int typeId, String description) throws Exception {
+        ProductType productType = productTypeBean.find(typeId);
+        if(description.equals("")){
+            throw new MyIllegalArgumentException("Product fields can't be empty");
+        }
         Product product = new Product(productType,description,0.0,0, Subscription.class.getName());
         em.persist(product);
         return product;
@@ -58,12 +67,12 @@ public class ProductBean {
     }
 
     public Product update(int id, int type_id, String description, Double value, int stock) throws Exception {
-        try{
-            Product product = em.find(Product.class, id);
-            if(product == null){
-                throw new Exception("ERROR_FINDING_PRODUCT");
-            }
+        Product product = em.find(Product.class, id);
+        if(product == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRODUCT");
+        }
 
+        try{
             Product p1 = create(type_id,description,value, stock);
             p1.setParentProduct(product);
             product.addChildrenProducts(p1);
@@ -76,14 +85,15 @@ public class ProductBean {
     }
 
     public boolean delete(int id) throws Exception{
-        try{
-            Product product = em.find(Product.class, id);
+        Product product = em.find(Product.class, id);
 
-            if(product == null){
-                throw new Exception("ERROR_FINDING_PRODUCT");
-            }else if(!product.getPurchases().isEmpty()){
-                throw new Exception("PRODUCT_ALREADY_SOLD");
-            }
+        if(product == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRODUCT");
+        }else if(!product.getPurchases().isEmpty()){
+            throw new MyEntityCantBeDeletedException("PRODUCT_ALREADY_SOLD");
+        }
+
+        try{
             em.remove(product);
             return true;
         }catch (Exception e){

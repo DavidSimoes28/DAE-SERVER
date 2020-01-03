@@ -1,11 +1,16 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyEntityCantBeDeletedException;
+import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,7 +33,10 @@ public class CoachBean {
 
     public Coach create(String username, String password, String name, String email) throws Exception {
         if (find(username)!=null){
-            throw new Exception("Username '" + username + "' already exists");
+            throw new MyEntityExistsException("Username '" + username + "' already exists");
+        }
+        if(username.equals("") || password.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Administrator fields can't be empty");
         }
         Coach coach = new Coach(username,password,name,email);
         em.persist(coach);
@@ -71,14 +79,17 @@ public class CoachBean {
     }
 
     public Coach update(String username, String name, String email) throws Exception {
+        Coach coach = em.find(Coach.class, username);
+
+        if(coach == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_COACH");
+        }
+        if(username.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Administrator fields can't be empty");
+        }
+
         try{
-            Coach coach = em.find(Coach.class, username);
-
-            if(coach == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-
-            //em.lock(coach, LockModeType.OPTIMISTIC);
+            em.lock(coach, LockModeType.OPTIMISTIC);
             coach.setName(name);
             coach.setEmail(email);
             em.merge(coach);
@@ -89,14 +100,17 @@ public class CoachBean {
     }
 
     public boolean delete(String username) throws Exception{
+        Coach coach = em.find(Coach.class, username);
+
+        if(coach == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_COACH");
+        }
+        if(!coach.getTeachedModalities().isEmpty()){
+            throw new MyEntityCantBeDeletedException("ERROR_DELETING_COACH");
+        }
+
         try{
-            Coach coach = em.find(Coach.class, username);
-
-            if(coach == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-
-            //em.lock(coach, LockModeType.OPTIMISTIC);
+            em.lock(coach, LockModeType.OPTIMISTIC);
             em.remove(coach);
             return true;
         }catch (Exception e){

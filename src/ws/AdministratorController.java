@@ -146,7 +146,7 @@ public class AdministratorController {
     @Path("/{username}")
     @RolesAllowed({"Administrator"})
     public Response updateAdministrator (AdministratorDTO administratorDTO) throws Exception {
-        Administrator administrator = administratorBean.update(administratorDTO.getUsername(),administratorDTO.getPassword(),administratorDTO.getName(),administratorDTO.getEmail());
+        Administrator administrator = administratorBean.update(administratorDTO.getUsername(),administratorDTO.getName(),administratorDTO.getEmail());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(administrator)).build();
         } catch (Exception e) {

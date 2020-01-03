@@ -1,12 +1,16 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +47,9 @@ public class SubscriptionBean {
         Graduations graduations = null;
         if(echelonId>0){ echelon = echelonBean.find(echelonId);}
         if(graduationId>0){ graduations = graduationsBean.find(graduationId);}
+        if(subscriptionDate == null || subscriptionPrice<=0){
+            throw new MyIllegalArgumentException("State field can't be empty");
+        }
         Subscription subscription = new Subscription(athlete,modality,schedule,echelon,graduations,subscriptionDate,subscriptionPrice);
         em.persist(subscription);
 
@@ -67,8 +74,9 @@ public class SubscriptionBean {
         if(product == null){
             product = productBean.createSubscriptionProduct(productType.getId(),"Subscription");
         }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        Purchase purchase = purchaseBean.create(athleteUsername, subscriptionDate, subscriptionPrice);
+        Purchase purchase = purchaseBean.create(athleteUsername, format.format(subscriptionDate), subscriptionPrice);
         purchaseBean.addProduct(purchase.getId(),product.getId());
 
         Payment payment = paymentBean.create(stateId,purchase.getId());
@@ -83,7 +91,7 @@ public class SubscriptionBean {
         try {
             return (List<Subscription>) em.createNamedQuery("getAllSubscriptions").getResultList();
         } catch (Exception e) {
-            throw new EJBException("ERROR_RETRIEVING_PRODUCTS", e);
+            throw new EJBException("ERROR_RETRIEVING_SUBSCRIPTIONS", e);
         }
     }
 
@@ -91,25 +99,23 @@ public class SubscriptionBean {
         try{
             return em.find(Subscription.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ADMINISTRATOR", e);
+            throw new Exception("ERROR_FINDING_SUBSCRIPTION", e);
         }
     }
 
     public Subscription update(int id,Double price) throws Exception {
+        Subscription subscription = em.find(Subscription.class, id);
+
+        if(subscription == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_SUBSCRIPTION");
+        }
         try{
-            Subscription subscription = em.find(Subscription.class, id);
-
-            if(subscription == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
-            }
-
+            em.lock(subscription, LockModeType.OPTIMISTIC);
             subscription.setSubscriptionPrice(price);
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
-
             em.merge(subscription);
             return subscription;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_STUDENT");
+            throw new Exception("ERROR_FINDING_SUBSCRIPTION");
         }
     }
 }

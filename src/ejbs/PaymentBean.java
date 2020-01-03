@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Set;
@@ -51,14 +52,15 @@ public class PaymentBean {
     }
 
     public Payment update(int id, int stateId) throws Exception {
-        try{
-            Payment payment = em.find(Payment.class, id);
-            State state = stateBean.find(stateId);
-            if(payment == null){
-                throw new Exception("ERROR_FINDING_PRODUCT");
-            }
-            payment.setState(state);
+        Payment payment = em.find(Payment.class, id);
+        State state = stateBean.find(stateId);
+        if(payment == null){
+            throw new Exception("ERROR_FINDING_PRODUCT");
+        }
 
+        try{
+            em.lock(payment, LockModeType.OPTIMISTIC);
+            payment.setState(state);
             em.merge(payment);
             return payment;
         }catch (Exception e){

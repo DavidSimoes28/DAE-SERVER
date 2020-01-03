@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.HourTime;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -17,7 +18,13 @@ public class HourTimeBean {
     public HourTimeBean() {
     }
 
-    public HourTime create(int hour,int minutes){
+    public HourTime create(int hour,int minutes) throws MyIllegalArgumentException {
+        if(hour <0 || hour>24){
+            throw new MyIllegalArgumentException("Hour must be between 0 and 24");
+        }
+        if(minutes <0 || minutes>59){
+            throw new MyIllegalArgumentException("Hour must be between 0 and 59");
+        }
         HourTime hourTime = new HourTime(hour, minutes);
         em.persist(hourTime);
         return hourTime;

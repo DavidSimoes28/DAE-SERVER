@@ -141,7 +141,7 @@ public class AthleteController {
     @RolesAllowed({"Administrator"})
     public Response updateAthlete (AthleteDTO athleteDTO) throws Exception {
         if(securityContext.isUserInRole("Administrator")) {
-            Athlete athlete = athleteBean.update(athleteDTO.getUsername(), athleteDTO.getPassword(), athleteDTO.getName(), athleteDTO.getEmail());
+            Athlete athlete = athleteBean.update(athleteDTO.getUsername(), athleteDTO.getName(), athleteDTO.getEmail());
             try {
                 return Response.status(Response.Status.CREATED).entity(toDTO(athlete)).build();
             } catch (Exception e) {

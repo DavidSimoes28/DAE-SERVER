@@ -4,12 +4,15 @@ import entities.Partner;
 import entities.Payment;
 import entities.Product;
 import entities.Purchase;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +30,10 @@ public class PurchaseBean {
     public PurchaseBean() {
     }
 
-    public Purchase create(String username, Date releaseDate, Double price) throws Exception {
+    public Purchase create(String username, String releaseDateString, Double price) throws Exception {
         Partner partner = partnerBean.find(username);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date releaseDate = format.parse(releaseDateString);
         Purchase purchase = new Purchase(partner,releaseDate,price);
         em.persist(purchase);
         return purchase;
@@ -62,7 +67,7 @@ public class PurchaseBean {
         try{
             return em.find(Purchase.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_PRODUCT", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRODUCT");
         }
     }
 
@@ -80,13 +85,12 @@ public class PurchaseBean {
     }
 
     public Purchase update(int id, Double price) throws Exception {
+        Purchase purchase = em.find(Purchase.class, id);
+        if(purchase == null){
+            throw new Exception("ERROR_FINDING_PRODUCT");
+        }
         try{
-            Purchase purchase = em.find(Purchase.class, id);
-            if(purchase == null){
-                throw new Exception("ERROR_FINDING_PRODUCT");
-            }
-
-            //purchase.setReleaseDate(releaseDate);
+            em.lock(purchase, LockModeType.OPTIMISTIC);
             purchase.setPrice(price);
             em.merge(purchase);
             return purchase;

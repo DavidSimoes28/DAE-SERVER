@@ -1,11 +1,14 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyEntityCantBeDeletedException;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,20 +97,21 @@ public class ClassBean {
         }
     }
 
-    public Classes update(int classId,String coach_username, int schedule_id) throws Exception {
+    public Classes update(int classId,String coachUsername, int scheduleId) throws Exception {
+        Classes classes = find(classId);
+        Coach coach = em.find(Coach.class, coachUsername);
+        Schedule schedule = scheduleBean.find(scheduleId);
+        if(classes == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_CLASS");
+        }
+        if(coach == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_COACH");
+        }
+        if(schedule == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_SCHEDULE");
+        }
+
         try{
-            Classes classes = find(classId);
-            Coach coach = em.find(Coach.class, coach_username);
-            Schedule schedule = scheduleBean.find(schedule_id);
-            if(classes == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-            if(coach == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-            if(schedule == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
             classes.getCoach().removeClasses(classes);
             classes.setCoach(coach);
             classes.setSchedule(schedule);
@@ -118,30 +122,30 @@ public class ClassBean {
     }
 
     public Classes addPresentAthlete(int classId,String athlete_username) throws Exception {
+        Classes classes = find(classId);
+        Athlete athlete = athleteBean.find(athlete_username);
+
+        if(classes == null){
+            throw new Exception("ERROR_FINDING_CLASS");
+        }
+
         try{
-            Classes classes = find(classId);
-            Athlete athlete = athleteBean.find(athlete_username);
-
-            if(classes == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-
             classes.getAthletesPresent().add(athlete);
             return classes;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_COACH");
+            throw new Exception("ERROR_FINDING_CLASS");
         }
     }
 
     public Classes removePresentAthlete(int classId,String athlete_username) throws Exception {
+        Classes classes = find(classId);
+        Athlete athlete = athleteBean.find(athlete_username);
+
+        if(classes == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_CLASS");
+        }
+
         try{
-            Classes classes = find(classId);
-            Athlete athlete = athleteBean.find(athlete_username);
-
-            if(classes == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-
             classes.getAthletesPresent().remove(athlete);
             return classes;
         }catch (Exception e){
@@ -150,22 +154,24 @@ public class ClassBean {
     }
 
     public boolean delete(int classId) throws Exception{
+        Classes classes = em.find(Classes.class, classId);
+
+        if(classes == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_COACH");
+        }
+        Date currentDate = new Date();
+
+        if(classes.getDate().after(currentDate)){
+            throw new MyEntityCantBeDeletedException("ERROR_FINDING_COACH");
+        }
+
+        if(!classes.getAthletesPresent().isEmpty()){
+            throw new MyEntityCantBeDeletedException("ERROR_FINDING_COACH");
+        }
+
         try{
-            Classes classes = em.find(Classes.class, classId);
-
-            if(classes == null){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-            Date currentDate = new Date();
-
-            if(classes.getDate().after(currentDate)){
-                throw new Exception("ERROR_FINDING_COACH");
-            }
-
-            classes.getCoach().removeClasses(classes);
-            for (Athlete athlete : classes.getAthletesPresent()) {
-                athlete.removeClass(classes);
-            }
+            em.lock(classes, LockModeType.OPTIMISTIC);
+            classes.getCoach().getClasses().remove(classes);
             em.remove(classes);
             return true;
         }catch (Exception e){

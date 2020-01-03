@@ -1,12 +1,15 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyEntityCantBeDeletedException;
+import exceptions.MyEntityNotFoundException;
 import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,6 +31,9 @@ public class ModalityBean {
     }
 
     public Modality create(String name, int sportYear, boolean active) throws Exception {
+        if(name.equals("") || sportYear<=0){
+            throw new MyIllegalArgumentException("Modality fields can't be empty");
+        }
         Modality modality = new Modality(name,sportYear,active);
         em.persist(modality);
         return modality;
@@ -37,7 +43,7 @@ public class ModalityBean {
         try {
             return (List<Modality>) em.createNamedQuery("getAllModalities").getResultList();
         } catch (Exception e) {
-            throw new EJBException("ERROR_RETRIEVING_STUDENTS", e);
+            throw new EJBException("ERROR_RETRIEVING_MODALITIES", e);
         }
     }
 
@@ -45,7 +51,7 @@ public class ModalityBean {
         try{
             return em.find(Modality.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ADMINISTRATOR", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_MODALITY");
         }
     }
 
@@ -61,7 +67,7 @@ public class ModalityBean {
             }
             return athletes;
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ATHLETE", e);
+            throw new Exception("ERROR_FINDING_MODALITY", e);
         }
     }
 
@@ -70,7 +76,7 @@ public class ModalityBean {
             Modality modality = em.find(Modality.class, id);
             return modality.getSchedules();
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ATHLETE", e);
+            throw new Exception("ERROR_FINDING_MODALITY", e);
         }
     }
 
@@ -81,7 +87,7 @@ public class ModalityBean {
             modality.addSchedule(schedule);
             return modality;
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ATHLETE", e);
+            throw new Exception("ERROR_FINDING_MODALITY", e);
         }
     }
 
@@ -98,7 +104,7 @@ public class ModalityBean {
             if(i==1) modality.removeSchedule(schedule);
             return modality;
         } catch (Exception e) {
-            throw new MyIllegalArgumentException("ERROR_FINDING_ATHLETE");
+            throw new MyIllegalArgumentException("ERROR_FINDING_MODALITY");
         }
     }
 
@@ -126,44 +132,53 @@ public class ModalityBean {
             }
             return missing;
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ATHLETE", e);
+            throw new Exception("ERROR_FINDING_MODALITY", e);
         }
     }
 
     public Modality update(int id, String name) throws Exception {
+        Modality modality = em.find(Modality.class, id);
+
+        if(modality == null){
+            throw new Exception("ERROR_FINDING_MODALITY");
+        }
+
         try{
-            Modality modality = em.find(Modality.class, id);
-
-            if(modality == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
-            }
-
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
+            em.lock(modality, LockModeType.OPTIMISTIC);
             modality.setName(name);
             em.merge(modality);
             return modality;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_STUDENT");
+            throw new Exception("ERROR_FINDING_MODALITY");
         }
     }
 
     public boolean delete(int id) throws Exception{
+        Modality modality = em.find(Modality.class, id);
+
+        if(modality == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_MODALITY");
+        }
+        if(!modality.getSchedules().isEmpty()){
+            throw new MyEntityCantBeDeletedException("ERROR_DELETING_MODALITY");
+        }
+        if(!modality.getTeachedModalities().isEmpty()){
+            throw new MyEntityCantBeDeletedException("ERROR_DELETING_MODALITY");
+        }
+        if(modality.getClass() == null){
+            throw new MyEntityCantBeDeletedException("ERROR_DELETING_MODALITY");
+        }
+
         try{
-            Modality modality = em.find(Modality.class, id);
-
-            if(modality == null){
-                throw new Exception("ERROR_FINDING_STUDENT");
-            }
-
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
+            em.lock(modality, LockModeType.OPTIMISTIC);
             em.remove(modality);
             return true;
         }catch (Exception e){
-            throw new Exception("ERROR_FINDING_STUDENT");
+            throw new Exception("ERROR_FINDING_MODALITY");
         }
     }
 
-    public Set<Modality> filter(String name) throws Exception {
+    public Set<Modality> filter(String name) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Modality> criteria = builder.createQuery(Modality.class);
         Root<Modality> from = criteria.from(Modality.class);

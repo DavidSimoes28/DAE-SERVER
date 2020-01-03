@@ -75,7 +75,7 @@ public class EchelonController {
     @Path("/{id}")
     @RolesAllowed({"Administrator"})
     public Response updateAdministrator (EchelonDTO echelonDTO) throws Exception {
-        Echelon echelon = echelonBean.update(echelonDTO.getId(),echelonDTO.getName(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
+        Echelon echelon = echelonBean.update(echelonDTO.getId(),echelonDTO.getInitialAge(),echelonDTO.getFinalAge());
         try{
             return Response.status(Response.Status.CREATED).entity(toDTO(echelon)).build();
         } catch (Exception e) {

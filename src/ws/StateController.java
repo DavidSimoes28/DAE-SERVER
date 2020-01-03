@@ -66,7 +66,7 @@ public class StateController {
         }
     }
 
-    @DELETE
+    /*@DELETE
     @Path("/{id}")
     @RolesAllowed({"Administrator"})
     public Response deleteAdministrator(@PathParam("id")int id) throws Exception {
@@ -76,5 +76,5 @@ public class StateController {
         } catch (Exception e) {
             throw new EJBException("ERROR_DELETING_STATE", e);
         }
-    }
+    }*/
 }

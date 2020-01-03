@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.ProductType;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -19,6 +20,9 @@ public class ProductTypeBean {
     }
 
     public ProductType create(String type) throws Exception {
+        if(type.equals("")){
+            throw new MyIllegalArgumentException("Product Type field can't be empty");
+        }
         ProductType productType = new ProductType(type);
         em.persist(productType);
         return productType;

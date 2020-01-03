@@ -3,12 +3,15 @@ package ejbs;
 import entities.Modality;
 import entities.Partner;
 import entities.Payment;
+import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -31,7 +34,10 @@ public class PartnerBean {
 
     public Partner create(String username, String password, String name, String email) throws Exception {
         if (find(username)!=null){
-            throw new Exception("Username '" + username + "' already exists");
+            throw new MyEntityExistsException("Username '" + username + "' already exists");
+        }
+        if(username.equals("") || password.equals("") || name.equals("") || email.equals("")){
+                throw new MyIllegalArgumentException("Partner fields can't be empty");
         }
         Partner partner = new Partner(username,password,name,email);
         em.persist(partner);
@@ -54,18 +60,19 @@ public class PartnerBean {
         }
     }
 
-    public Partner update(String username, String password, String name, String email) throws Exception {
+    public Partner update(String username, String name, String email) throws Exception {
+        Partner partner = em.find(Partner.class, username);
+
+        if(partner == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PARTNER");
+        }
+        if(username.equals("") || name.equals("") || email.equals("")){
+            throw new MyIllegalArgumentException("Partner fields can't be empty");
+        }
         try{
-            Partner partner = em.find(Partner.class, username);
-
-            if(partner == null){
-                throw new Exception("ERROR_FINDING_PARTNER");
-            }
-
-            //em.lock(administrator, LockModeType.OPTIMISTIC);
+            em.lock(partner, LockModeType.OPTIMISTIC);
             partner.setName(name);
             partner.setEmail(email);
-            partner.setPassword(password);
             em.merge(partner);
             return partner;
         }catch (Exception e){
@@ -74,14 +81,14 @@ public class PartnerBean {
     }
 
     public boolean delete(String username) throws Exception{
+        Partner partner = em.find(Partner.class, username);
+
+        if(partner == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PARTNER");
+        }
+
         try{
-            Partner partner = em.find(Partner.class, username);
-
-            if(partner == null){
-                throw new Exception("ERROR_FINDING_PARTNER");
-            }
-
-            //em.lock(coach, LockModeType.OPTIMISTIC);
+            em.lock(partner, LockModeType.OPTIMISTIC);
             em.remove(partner);
             return true;
         }catch (Exception e){

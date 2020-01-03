@@ -1,11 +1,13 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -27,12 +29,12 @@ public class PracticedModalityBean {
     public PracticedModalityBean() {
     }
 
-    public PracticedModality create(int modality_id, int echelon_id, int graduation_id, String username) throws Exception {
-        Modality modality = modalityBean.find(modality_id);
+    public PracticedModality create(int modalityId, int echelonId, int graduationId, String username) throws Exception {
+        Modality modality = modalityBean.find(modalityId);
         Echelon echelon = null;
         Graduations graduations = null;
-        if(echelon_id>0){ echelon = echelonBean.find(echelon_id);}
-        if(graduation_id>0){ graduations = graduationsBean.find(graduation_id);}
+        if(echelonId>0){ echelon = echelonBean.find(echelonId);}
+        if(graduationId>0){ graduations = graduationsBean.find(graduationId);}
         Athlete athlete = athleteBean.find(username);
 
         PracticedModality practicedModality = new PracticedModality(modality,echelon,graduations,athlete);
@@ -41,30 +43,6 @@ public class PracticedModalityBean {
         athlete.addPracticedModality(practicedModality);
         return practicedModality;
     }
-
-    /*public PracticedModality createWithEchelon(int modality_id, int echelon_id, String username) throws Exception {
-        Modality modality = modalityBean.find(modality_id);
-        Echelon echelon = echelonBean.find(echelon_id);
-        Athlete athlete = athleteBean.find(username);
-
-        PracticedModality practicedModality = new PracticedModality(modality,echelon,athlete);
-        em.persist(practicedModality);
-        modality.addPracticedModality(practicedModality);
-        athlete.addPracticedModality(practicedModality);
-        return practicedModality;
-    }
-
-    public PracticedModality createWithGraduation(int modality_id, int graduation_id, String username) throws Exception {
-        Modality modality = modalityBean.find(modality_id);
-        Graduations graduations = graduationsBean.find(graduation_id);
-        Athlete athlete = athleteBean.find(username);
-
-        PracticedModality practicedModality = new PracticedModality(modality,graduations,athlete);
-        em.persist(practicedModality);
-        modality.addPracticedModality(practicedModality);
-        athlete.addPracticedModality(practicedModality);
-        return practicedModality;
-    }*/
 
     public List<PracticedModality> all() {
         try {
@@ -78,26 +56,27 @@ public class PracticedModalityBean {
         try{
             return em.find(PracticedModality.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_PRACTICED_MODALITY", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRACTICED_MODALITY");
         }
     }
 
-    public PracticedModality update(int PM_id, int echelon_id, int graduation_id) throws Exception {
+    public PracticedModality update(int PM_id, int echelonId, int graduationId) throws Exception {
+        PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
+
+        if(practicedModality == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRACTICED_MODALITY");
+        }
+        if(graduationId != 0){
+            Graduations graduations = graduationsBean.find(graduationId);
+            practicedModality.setGraduations(graduations);
+        }
+        if(echelonId != 0){
+            Echelon echelon = echelonBean.find(echelonId);
+            practicedModality.setEchelon(echelon);
+        }
+
         try{
-            PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
-
-            if(practicedModality == null){
-                throw new Exception("ERROR_FINDING_PRACTICED_MODALITY");
-            }
-            if(graduation_id != 0){
-                Graduations graduations = graduationsBean.find(graduation_id);
-                practicedModality.setGraduations(graduations);
-            }
-            if(echelon_id != 0){
-                Echelon echelon = echelonBean.find(echelon_id);
-                practicedModality.setEchelon(echelon);
-            }
-
+            em.lock(practicedModality, LockModeType.OPTIMISTIC);
             em.merge(practicedModality);
             return practicedModality;
         }catch (Exception e){
@@ -106,26 +85,26 @@ public class PracticedModalityBean {
     }
 
     public PracticedModality addSchedule(int PM_id, int schedule_id) throws Exception {
+        PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
+
+        if(practicedModality == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRACTICED_MODALITY");
+        }
+
+        Schedule schedule = scheduleBean.find(schedule_id);
+        if(schedule == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_SCHEDULE");
+        }
+
+        for (Schedule practicedModalitySchedule : practicedModality.getSchedules()) {
+            if(practicedModalitySchedule.getId() == schedule.getId()){
+                throw new MyEntityNotFoundException("SCHEDULE_ALREADY_EXISTS");
+            }
+        }
+
         try{
-            PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
-
-            if(practicedModality == null){
-                throw new Exception("ERROR_FINDING_PRACTICED_MODALITY");
-            }
-
-            Schedule schedule = scheduleBean.find(schedule_id);
-            if(schedule == null){
-                throw new Exception("ERROR_FINDING_SCHEDULE");
-            }
-
-            for (Schedule practicedModalitySchedule : practicedModality.getSchedules()) {
-                if(practicedModalitySchedule.getId() == schedule.getId()){
-                    throw new Exception("SCHEDULE_ALREADY_EXISTS");
-                }
-            }
-
+            em.lock(practicedModality, LockModeType.OPTIMISTIC);
             practicedModality.addSchedule(schedule);
-
             em.merge(practicedModality);
             return practicedModality;
         }catch (Exception e){
@@ -134,19 +113,19 @@ public class PracticedModalityBean {
     }
 
     public PracticedModality removeSchedule(int PM_id, int schedule_id) throws Exception {
+        PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
+
+        if(practicedModality == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_PRACTICED_MODALITY");
+        }
+
+        Schedule schedule = scheduleBean.find(schedule_id);
+        if(schedule == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_SCHEDULE");
+        }
+
         try{
-            PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
-
-            if(practicedModality == null){
-                throw new Exception("ERROR_FINDING_PRACTICED_MODALITY");
-            }
-
-            Schedule schedule = scheduleBean.find(schedule_id);
-            if(schedule == null){
-                throw new Exception("ERROR_FINDING_SCHEDULE");
-            }
-
-
+            em.lock(practicedModality, LockModeType.OPTIMISTIC);
             for (Schedule practicedModalitySchedule : practicedModality.getSchedules()) {
                 if(practicedModalitySchedule.getId() == schedule.getId()){
                     practicedModality.removeSchedule(schedule);
@@ -159,19 +138,4 @@ public class PracticedModalityBean {
             throw new Exception("ERROR_FINDING_PRACTICED_MODALITY");
         }
     }
-    /*public boolean delete(int PM_id) throws Exception{
-        try{
-            PracticedModality practicedModality = em.find(PracticedModality.class, PM_id);
-
-            if(practicedModality == null){
-                throw new Exception("ERROR_FINDING_PRACTICED_MODALITY");
-            }
-
-            //em.lock(coach, LockModeType.OPTIMISTIC);
-            em.remove(practicedModality);
-            return true;
-        }catch (Exception e){
-            throw new Exception("ERROR_FINDING_PRACTICED_MODALITY");
-        }
-    }*/
 }

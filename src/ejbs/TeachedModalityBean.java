@@ -1,11 +1,14 @@
 package ejbs;
 
 import entities.*;
+import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -25,8 +28,8 @@ public class TeachedModalityBean {
     public TeachedModalityBean() {
     }
 
-    public TeachedModality create(int modality_id, String username, int echelonId) throws Exception {
-        Modality modality = modalityBean.find(modality_id);
+    public TeachedModality create(int modalityId, String username, int echelonId) throws Exception {
+        Modality modality = modalityBean.find(modalityId);
         Coach coach = coachBean.find(username);
         Echelon echelon = echelonBean.find(echelonId);
 
@@ -49,31 +52,31 @@ public class TeachedModalityBean {
         try{
             return em.find(TeachedModality.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_TEACHED_MODALITY", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_TEACHED_MODALITY");
         }
     }
 
     public TeachedModality addSchedule(int PM_id, int schedule_id) throws Exception {
+        TeachedModality teachedModality= em.find(TeachedModality.class, PM_id);
+
+        if(teachedModality == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_TEACHED_MODALITY");
+        }
+
+        Schedule schedule = scheduleBean.find(schedule_id);
+        if(schedule == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_SCHEDULE");
+        }
+
+        for (Schedule practicedModalitySchedule : teachedModality.getSchedules()) {
+            if(practicedModalitySchedule.getId() == schedule.getId()){
+                throw new MyEntityExistsException("SCHEDULE_ALREADY_EXISTS");
+            }
+        }
+
         try{
-            TeachedModality teachedModality= em.find(TeachedModality.class, PM_id);
-
-            if(teachedModality == null){
-                throw new Exception("ERROR_FINDING_TEACHED_MODALITY");
-            }
-
-            Schedule schedule = scheduleBean.find(schedule_id);
-            if(schedule == null){
-                throw new Exception("ERROR_FINDING_SCHEDULE");
-            }
-
-            for (Schedule practicedModalitySchedule : teachedModality.getSchedules()) {
-                if(practicedModalitySchedule.getId() == schedule.getId()){
-                    throw new Exception("SCHEDULE_ALREADY_EXISTS");
-                }
-            }
-
+            em.lock(teachedModality, LockModeType.OPTIMISTIC);
             teachedModality.addSchedule(schedule);
-
             em.merge(teachedModality);
             return teachedModality;
         }catch (Exception e){
@@ -82,19 +85,19 @@ public class TeachedModalityBean {
     }
 
     public TeachedModality removeSchedule(int PM_id, int schedule_id) throws Exception {
+        TeachedModality teachedModality= em.find(TeachedModality.class, PM_id);
+
+        if(teachedModality == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_TEACHED_MODALITY");
+        }
+
+        Schedule schedule = scheduleBean.find(schedule_id);
+        if(schedule == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_SCHEDULE");
+        }
+
         try{
-            TeachedModality teachedModality= em.find(TeachedModality.class, PM_id);
-
-            if(teachedModality == null){
-                throw new Exception("ERROR_FINDING_TEACHED_MODALITY");
-            }
-
-            Schedule schedule = scheduleBean.find(schedule_id);
-            if(schedule == null){
-                throw new Exception("ERROR_FINDING_SCHEDULE");
-            }
-
-
+            em.lock(teachedModality, LockModeType.OPTIMISTIC);
             for (Schedule practicedModalitySchedule : teachedModality.getSchedules()) {
                 if(practicedModalitySchedule.getId() == schedule.getId()){
                     teachedModality.removeSchedule(schedule);

@@ -2,11 +2,14 @@ package ejbs;
 
 import entities.Echelon;
 import entities.Modality;
+import exceptions.MyEntityNotFoundException;
+import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Set;
@@ -21,8 +24,14 @@ public class EchelonBean {
     public EchelonBean() {
     }
 
-    public Echelon create(String name, int initialAge, int finalAge, int modality_id) throws Exception {
-        Modality modality = modalityBean.find(modality_id);
+    public Echelon create(String name, int initialAge, int finalAge, int modalityId) throws Exception {
+        Modality modality = modalityBean.find(modalityId);
+        if(name.equals("") || initialAge <= 0 || finalAge<=0){
+            throw new MyIllegalArgumentException("Echelon fields can't be empty");
+        }
+        if(initialAge >= finalAge){
+            throw new MyIllegalArgumentException("Final Age bust be after Initial Age");
+        }
         Echelon echelon = new Echelon(name,initialAge,finalAge,modality);
         em.persist(echelon);
         modality.addEchelon(echelon);
@@ -41,18 +50,19 @@ public class EchelonBean {
         try{
             return em.find(Echelon.class, id);
         } catch (Exception e) {
-            throw new Exception("ERROR_FINDING_ECHELON", e);
+            throw new MyEntityNotFoundException("ERROR_FINDING_ECHELON");
         }
     }
 
-    public Echelon update(int id,String name, int initialAge, int finalAge) throws Exception {
+    public Echelon update(int id, int initialAge, int finalAge) throws Exception {
+        Echelon echelon = em.find(Echelon.class, id);
+
+        if(echelon == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_ECHELON");
+        }
+
         try{
-            Echelon echelon = em.find(Echelon.class, id);
-
-            if(echelon == null){
-                throw new Exception("ERROR_FINDING_STATE");
-            }
-
+            em.lock(echelon, LockModeType.OPTIMISTIC);
             echelon.setInitialAge(initialAge);
             echelon.setFinalAge(finalAge);
             em.merge(echelon);
@@ -63,13 +73,14 @@ public class EchelonBean {
     }
 
     public boolean delete(int id) throws Exception{
+        Echelon echelon = em.find(Echelon.class, id);
+
+        if(echelon == null){
+            throw new MyEntityNotFoundException("ERROR_FINDING_ECHELON");
+        }
+
         try{
-            Echelon echelon = em.find(Echelon.class, id);
-
-            if(echelon == null){
-                throw new Exception("ERROR_FINDING_ECHELON");
-            }
-
+            em.lock(echelon, LockModeType.OPTIMISTIC);
             em.remove(echelon);
             return true;
         }catch (Exception e){
