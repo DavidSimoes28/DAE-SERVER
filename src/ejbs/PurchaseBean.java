@@ -71,6 +71,14 @@ public class PurchaseBean {
         }
     }
 
+    public List<Payment> findPurchasePayments(int id) throws Exception {
+        List<Payment> payments = new ArrayList<>();
+        Purchase purchase = find(id);
+        if(!purchase.getPayments().isEmpty())
+            payments.addAll(purchase.getPayments());
+
+        return payments;
+    }
 
     public List<Payment> findPartnerPayments(String username) {
         List<Purchase> allPayments = all();

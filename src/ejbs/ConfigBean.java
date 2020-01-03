@@ -140,8 +140,8 @@ public class ConfigBean {
             Purchase purchase1 = purchaseBean.create(charles.getUsername(),"2019-10-20",100.0);
             purchaseBean.addProduct(purchase1.getId(),product.getId());
 
-            paymentBean.create(paid.getId(),purchase.getId());
-            paymentBean.create(partial.getId(),purchase1.getId());
+            paymentBean.create(paid.getId(),purchase.getId(),20.0);
+            paymentBean.create(partial.getId(),purchase1.getId(),20.0);
 
 
             Subscription subscription = subscriptionBean.create(mark.getUsername(),judo.getId(),schedule1.getId(),echelon1.getId(),0,date,20.0,paid.getId());

@@ -35,7 +35,8 @@ public class PaymentController {
         PaymentDTO paymentDTO = new PaymentDTO(
                 payment.getId(),
                 payment.getPurchase().getId(),
-                payment.getState().getId()
+                payment.getState().getId(),
+                payment.getValueInEur()
         );
         if(payment.getReceipt() != null){
             paymentDTO.setReceiptId(payment.getReceipt().getId());
@@ -82,7 +83,7 @@ public class PaymentController {
     @RolesAllowed({"Administrator"})
     public Response createNewPayment (PaymentDTO paymentDTO) throws Exception {
         if(securityContext.isUserInRole("Administrator")) {
-            paymentBean.create(paymentDTO.getStateId(), paymentDTO.getPurchaseId());
+            paymentBean.create(paymentDTO.getStateId(), paymentDTO.getPurchaseId(), paymentDTO.getValueInEur());
             try {
                 return Response.status(Response.Status.CREATED).build();
             } catch (Exception e) {
@@ -134,7 +135,7 @@ public class PaymentController {
     @RolesAllowed({"Administrator","Partner","Athlete"})
     public Response updatePayment (PaymentDTO paymentDTO) throws Exception {
         if(securityContext.isUserInRole("Administrator") || securityContext.isUserInRole("Partner") || securityContext.isUserInRole("Athlete")) {
-            Payment payment = paymentBean.update(paymentDTO.getId(), paymentDTO.getStateId());
+            Payment payment = paymentBean.update(paymentDTO.getId(), paymentDTO.getStateId(),paymentDTO.getValueInEur());
             try {
                 return Response.status(Response.Status.CREATED).entity(toDTO(payment)).build();
             } catch (Exception e) {

@@ -21,15 +21,17 @@ public class Payment implements Serializable {
     private State state;
     @ManyToOne
     private Receipt receipt;
+    private Double valueInEur;
     @Version
     private int version;
 
     public Payment() {
     }
 
-    public Payment(State state, Purchase purchase) {
+    public Payment(State state, Purchase purchase,Double valueInEur) {
         this.state = state;
         this.purchase = purchase;
+        this.valueInEur = valueInEur;
     }
 
     public int getId() {
@@ -62,5 +64,13 @@ public class Payment implements Serializable {
 
     public void setReceipt(Receipt receipt) {
         this.receipt = receipt;
+    }
+
+    public Double getValueInEur() {
+        return valueInEur;
+    }
+
+    public void setValueInEur(Double valueInEur) {
+        this.valueInEur = valueInEur;
     }
 }

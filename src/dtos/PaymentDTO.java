@@ -7,14 +7,16 @@ public class PaymentDTO implements Serializable {
     private int purchaseId;
     private int stateId;
     private int receiptId;
+    private Double valueInEur;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(int id, int purchaseId, int stateId) {
+    public PaymentDTO(int id, int purchaseId, int stateId, Double valueInEur) {
         this.id = id;
         this.purchaseId = purchaseId;
         this.stateId = stateId;
+        this.valueInEur = valueInEur;
     }
 
     public int getId() {
@@ -47,5 +49,13 @@ public class PaymentDTO implements Serializable {
 
     public void setReceiptId(int receiptId) {
         this.receiptId = receiptId;
+    }
+
+    public Double getValueInEur() {
+        return valueInEur;
+    }
+
+    public void setValueInEur(Double valueInEur) {
+        this.valueInEur = valueInEur;
     }
 }

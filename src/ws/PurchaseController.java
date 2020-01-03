@@ -5,6 +5,7 @@ import dtos.ProductDTO;
 import dtos.PurchaseDTO;
 import ejbs.ProductBean;
 import ejbs.PurchaseBean;
+import entities.Payment;
 import entities.Product;
 import entities.Purchase;
 
@@ -83,6 +84,21 @@ public class PurchaseController {
             Purchase purchase = purchaseBean.find(id);
             try {
                 return Response.status(Response.Status.OK).entity(toDTODetails(purchase)).build();
+            } catch (Exception e) {
+                throw new EJBException("ERROR_GET_MODALITIES", e);
+            }
+        }
+        return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    @GET
+    @Path("{id}/payments")
+    @RolesAllowed({"Administrator"})
+    public Response getPurchasePayments(@PathParam("id") int id) throws Exception {
+        if(securityContext.isUserInRole("Administrator")) {
+            List<Payment> purchasePayments = purchaseBean.findPurchasePayments(id);
+            try {
+                return Response.status(Response.Status.OK).entity(PaymentController.toDTOs(purchasePayments)).build();
             } catch (Exception e) {
                 throw new EJBException("ERROR_GET_MODALITIES", e);
             }
